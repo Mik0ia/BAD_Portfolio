@@ -6,7 +6,8 @@
 // Profil (haut à droite)
 const PROFIL = {
   nom: "Benjamin - Akehal daponte",
-  photo: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/Profile_Picture.jpeg?raw=true",
+  photo: "ASSETS/Profile_Picture.jpeg",
+  disponibilite: "Libre",   // "Libre" (vert) | "Temps Partiel" (orange) | "Indisponible" (rouge)
   naissance: { jour: 9, mois: 12, annee: 2006 }   // niveau et barre d'XP calculés automatiquement
 };
 
@@ -17,8 +18,8 @@ const PROFIL = {
    nom    : affiché au survol de la cartouche
 */
 const PROJETS = [
-  { type: "Jeu Vidéo", statut: "En cours", image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/Profile_Picture.jpeg?raw=true", nom: "Projet Vidéo 1" },
-  { type: "Jeu Vidéo", statut: "Terminé",  image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/Profile_Picture.jpeg?raw=true", nom: "Projet Vidéo 2" },
+  { type: "Jeu Vidéo", statut: "En cours", image: "ASSETS/Profile_Picture.jpeg", nom: "Projet Vidéo 1" },
+  { type: "Jeu Vidéo", statut: "Terminé",  image: "ASSETS/Profile_Picture.jpeg", nom: "Projet Vidéo 2" },
   { type: "Jeu Vidéo", statut: "En pause", image: "", nom: "Projet Vidéo 3" },
   { type: "Jeu Vidéo", statut: "Terminé",  image: "", nom: "Projet Vidéo 4" },
   { type: "Jeu Vidéo", statut: "En cours", image: "", nom: "Projet Vidéo 5" },
