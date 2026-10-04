@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portfolio — Game Dev & Game Designer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Vidéo YouTube en fond -->
+  <div class="fond-video" id="fondVideo"></div>
+
+  <!-- Profil -->
+  <aside class="profil">
+    <div class="profil-photo"><img id="profilPhoto" alt="Photo de profil"></div>
+    <div class="profil-nom" id="profilNom"></div>
+    <div class="xp">
+      <div class="xp-remplissage" id="xpBarre"></div>
+      <span class="xp-niveau" id="xpNiveau"></span>
+    </div>
+    <a class="btn-profil" href="#">&rarr; PROFIL &larr;</a>
+  </aside>
+
+  <!-- Catégories + cartouches -->
+  <main class="panneau">
+    <nav class="onglets" id="onglets"></nav>
+    <section class="grille" id="grille"></section>
+  </main>
+
+  <div id="bulle"></div>
+
+  <script src="projets.js"></script>
+  <script>
+    /* ---------- Placeholders (SVG intégré, aucun fichier requis) ---------- */
+    const PLACEHOLDER = "data:image/svg+xml;utf8," + encodeURIComponent(
+      '<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500">' +
+      '<rect width="500" height="500" fill="#6b6b6b"/></svg>');
+
+    /* ---------- Catégories ---------- */
+    const CATEGORIES = ["Jeu de Société", "Jeu Vidéo", "Jeu Mobile"];
+    let categorieActive = "Jeu Vidéo";
+
+    /* ---------- Statuts -> classe CSS de la pastille ---------- */
+    const CLASSE_STATUT = {
+      "En cours": "en-cours",   // orange
+      "Terminé":  "termine",    // vert
+      "En pause": "en-pause"    // gris
+    };
+
+    /* ---------- Vidéo de fond ---------- */
+    function idYoutube(url) {
+      const m = url.match(/(?:youtu\.be\/|v=|embed\/|shorts\/)([\w-]{11})/);
+      return m ? m[1] : null;
+    }
+    function lancerVideo() {
+      const id = idYoutube(VIDEO_FOND);
+      if (!id) return;
+      if (location.protocol === "file:") {
+        // YouTube refuse de se lancer depuis un fichier local (erreur 153)
+        const avis = document.createElement("div");
+        avis.className = "avis-video";
+        avis.textContent = "Vidéo de fond : ouvre le site avec lancer.bat (serveur local) pour la voir.";
+        document.body.appendChild(avis);
+        return;
+      }
+      const f = document.createElement("iframe");
+      f.referrerPolicy = "strict-origin-when-cross-origin";  // évite l'erreur 153
+      f.allow = "autoplay; encrypted-media";
+      f.title = "Vidéo de fond";
+      f.tabIndex = -1;
+      const origine = location.protocol.startsWith("http")
+        ? "&origin=" + encodeURIComponent(location.origin) : "";
+      // autoplay impose le son coupé (règle des navigateurs)
+      f.src = "https://www.youtube.com/embed/" + id +
+        "?autoplay=1&mute=1&loop=1&playlist=" + id +
+        "&controls=0&modestbranding=1&rel=0&playsinline=1&disablekb=1" + origine;
+      document.getElementById("fondVideo").appendChild(f);
+    }
+
+    /* ---------- Profil + barre d'XP ---------- */
+    function setXP(valeur) {               // valeur entre 0 et 1
+      const v = Math.min(1, Math.max(0, Number(valeur) || 0));
+      document.getElementById("xpBarre").style.width = (v * 100) + "%";
+    }
+    function afficherProfil() {
+      const img = document.getElementById("profilPhoto");
+      img.src = PROFIL.photo || PLACEHOLDER;
+      img.onerror = () => { img.src = PLACEHOLDER; };
+      document.getElementById("profilNom").textContent = PROFIL.nom;
+      document.getElementById("xpNiveau").textContent = "niv." + PROFIL.niveau;
+      requestAnimationFrame(() => setXP(PROFIL.xp));
+    }
+
+    /* ---------- Onglets ---------- */
+    function afficherOnglets(animer) {
+      const nav = document.getElementById("onglets");
+      nav.innerHTML = "";
+      CATEGORIES.forEach(cat => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "onglet" + (cat === categorieActive ? " actif" : "");
+        b.textContent = cat.toUpperCase();
+        if (animer && cat === categorieActive) b.classList.add("rebond");
+        b.onclick = () => {
+          if (cat === categorieActive) { b.classList.add("rebond"); return; }
+          categorieActive = cat; afficherOnglets(true); afficherCartouches();
+        };
+        nav.appendChild(b);
+      });
+    }
+
+    /* ---------- Cartouches ---------- */
+    function afficherCartouches() {
+      const grille = document.getElementById("grille");
+      grille.innerHTML = "";
+      const liste = PROJETS.filter(p => p.type === categorieActive);
+
+      if (!liste.length) {
+        grille.innerHTML = '<p class="vide">Aucun projet dans cette catégorie pour le moment.</p>';
+        return;
+      }
+
+      liste.forEach((p, i) => {
+        const c = document.createElement("div");
+        c.className = "cartouche entree";
+        c.style.setProperty("--i", i);
+
+        const visuel = document.createElement("div");
+        visuel.className = "visuel";
+        const img = document.createElement("img");
+        img.src = p.image || PLACEHOLDER;
+        img.alt = p.nom;
+        img.onerror = () => { img.src = PLACEHOLDER; };
+        visuel.appendChild(img);
+        c.dataset.tip = p.nom;               // bulle = nom du projet
+
+        const pastille = document.createElement("span");
+        pastille.className = "pastille " + (CLASSE_STATUT[p.statut] || "en-pause");
+        pastille.dataset.tip = p.statut;      // bulle = statut
+
+        c.append(visuel, pastille);
+        grille.appendChild(c);
+      });
+    }
+
+    /* ---------- Bulle de dialogue (cartouche et pastille) ---------- */
+    const bulle = document.getElementById("bulle");
+    document.addEventListener("mouseover", e => {
+      const el = e.target.closest("[data-tip]");
+      if (!el) return;
+      bulle.textContent = el.dataset.tip;
+      const r = el.getBoundingClientRect();
+      bulle.style.left = (r.left + r.width / 2) + "px";
+      bulle.style.top = (r.top - bulle.offsetHeight - 14) + "px";
+      bulle.classList.add("visible");
+    });
+    document.addEventListener("mouseout", e => {
+      if (e.target.closest("[data-tip]")) bulle.classList.remove("visible");
+    });
+
+    /* ---------- Molette = défilement horizontal (sans barre) ---------- */
+    document.getElementById("grille").addEventListener("wheel", e => {
+      if (!e.deltaY) return;
+      e.currentTarget.scrollLeft += e.deltaY;
+      bulle.classList.remove("visible");
+      e.preventDefault();
+    }, { passive: false });
+
+    /* ---------- Rebond cartoon au clic ---------- */
+    document.addEventListener("click", e => {
+      const el = e.target.closest(".cartouche, .btn-profil, .profil-photo, .profil-nom, .xp");
+      if (!el) return;
+      el.classList.remove("rebond");
+      void el.offsetWidth;               // relance l'animation même si on clique vite
+      el.classList.add("rebond");
+    });
+    document.addEventListener("animationend", e => {
+      e.target.classList.remove("rebond", "entree");
+    });
+
+    lancerVideo();
+    afficherProfil();
+    afficherOnglets();
+    afficherCartouches();
+  </script>
+</body>
+</html>

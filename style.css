@@ -1,0 +1,378 @@
+:root {
+  --orange: #ff8a1f;
+  --orange-fonce: #e8650a;
+  --orange-clair: #ffd9b0;
+  --blanc: #ffffff;
+  --creme: #fff6ea;
+  --trait: #6b2e00;          /* contour "cartoon" */
+  --gris-photo: #cfc6bb;
+  --st-cours: #ff9f1a;
+  --st-fini: #2ecc40;
+  --st-pause: #9a9a9a;
+  --rebond: cubic-bezier(.34, 1.8, .5, 1);
+  --police: "Fredoka", "Trebuchet MS", "Arial Rounded MT Bold", sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+
+body {
+  font-family: var(--police);
+  font-weight: 600;
+  background: var(--creme);
+  color: var(--trait);
+  overflow: hidden;
+}
+
+/* ---------- Vidéo de fond ---------- */
+.fond-video {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: var(--creme);
+  pointer-events: none;
+}
+.fond-video iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: max(100vw, 177.78vh);
+  height: max(56.25vw, 100vh);
+  transform: translate(-50%, -50%);
+  border: 0;
+}
+
+/* ---------- Profil (agrandi) ---------- */
+.profil {
+  position: fixed;
+  top: 20px;
+  right: 26px;
+  z-index: 5;
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.profil-photo {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  margin-bottom: 14px;
+  cursor: pointer;
+  transition: transform 0.3s var(--rebond);
+}
+.profil-photo:hover { transform: scale(1.08) rotate(-4deg); }
+.profil-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 5px solid var(--trait);
+  outline: 8px solid var(--blanc);
+  background: var(--gris-photo);
+  display: block;
+  box-shadow: 0 6px 0 8px var(--trait);
+}
+.profil-photo::after {
+  content: "";
+  position: absolute;
+  right: -8px;
+  bottom: -2px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--orange);
+  border: 5px solid var(--trait);
+  box-shadow: 0 0 0 4px var(--blanc);
+}
+.profil-nom {
+  width: 100%;
+  background: var(--blanc);
+  border: 4px solid var(--trait);
+  border-radius: 30px;
+  box-shadow: 0 6px 0 var(--trait);
+  padding: 10px 16px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.3rem;
+  line-height: 1.15;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: transform 0.3s var(--rebond), background 0.15s;
+}
+.profil-nom:hover { transform: scale(1.05) rotate(1.5deg); background: var(--orange-clair); }
+.xp {
+  position: relative;
+  width: 100%;
+  height: 30px;
+  margin: 16px 0 14px;
+  background: var(--blanc);
+  border: 4px solid var(--trait);
+  border-radius: 999px;
+  box-shadow: 0 5px 0 var(--trait);
+  overflow: hidden;
+  transition: transform 0.3s var(--rebond);
+}
+.xp:hover { transform: scale(1.04); }
+.xp-remplissage {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(#ffb455 0 45%, var(--orange) 45%);
+  border-right: 4px solid var(--trait);
+  transition: width 0.8s ease;
+}
+.xp-niveau {
+  position: absolute;
+  left: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--trait);
+}
+.btn-profil {
+  display: block;
+  width: 92%;
+  text-align: center;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--blanc);
+  text-shadow: 0 2px 0 var(--trait);
+  background: var(--orange);
+  border: 4px solid var(--trait);
+  border-radius: 999px;
+  box-shadow: 0 6px 0 var(--trait);
+  padding: 7px 0;
+  transition: transform 0.3s var(--rebond), box-shadow 0.1s, background 0.15s;
+}
+.btn-profil:hover { background: var(--orange-fonce); transform: scale(1.08) rotate(-2deg); }
+.btn-profil:active { box-shadow: 0 2px 0 var(--trait); }
+
+/* ---------- Panneau ---------- */
+.panneau {
+  position: fixed;
+  left: 14px;
+  right: 14px;
+  bottom: 14px;
+  height: min(54vh, 390px);
+  min-height: 340px;
+  z-index: 3;
+  background:
+    radial-gradient(var(--orange-clair) 18%, transparent 20%) 0 0 / 22px 22px,
+    var(--creme);
+  border: 5px solid var(--trait);
+  border-radius: 32px;
+  box-shadow: 0 7px 0 var(--trait);
+  padding: 20px 28px 16px;
+}
+
+.onglets {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  margin-bottom: 14px;
+}
+.onglet {
+  position: relative;
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--trait);
+  background: var(--blanc);
+  border: 3px solid var(--trait);
+  border-radius: 999px;
+  box-shadow: 0 4px 0 var(--trait);
+  padding: 6px 30px;
+  cursor: pointer;
+  transition: transform 0.25s var(--rebond), box-shadow 0.1s, background 0.15s;
+}
+.onglet:hover { background: var(--orange-clair); transform: translateY(-3px) scale(1.08) rotate(-1.5deg); }
+.onglet.actif:hover { background: var(--orange-fonce); }
+.onglet.actif {
+  background: var(--orange);
+  color: var(--blanc);
+  font-size: 1.3rem;
+  padding: 7px 52px;
+  text-shadow: 0 2px 0 var(--trait);
+}
+.onglet.actif::before {           /* triangle de sélection */
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -40px;
+  transform: translateX(-50%);
+  width: 38px;
+  height: 28px;
+  background: var(--orange);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  filter:
+    drop-shadow(3px 0 0 var(--trait))
+    drop-shadow(-3px 0 0 var(--trait))
+    drop-shadow(0 3px 0 var(--trait));
+}
+
+/* ---------- Cartouches : colonnes de 2, de gauche à droite ---------- */
+.grille {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(2, 92px);
+  grid-auto-columns: 92px;
+  gap: 22px 28px;
+  padding: 20px 20px 22px 12px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;            /* pas de barre visible */
+}
+.grille::-webkit-scrollbar { display: none; }
+
+.cartouche {
+  position: relative;
+  width: 92px;
+  height: 92px;
+  background: var(--blanc);
+  border: 4px solid var(--trait);
+  border-radius: 24px;
+  box-shadow: 0 5px 0 var(--trait);
+  padding: 5px;
+  cursor: pointer;
+  transition: transform 0.28s var(--rebond), box-shadow 0.2s;
+}
+.cartouche:hover {
+  transform: translateY(-9px) scale(1.14) rotate(-3deg);
+  box-shadow: 0 14px 0 var(--trait);
+  z-index: 2;
+}
+.cartouche:nth-child(even):hover { transform: translateY(-9px) scale(1.14) rotate(3deg); }
+.cartouche .visuel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  overflow: hidden;
+  background: var(--gris-photo);
+}
+.cartouche .visuel::after {       /* reflet brillant façon Wii */
+  content: "";
+  position: absolute;
+  inset: 0 0 50% 0;
+  background: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.12));
+  pointer-events: none;
+}
+.cartouche img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+.cartouche:hover img { transform: scale(1.15); }
+
+/* pastille de statut */
+.pastille {
+  position: absolute;
+  right: -13px;
+  bottom: -13px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 4px solid var(--trait);
+  box-shadow: 0 0 0 3px var(--blanc);
+  background: var(--st-pause);
+  cursor: help;
+  transition: transform 0.25s var(--rebond);
+}
+.pastille:hover { transform: scale(1.35); }
+.pastille.en-cours { background: var(--st-cours); }
+.pastille.termine  { background: var(--st-fini); }
+.pastille.en-pause { background: var(--st-pause); }
+
+.vide {
+  font-size: 1rem;
+  padding: 10px 6px;
+}
+
+/* ---------- Bulle de dialogue (survol) ---------- */
+#bulle {
+  position: fixed;
+  z-index: 50;
+  pointer-events: none;
+  white-space: nowrap;
+  background: var(--blanc);
+  color: var(--trait);
+  font-weight: 700;
+  font-size: 0.85rem;
+  border: 3px solid var(--trait);
+  border-radius: 14px;
+  box-shadow: 0 4px 0 var(--trait);
+  padding: 4px 12px;
+  opacity: 0;
+  transform: translate(-50%, 4px);
+  transition: opacity 0.12s, transform 0.12s;
+}
+#bulle.visible { opacity: 1; transform: translate(-50%, 0); }
+#bulle::after {                   /* petite queue */
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  transform: translateX(-50%);
+  border: 7px solid transparent;
+  border-top-color: var(--trait);
+}
+
+/* ---------- Rebond cartoon au clic ---------- */
+@keyframes rebond {
+  0%   { transform: scale(1, 1) translateY(0); }
+  15%  { transform: scale(1.2, 0.75) translateY(4px); }
+  35%  { transform: scale(0.85, 1.22) translateY(-20px); }
+  55%  { transform: scale(1.1, 0.9) translateY(2px); }
+  72%  { transform: scale(0.96, 1.05) translateY(-5px); }
+  100% { transform: scale(1, 1) translateY(0); }
+}
+.rebond { animation: rebond 0.55s ease-out; }
+
+/* apparition des cartouches (changement de catégorie) */
+@keyframes entree {
+  0%   { opacity: 0; transform: scale(0.3) translateY(25px); }
+  70%  { opacity: 1; transform: scale(1.12) translateY(-4px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+.entree { animation: entree 0.5s cubic-bezier(.34, 1.4, .64, 1) both; animation-delay: calc(var(--i, 0) * 55ms); }
+
+/* message si la page est ouverte en file:// */
+.avis-video {
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  max-width: min(560px, 90vw);
+  background: var(--orange);
+  color: var(--blanc);
+  text-shadow: 0 2px 0 var(--trait);
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-align: center;
+  border: 4px solid var(--trait);
+  border-radius: 20px;
+  box-shadow: 0 5px 0 var(--trait);
+  padding: 8px 18px;
+}
+
+/* ---------- Petits écrans ---------- */
+@media (max-width: 640px) {
+  .onglets { gap: 10px; padding-left: 0; flex-wrap: wrap; justify-content: center; }
+  .onglet.actif { padding: 6px 24px; font-size: 1.05rem; }
+  .onglet.actif::before { display: none; }
+  .profil { width: 170px; }
+  .profil-photo { width: 100px; height: 100px; }
+  .profil-nom { font-size: 0.95rem; }
+  .panneau { min-height: 340px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
