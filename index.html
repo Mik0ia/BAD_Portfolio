@@ -60,6 +60,28 @@
     </div>
   </section>
 
+  <!-- Page projet (style Wii : cadre d'écran + flèches) -->
+  <section class="page-projet" id="pageProjet" aria-hidden="true">
+    <div class="pj-contenu" id="pjContenu">
+      <div class="pj-visuel"><img id="pjImage" alt=""></div>
+      <div class="pj-texte">
+        <div class="pj-type" id="pjType"></div>
+        <h1 class="pj-titre" id="pjTitre"></h1>
+        <span class="etat" id="pjEtat"></span>
+        <p class="pj-desc" id="pjDesc"></p>
+        <div class="pj-bientot">Présentation détaillée du jeu à venir…</div>
+      </div>
+    </div>
+    <div class="pj-cadre"></div>
+    <button class="btn-fermer" id="pjFermer" type="button" aria-label="Retour à l'accueil"></button>
+    <button class="fleche gauche" id="pjPrec" type="button" aria-label="Jeu précédent"></button>
+    <button class="fleche droite" id="pjSuiv" type="button" aria-label="Jeu suivant"></button>
+    <div class="pj-compteur" id="pjCompteur"></div>
+  </section>
+
+  <!-- Fondu (noir pour ouvrir/fermer un projet, blanc pour changer de jeu) -->
+  <div id="fondu" aria-hidden="true"></div>
+
   <!-- Rideau de transition entre les pages -->
   <div id="rideau" aria-hidden="true">
     <div class="centre">
@@ -277,7 +299,7 @@
 
     /* ---------- Rebond cartoon au clic ---------- */
     document.addEventListener("click", e => {
-      const el = e.target.closest(".cartouche, .btn-profil, .profil-photo, .profil-nom, .xp");
+      const el = e.target.closest(".cartouche, .btn-profil, .profil-photo, .profil-nom, .xp, .fleche");
       if (!el) return;
       el.classList.remove("rebond");
       void el.offsetWidth;               // relance l'animation même si on clique vite
@@ -389,6 +411,94 @@
       el.addEventListener("click", e => { e.preventDefault(); changerPage(true); }));
     document.getElementById("btnFermer").addEventListener("click", () => changerPage(false));
     document.addEventListener("keydown", e => { if (e.key === "Escape") changerPage(false); });
+
+    /* ---------- Page projet : fondus noir / blanc ---------- */
+    const DUREE_NOIR  = 1000;   // ms au total : ouvrir / fermer un projet (fondu au noir, aller + retour)
+    const DUREE_BLANC = 500;    // ms au total : changer de jeu avec les flèches (fondu au blanc)
+    const pageProjet = document.getElementById("pageProjet");
+    const fondu = document.getElementById("fondu");
+
+    async function fonduVers(couleur, total, auMilieu) {
+      if (matchMedia("(prefers-reduced-motion: reduce)").matches) { auMilieu(); return; }
+      const demi = total / 2;
+      fondu.style.background = couleur;
+      fondu.classList.add("actif");
+      await fondu.animate([{ opacity: 0 }, { opacity: 1 }], { duration: demi, easing: "ease-in", fill: "both" }).finished;
+      auMilieu();                                   // l'écran est entièrement couvert
+      await fondu.animate([{ opacity: 1 }, { opacity: 0 }], { duration: demi, easing: "ease-out", fill: "both" }).finished;
+      fondu.getAnimations().forEach(a => a.cancel());
+      fondu.classList.remove("actif");
+    }
+
+    let projetCourant = null;
+    const memeCategorie = p => PROJETS.filter(x => x.type === p.type);
+
+    function remplirProjet(p) {
+      projetCourant = p;
+      const img = document.getElementById("pjImage");
+      img.src = p.image || PLACEHOLDER;
+      img.alt = p.nom;
+      img.onerror = () => { img.src = PLACEHOLDER; };
+      document.getElementById("pjType").textContent = p.type;
+      document.getElementById("pjTitre").textContent = p.nom;
+      const etat = document.getElementById("pjEtat");
+      etat.textContent = p.statut;
+      etat.className = "etat " + (CLASSE_STATUT[p.statut] || "en-pause");
+      document.getElementById("pjDesc").textContent = p.description || "Pas encore de description.";
+
+      const liste = memeCategorie(p);
+      document.getElementById("pjCompteur").textContent = (liste.indexOf(p) + 1) + " / " + liste.length;
+      pageProjet.classList.toggle("seul", liste.length < 2);   // une seule entrée : pas de flèches
+
+      const contenu = document.getElementById("pjContenu");
+      contenu.scrollTop = 0;
+      contenu.classList.remove("entree"); void contenu.offsetWidth; contenu.classList.add("entree");
+    }
+
+    async function ouvrirProjet(p) {
+      if (enTransition || pageProjet.classList.contains("ouverte")) return;
+      enTransition = true;
+      await fonduVers("#000", DUREE_NOIR, () => {
+        bulle.classList.remove("visible");
+        cacherVitrine();
+        remplirProjet(p);
+        pageProjet.classList.add("ouverte");
+        pageProjet.setAttribute("aria-hidden", "false");
+      });
+      enTransition = false;
+    }
+    async function fermerProjet() {
+      if (enTransition || !pageProjet.classList.contains("ouverte")) return;
+      enTransition = true;
+      await fonduVers("#000", DUREE_NOIR, () => {
+        pageProjet.classList.remove("ouverte");
+        pageProjet.setAttribute("aria-hidden", "true");
+      });
+      enTransition = false;
+    }
+    async function changerDeJeu(sens) {                    // sens : +1 suivant, -1 précédent
+      if (enTransition || !projetCourant) return;
+      const liste = memeCategorie(projetCourant);
+      if (liste.length < 2) return;
+      const suivant = liste[(liste.indexOf(projetCourant) + sens + liste.length) % liste.length];
+      enTransition = true;
+      await fonduVers("#fff", DUREE_BLANC, () => remplirProjet(suivant));
+      enTransition = false;
+    }
+
+    document.getElementById("grille").addEventListener("click", e => {
+      const c = e.target.closest(".cartouche");
+      if (c && c.projet) ouvrirProjet(c.projet);
+    });
+    document.getElementById("pjFermer").addEventListener("click", fermerProjet);
+    document.getElementById("pjPrec").addEventListener("click", () => changerDeJeu(-1));
+    document.getElementById("pjSuiv").addEventListener("click", () => changerDeJeu(1));
+    document.addEventListener("keydown", e => {
+      if (!pageProjet.classList.contains("ouverte")) return;
+      if (e.key === "Escape") fermerProjet();
+      else if (e.key === "ArrowLeft") changerDeJeu(-1);
+      else if (e.key === "ArrowRight") changerDeJeu(1);
+    });
 
     afficherProfil();
     remplirPageProfil();

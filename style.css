@@ -634,6 +634,137 @@ html, body, *, *::before, *::after {
   .carte-id { grid-row: auto; }
 }
 
+/* ---------- Page projet (cadre d'écran façon Wii) ---------- */
+.page-projet {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: none;
+  overflow: hidden;
+  background:
+    radial-gradient(var(--orange-clair) 18%, transparent 20%) 0 0 / 22px 22px,
+    var(--creme);
+}
+.page-projet.ouverte { display: flex; align-items: center; justify-content: center; }
+.pj-cadre {                         /* les bords de l'écran recouvrent les coins */
+  position: absolute;
+  inset: 18px;
+  z-index: 3;
+  border-radius: 42px;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 6px var(--orange), 0 0 0 100vmax var(--trait);
+}
+.pj-contenu {
+  position: relative;
+  z-index: 1;
+  width: min(1000px, calc(100vw - 280px));
+  max-height: calc(100vh - 130px);
+  overflow-y: auto;
+  scrollbar-width: none;
+  padding: 24px 20px;
+  display: grid;
+  grid-template-columns: minmax(180px, 340px) 1fr;
+  gap: 44px;
+  align-items: center;
+}
+.pj-contenu::-webkit-scrollbar { display: none; }
+.pj-visuel {
+  position: relative;
+  aspect-ratio: 1;
+  background: var(--blanc);
+  border: 5px solid var(--trait);
+  border-radius: 34px;
+  box-shadow: 0 8px 0 var(--trait);
+  padding: 8px;
+}
+.pj-visuel img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 24px; background: var(--gris-photo); }
+.pj-type { font-size: 0.95rem; font-weight: 700; color: var(--orange-fonce); text-transform: uppercase; letter-spacing: 0.07em; }
+.pj-titre { font-size: clamp(1.8rem, 4.5vw, 2.8rem); line-height: 1.1; margin: 4px 0 14px; }
+.etat {
+  display: inline-block;
+  padding: 4px 18px;
+  font-weight: 700;
+  color: var(--blanc);
+  text-shadow: 0 2px 0 var(--trait);
+  background: var(--st-pause);
+  border: 3px solid var(--trait);
+  border-radius: 999px;
+  box-shadow: 0 4px 0 var(--trait);
+}
+.etat.en-cours { background: var(--st-cours); }
+.etat.termine  { background: var(--st-fini); }
+.etat.en-pause { background: var(--st-pause); }
+.etat.indisponible { background: var(--st-occupe); }
+.pj-desc { margin: 18px 0; font-size: 1.1rem; line-height: 1.4; }
+.pj-bientot {
+  padding: 18px;
+  text-align: center;
+  border: 4px dashed var(--orange);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--orange-fonce);
+}
+.page-projet .btn-fermer { z-index: 5; }
+.fleche {
+  position: absolute;
+  top: 50%;
+  margin-top: -46px;
+  z-index: 5;
+  width: 66px;
+  height: 92px;
+  background: var(--orange);
+  border: 5px solid var(--trait);
+  border-radius: 34px;
+  box-shadow: 0 7px 0 var(--trait);
+  transition: background 0.15s, box-shadow 0.1s, translate 0.25s var(--rebond), scale 0.25s var(--rebond);
+}
+.fleche.gauche { left: 36px; }
+.fleche.droite { right: 36px; }
+.fleche::before {                   /* chevron */
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 22px;
+  height: 22px;
+  margin-top: -11px;
+  border: solid var(--blanc);
+  border-width: 0 8px 8px 0;
+  filter: drop-shadow(0 3px 0 var(--trait));
+}
+.fleche.droite::before { left: 50%; margin-left: -19px; transform: rotate(-45deg); }
+.fleche.gauche::before { left: 50%; margin-left: -3px;  transform: rotate(135deg); }
+.fleche:hover { background: var(--orange-fonce); scale: 1.12; }
+.fleche.droite:hover { translate: 5px 0; }
+.fleche.gauche:hover { translate: -5px 0; }
+.fleche:active { box-shadow: 0 2px 0 var(--trait); }
+.page-projet.seul .fleche { display: none; }
+.pj-compteur {
+  position: absolute;
+  bottom: 34px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  padding: 3px 20px;
+  font-weight: 700;
+  color: var(--blanc);
+  text-shadow: 0 2px 0 var(--trait);
+  background: var(--orange);
+  border: 3px solid var(--trait);
+  border-radius: 999px;
+  box-shadow: 0 4px 0 var(--trait);
+}
+
+/* ---------- Fondu de page ---------- */
+#fondu { position: fixed; inset: 0; z-index: 110; opacity: 0; visibility: hidden; pointer-events: none; }
+#fondu.actif { visibility: visible; pointer-events: auto; }
+
+@media (max-width: 800px) {
+  .pj-contenu { grid-template-columns: 1fr; width: calc(100vw - 150px); gap: 20px; }
+  .pj-visuel { max-width: 240px; }
+  .fleche { width: 48px; height: 70px; margin-top: -35px; }
+  .fleche.gauche { left: 24px; } .fleche.droite { right: 24px; }
+}
+
 /* ---------- Petits écrans ---------- */
 @media (max-width: 640px) {
   .onglets { gap: 10px; padding-left: 0; flex-wrap: wrap; justify-content: center; }
