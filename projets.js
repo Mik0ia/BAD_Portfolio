@@ -3,15 +3,11 @@
    pour ajouter / changer un projet.
    ============================================================ */
 
-// Vidéo YouTube jouée en fond de page (lien complet, court ou "watch")
-const VIDEO_FOND = "https://youtu.be/K1DrIADKmqc";
-
 // Profil (haut à droite)
 const PROFIL = {
   nom: "Benjamin - Akehal daponte",
-  photo: "",      // lien d'un jpg ; vide = placeholder
-  niveau: 19,
-  xp: 0.72        // de 0 à 1 (0 = barre vide, 1 = barre pleine)
+  photo: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/Profile_Picture.jpeg?raw=true",
+  naissance: { jour: 9, mois: 12, annee: 2006 }   // niveau et barre d'XP calculés automatiquement
 };
 
 /* Chaque projet :

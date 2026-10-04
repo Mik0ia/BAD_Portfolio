@@ -24,23 +24,9 @@ body {
   overflow: hidden;
 }
 
-/* ---------- Vidéo de fond ---------- */
-.fond-video {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  overflow: hidden;
-  background: var(--creme);
-  pointer-events: none;
-}
-.fond-video iframe {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: max(100vw, 177.78vh);
-  height: max(56.25vw, 100vh);
-  transform: translate(-50%, -50%);
-  border: 0;
+/* ---------- Curseur personnalisé (main) ---------- */
+html, body, *, *::before, *::after {
+  cursor: url("https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/HAND.png?raw=true") 0 0, auto !important;
 }
 
 /* ---------- Profil (agrandi) ---------- */
@@ -59,7 +45,6 @@ body {
   width: 160px;
   height: 160px;
   margin-bottom: 14px;
-  cursor: pointer;
   transition: transform 0.3s var(--rebond);
 }
 .profil-photo:hover { transform: scale(1.08) rotate(-4deg); }
@@ -98,7 +83,6 @@ body {
   font-size: 1.3rem;
   line-height: 1.15;
   margin-top: 10px;
-  cursor: pointer;
   transition: transform 0.3s var(--rebond), background 0.15s;
 }
 .profil-nom:hover { transform: scale(1.05) rotate(1.5deg); background: var(--orange-clair); }
@@ -186,7 +170,6 @@ body {
   border-radius: 999px;
   box-shadow: 0 4px 0 var(--trait);
   padding: 6px 30px;
-  cursor: pointer;
   transition: transform 0.25s var(--rebond), box-shadow 0.1s, background 0.15s;
 }
 .onglet:hover { background: var(--orange-clair); transform: translateY(-3px) scale(1.08) rotate(-1.5deg); }
@@ -237,7 +220,6 @@ body {
   border-radius: 24px;
   box-shadow: 0 5px 0 var(--trait);
   padding: 5px;
-  cursor: pointer;
   transition: transform 0.28s var(--rebond), box-shadow 0.2s;
 }
 .cartouche:hover {
@@ -281,7 +263,6 @@ body {
   border: 4px solid var(--trait);
   box-shadow: 0 0 0 3px var(--blanc);
   background: var(--st-pause);
-  cursor: help;
   transition: transform 0.25s var(--rebond);
 }
 .pastille:hover { transform: scale(1.35); }
@@ -341,26 +322,6 @@ body {
   100% { opacity: 1; transform: scale(1) translateY(0); }
 }
 .entree { animation: entree 0.5s cubic-bezier(.34, 1.4, .64, 1) both; animation-delay: calc(var(--i, 0) * 55ms); }
-
-/* message si la page est ouverte en file:// */
-.avis-video {
-  position: fixed;
-  top: 18px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 6;
-  max-width: min(560px, 90vw);
-  background: var(--orange);
-  color: var(--blanc);
-  text-shadow: 0 2px 0 var(--trait);
-  font-weight: 700;
-  font-size: 0.95rem;
-  text-align: center;
-  border: 4px solid var(--trait);
-  border-radius: 20px;
-  box-shadow: 0 5px 0 var(--trait);
-  padding: 8px 18px;
-}
 
 /* ---------- Petits écrans ---------- */
 @media (max-width: 640px) {
