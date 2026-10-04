@@ -13,7 +13,7 @@ const PROFIL = {
 
 /* Chaque projet :
    type   : "Jeu Vidéo" | "Jeu de Société" | "Jeu Mobile"
-   statut : "En cours" | "Terminé" | "En pause"
+   statut : "En cours" | "Terminé" | "En pause" | "Indisponible"
    image  : lien d'un jpg 500x500 (vide = placeholder)
    nom    : affiché au survol de la cartouche
    description : texte affiché sous la grosse cartouche 3D au survol
