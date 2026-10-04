@@ -11,6 +11,7 @@
   --st-pause: #9a9a9a;
   --st-occupe: #e63946;
   --rebond: cubic-bezier(.34, 1.8, .5, 1);
+  --h-panneau: max(340px, min(54vh, 390px));   /* hauteur du panneau du bas */
   --police: "Fredoka", "Trebuchet MS", "Arial Rounded MT Bold", sans-serif;
 }
 
@@ -145,8 +146,7 @@ html, body, *, *::before, *::after {
   left: 14px;
   right: 14px;
   bottom: 14px;
-  height: min(54vh, 390px);
-  min-height: 340px;
+  height: var(--h-panneau);
   z-index: 3;
   background:
     radial-gradient(var(--orange-clair) 18%, transparent 20%) 0 0 / 22px 22px,
@@ -328,6 +328,144 @@ html, body, *, *::before, *::after {
 }
 .entree { animation: entree 0.5s cubic-bezier(.34, 1.4, .64, 1) both; animation-delay: calc(var(--i, 0) * 55ms); }
 
+/* ---------- Vitrine : cartouche 3D + description ---------- */
+.vitrine {
+  --c: clamp(100px, calc(100vh - var(--h-panneau) - 200px), 250px);   /* taille de la cartouche */
+  --ep: calc(var(--c) * 0.15);                                         /* épaisseur */
+  position: fixed;
+  left: 50%;
+  bottom: calc(var(--h-panneau) + 58px);
+  z-index: 4;
+  width: min(540px, calc(100vw - 640px));
+  min-width: 260px;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.18s;
+}
+.vitrine.visible { opacity: 1; }
+
+.scene {
+  position: relative;
+  width: var(--c);
+  height: calc(var(--c) * 1.1);
+  perspective: calc(var(--c) * 4);
+  display: grid;
+  place-items: center;
+}
+.ombre {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 70%;
+  height: 7%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: rgba(107, 46, 0, 0.22);
+  filter: blur(3px);
+}
+.cart3d, .flotte, .cart-rot {
+  width: var(--c);
+  height: var(--c);
+  transform-style: preserve-3d;
+}
+.cart-rot { position: relative; animation: tourne 6s linear infinite; }
+.flotte { animation: flotte 2.4s ease-in-out infinite; }
+@keyframes tourne {
+  from { transform: rotateX(-10deg) rotateY(0deg); }
+  to   { transform: rotateX(-10deg) rotateY(360deg); }
+}
+@keyframes flotte {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(calc(var(--c) * -0.04)); }
+}
+@keyframes pop3d {                 /* sans opacité : l'opacité écraserait la 3D */
+  0%   { transform: scale(0.3) translateY(25px); }
+  70%  { transform: scale(1.1) translateY(-4px); }
+  100% { transform: scale(1) translateY(0); }
+}
+.pop3d { animation: pop3d 0.5s cubic-bezier(.34, 1.4, .64, 1); }
+
+/* silhouette d'une cartouche DS : coins arrondis + coin biseauté en bas à gauche */
+.forme {
+  border-radius: 9% 9% 9% 0;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 16% 100%, 0 84%);
+}
+.cart-rot .forme { position: absolute; inset: 0; }
+.tranche { background: #cdc8bd; }
+.face {
+  background: var(--trait);            /* contour cartoon */
+  backface-visibility: hidden;
+}
+.face.avant   { transform: translateZ(calc(var(--ep) / 2)); }
+.face.arriere { transform: rotateY(180deg) translateZ(calc(var(--ep) / 2)); }
+.plaque {
+  inset: 2.4%;
+  background: #f7f5f0;
+}
+.etiquette {                           /* fenêtre de la miniature */
+  position: absolute;
+  inset: 7% 7% 11% 7%;
+  border-radius: 6%;
+  overflow: hidden;
+  border: calc(var(--c) * 0.014) solid var(--trait);
+  background: var(--gris-photo);
+}
+.etiquette img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.etiquette::after {                    /* reflet brillant façon Wii */
+  content: "";
+  position: absolute;
+  inset: 0 0 50% 0;
+  background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.1));
+}
+.dos-etiquette {
+  position: absolute;
+  inset: 12% 12% 34% 12%;
+  border-radius: 5%;
+  background: #e6e2d8;
+  box-shadow: inset 0 0 0 calc(var(--c) * 0.01) #cfc9bb;
+}
+.dos-contacts {
+  position: absolute;
+  left: 24%;
+  right: 12%;
+  bottom: 8%;
+  height: 12%;
+  border-radius: 8%;
+  background: repeating-linear-gradient(90deg, #a79f8c 0 6%, #d6d0c1 6% 12%);
+}
+
+.desc {
+  width: 100%;
+  background: var(--blanc);
+  border: 4px solid var(--trait);
+  border-radius: 22px;
+  box-shadow: 0 5px 0 var(--trait);
+  padding: 8px 18px 10px;
+  text-align: center;
+}
+.desc-titre {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--orange-fonce);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.desc-texte {
+  font-size: 0.95rem;
+  line-height: 1.25;
+  font-weight: 600;
+}
+
+/* pas de survol sur tactile, et pas la place sur petit écran */
+@media (hover: none), (max-width: 900px) {
+  .vitrine { display: none; }
+}
+
 /* ---------- Petits écrans ---------- */
 @media (max-width: 640px) {
   .onglets { gap: 10px; padding-left: 0; flex-wrap: wrap; justify-content: center; }
@@ -341,4 +479,5 @@ html, body, *, *::before, *::after {
 
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
+  .cart-rot, .flotte, .pop3d { animation: none !important; }
 }

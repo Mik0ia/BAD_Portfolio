@@ -31,6 +31,20 @@
     <section class="grille" id="grille"></section>
   </main>
 
+  <!-- Vitrine : grosse cartouche 3D + description (au survol d'une cartouche) -->
+  <div class="vitrine" id="vitrine">
+    <div class="scene">
+      <div class="ombre"></div>
+      <div class="cart3d" id="cart3d">
+        <div class="flotte"><div class="cart-rot" id="cartRot"></div></div>
+      </div>
+    </div>
+    <div class="desc">
+      <div class="desc-titre" id="descTitre"></div>
+      <p class="desc-texte" id="descTexte"></p>
+    </div>
+  </div>
+
   <div id="bulle"></div>
 
   <script src="projets.js"></script>
@@ -135,6 +149,7 @@
         img.onerror = () => { img.src = PLACEHOLDER; };
         visuel.appendChild(img);
         c.dataset.tip = p.nom;               // bulle = nom du projet
+        c.projet = p;                        // utilisé par la vitrine 3D
 
         const pastille = document.createElement("span");
         pastille.className = "pastille " + (CLASSE_STATUT[p.statut] || "en-pause");
@@ -159,6 +174,68 @@
     document.addEventListener("mouseout", e => {
       if (e.target.closest("[data-tip]")) bulle.classList.remove("visible");
     });
+
+    /* ---------- Cartouche 3D (CSS 3D pur : aucune librairie, marche en file://) ---------- */
+    const NB_TRANCHES = 32;                   // plus = tranche plus lisse
+    const vitrine = document.getElementById("vitrine");
+    const cartImg = document.createElement("img");
+    cartImg.alt = "";
+    cartImg.onerror = () => { cartImg.src = PLACEHOLDER; };
+
+    function construireCartouche3D() {
+      const rot = document.getElementById("cartRot");
+      // tranche = empilement de silhouettes entre les deux faces
+      for (let i = 0; i < NB_TRANCHES; i++) {
+        const t = document.createElement("div");
+        t.className = "forme tranche";
+        const z = (i / (NB_TRANCHES - 1) - 0.5) * 0.96;
+        t.style.transform = "translateZ(calc(var(--ep) * " + z.toFixed(4) + "))";
+        rot.appendChild(t);
+      }
+      const avant = document.createElement("div");
+      avant.className = "forme face avant";
+      const plaque = document.createElement("div");
+      plaque.className = "forme plaque";
+      const etiquette = document.createElement("div");
+      etiquette.className = "etiquette";
+      etiquette.appendChild(cartImg);
+      plaque.appendChild(etiquette);
+      avant.appendChild(plaque);
+
+      const arriere = document.createElement("div");
+      arriere.className = "forme face arriere";
+      arriere.innerHTML = '<div class="forme plaque"><div class="dos-etiquette"></div><div class="dos-contacts"></div></div>';
+
+      rot.append(avant, arriere);
+    }
+
+    let delaiVitrine, projetAffiche = null;
+    function afficherVitrine(p) {
+      clearTimeout(delaiVitrine);
+      if (projetAffiche !== p) {
+        projetAffiche = p;
+        cartImg.src = p.image || PLACEHOLDER;
+        document.getElementById("descTitre").textContent = p.nom;
+        document.getElementById("descTexte").textContent = p.description || "Pas encore de description.";
+      }
+      if (!vitrine.classList.contains("visible")) {
+        const c3d = document.getElementById("cart3d");
+        c3d.classList.remove("pop3d"); void c3d.offsetWidth; c3d.classList.add("pop3d");
+      }
+      vitrine.classList.add("visible");
+    }
+    function cacherVitrine() { vitrine.classList.remove("visible"); projetAffiche = null; }
+
+    document.addEventListener("mouseover", e => {
+      const c = e.target.closest(".cartouche");
+      if (c && c.projet) afficherVitrine(c.projet);
+    });
+    document.addEventListener("mouseout", e => {
+      const c = e.target.closest(".cartouche");
+      if (!c || (e.relatedTarget && c.contains(e.relatedTarget))) return;
+      delaiVitrine = setTimeout(cacherVitrine, 120);   // évite le clignotement entre deux cartouches
+    });
+    construireCartouche3D();
 
     /* ---------- Molette = défilement horizontal (sans barre) ---------- */
     document.getElementById("grille").addEventListener("wheel", e => {
