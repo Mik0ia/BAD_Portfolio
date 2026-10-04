@@ -62,7 +62,7 @@
     const CLASSE_STATUT = {
       "En cours": "en-cours",   // orange
       "Terminé":  "termine",    // vert
-      "En cours/pause": "en-pause",   // gris
+      "En pause": "en-pause",   // gris
       "Indisponible": "indisponible"   // rouge
     };
 
@@ -211,8 +211,12 @@
     }
 
     let delaiVitrine, projetAffiche = null;
-    function afficherVitrine(p) {
+    function afficherVitrine(p, relancer) {
       clearTimeout(delaiVitrine);
+      if (relancer) {                         // la cartouche repart de face (rotation à 0)
+        const rot = document.getElementById("cartRot");
+        rot.style.animation = "none"; void rot.offsetWidth; rot.style.animation = "";
+      }
       if (projetAffiche !== p) {
         projetAffiche = p;
         cartImg.src = p.image || PLACEHOLDER;
@@ -229,7 +233,9 @@
 
     document.addEventListener("mouseover", e => {
       const c = e.target.closest(".cartouche");
-      if (c && c.projet) afficherVitrine(c.projet);
+      if (!c || !c.projet) return;
+      // on ne relance la rotation qu'en entrant dans la cartouche (pas en bougeant dessus)
+      afficherVitrine(c.projet, !c.contains(e.relatedTarget));
     });
     document.addEventListener("mouseout", e => {
       const c = e.target.closest(".cartouche");
