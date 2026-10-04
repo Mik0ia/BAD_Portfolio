@@ -45,6 +45,29 @@
     </div>
   </div>
 
+  <!-- Page profil -->
+  <section class="page-profil" id="pageProfil" aria-hidden="true">
+    <button class="btn-fermer" id="btnFermer" type="button" aria-label="Retour à l'accueil"></button>
+    <div class="pp-grille">
+      <div class="carte carte-id">
+        <div class="pp-photo"><img id="ppPhoto" alt="Photo de profil"><span class="pastille-profil" id="ppStatut"></span></div>
+        <h1 class="pp-nom" id="ppNom"></h1>
+        <div class="pp-niveau" id="ppNiveau"></div>
+      </div>
+      <div class="carte"><h2>À propos</h2><p id="ppBio"></p></div>
+      <div class="carte"><h2>Compétences</h2><div class="tags" id="ppCompetences"></div></div>
+      <div class="carte"><h2>Liens</h2><div class="liens" id="ppLiens"></div></div>
+    </div>
+  </section>
+
+  <!-- Rideau de transition entre les pages -->
+  <div id="rideau" aria-hidden="true">
+    <div class="centre">
+      <div class="burst-pop" id="rBurst"><div class="burst"></div></div>
+      <div class="badge" id="rBadge"></div>
+    </div>
+  </div>
+
   <div id="bulle"></div>
 
   <script src="projets.js"></script>
@@ -264,7 +287,111 @@
       e.target.classList.remove("rebond", "entree");
     });
 
+    /* ---------- Transition de page (bandes blanches/orange + badge cartoon) ---------- */
+    const rideau = document.getElementById("rideau");
+    const pageProfil = document.getElementById("pageProfil");
+    const rBadge = document.getElementById("rBadge");
+    const rBurst = document.getElementById("rBurst");
+    const COULEURS_BANDES = ["var(--orange)", "var(--blanc)", "var(--orange-fonce)", "var(--blanc)", "var(--orange)"];
+    const bandes = COULEURS_BANDES.map((couleur, i) => {
+      const b = document.createElement("div");
+      b.className = "bande";
+      b.style.top = (i * 20 - 1) + "%";
+      b.style.background = couleur;
+      rideau.insertBefore(b, rideau.firstChild);
+      return b;
+    });
+    let enTransition = false;
+    const pause = ms => new Promise(r => setTimeout(r, ms));
+    const COURBE = "cubic-bezier(.7, 0, .3, 1)";
+
+    function remplirPageProfil() {
+      const img = document.getElementById("ppPhoto");
+      img.src = PROFIL.photo || PLACEHOLDER;
+      img.onerror = () => { img.src = PLACEHOLDER; };
+      document.getElementById("ppNom").textContent = PROFIL.nom;
+      document.getElementById("ppNiveau").textContent = "niv." + calculerAge().age;
+      const s = document.getElementById("ppStatut");
+      s.className = "pastille-profil " + (CLASSE_DISPO[PROFIL.disponibilite] || "indisponible");
+      s.dataset.tip = PROFIL.disponibilite;
+      document.getElementById("ppBio").textContent = PROFIL.bio || "";
+      const tags = document.getElementById("ppCompetences");
+      tags.innerHTML = "";
+      (PROFIL.competences || []).forEach(t => { const e = document.createElement("span"); e.className = "tag"; e.textContent = t; tags.appendChild(e); });
+      const liens = document.getElementById("ppLiens");
+      liens.innerHTML = "";
+      (PROFIL.liens || []).forEach(l => { const a = document.createElement("a"); a.className = "lien"; a.href = l.url; a.target = "_blank"; a.rel = "noopener"; a.textContent = l.nom; liens.appendChild(a); });
+    }
+
+    function basculerPage(versProfil) {
+      pageProfil.classList.toggle("ouverte", versProfil);
+      pageProfil.setAttribute("aria-hidden", versProfil ? "false" : "true");
+      bulle.classList.remove("visible");
+      cacherVitrine();
+      if (versProfil) {
+        pageProfil.scrollTop = 0;
+        pageProfil.querySelectorAll(".carte, .btn-fermer").forEach((el, i) => {
+          el.style.setProperty("--i", i + 6);        // les cartes arrivent juste après les bandes
+          el.classList.remove("entree"); void el.offsetWidth; el.classList.add("entree");
+        });
+      }
+    }
+
+    async function changerPage(versProfil) {
+      if (enTransition || pageProfil.classList.contains("ouverte") === versProfil) return;
+      enTransition = true;
+      if (matchMedia("(prefers-reduced-motion: reduce)").matches) { basculerPage(versProfil); enTransition = false; return; }
+
+      const sens = versProfil ? 1 : -1;
+      rBadge.textContent = versProfil ? "PROFIL" : "ACCUEIL";
+      rideau.classList.add("actif");
+
+      // 1) les bandes entrent en alternant gauche / droite
+      bandes.forEach((b, i) => {
+        const d = (i % 2 ? -1 : 1) * sens;
+        b.animate([{ transform: "translateX(" + (-120 * d) + "%) skewX(-14deg)" },
+                   { transform: "translateX(0) skewX(-14deg)" }],
+                  { duration: 400, delay: i * 60, easing: COURBE, fill: "both" });
+      });
+      // 2) étoile + badge qui rebondissent
+      const pop = [{ transform: "translate(-50%,-50%) scale(0) rotate(-25deg)" },
+                   { transform: "translate(-50%,-50%) scale(1.2) rotate(5deg)", offset: 0.6 },
+                   { transform: "translate(-50%,-50%) scale(1) rotate(0)" }];
+      await pause(380);
+      rBurst.animate(pop, { duration: 460, easing: "ease-out", fill: "both" });
+      rBadge.animate(pop, { duration: 460, delay: 70, easing: "ease-out", fill: "both" });
+      await pause(520);
+
+      // 3) pendant que tout est couvert : on change de page
+      basculerPage(versProfil);
+      await pause(260);
+
+      // 4) sortie : badge qui disparaît, bandes qui repartent du côté opposé
+      const sortie = [{ transform: "translate(-50%,-50%) scale(1) rotate(0)" },
+                      { transform: "translate(-50%,-50%) scale(0) rotate(20deg)" }];
+      rBurst.animate(sortie, { duration: 260, easing: "ease-in", fill: "both" });
+      rBadge.animate(sortie, { duration: 260, easing: "ease-in", fill: "both" });
+      await pause(160);
+      const fins = bandes.map((b, i) => {
+        const d = (i % 2 ? -1 : 1) * sens;
+        return b.animate([{ transform: "translateX(0) skewX(-14deg)" },
+                          { transform: "translateX(" + (120 * d) + "%) skewX(-14deg)" }],
+                         { duration: 400, delay: i * 60, easing: COURBE, fill: "both" }).finished;
+      });
+      await Promise.all(fins);
+
+      rideau.getAnimations({ subtree: true }).forEach(a => a.cancel());
+      rideau.classList.remove("actif");
+      enTransition = false;
+    }
+
+    document.querySelectorAll(".profil-photo, .profil-nom, .btn-profil").forEach(el =>
+      el.addEventListener("click", e => { e.preventDefault(); changerPage(true); }));
+    document.getElementById("btnFermer").addEventListener("click", () => changerPage(false));
+    document.addEventListener("keydown", e => { if (e.key === "Escape") changerPage(false); });
+
     afficherProfil();
+    remplirPageProfil();
     afficherOnglets();
     afficherCartouches();
   </script>

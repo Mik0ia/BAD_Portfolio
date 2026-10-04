@@ -475,6 +475,165 @@ html, body, *, *::before, *::after {
   .vitrine { display: none; }
 }
 
+/* ---------- Page profil ---------- */
+.page-profil {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: none;
+  overflow-y: auto;
+  scrollbar-width: none;
+  padding: 36px 40px 60px;
+  background:
+    radial-gradient(var(--orange-clair) 18%, transparent 20%) 0 0 / 22px 22px,
+    var(--creme);
+}
+.page-profil::-webkit-scrollbar { display: none; }
+.page-profil.ouverte { display: block; }
+
+.btn-fermer {
+  position: fixed;
+  top: 24px;
+  left: 28px;
+  z-index: 2;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: var(--orange);
+  border: 5px solid var(--trait);
+  box-shadow: 0 7px 0 var(--trait);
+  transition: transform 0.3s var(--rebond), background 0.15s;
+}
+.btn-fermer::before, .btn-fermer::after {      /* la croix */
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 36px;
+  height: 8px;
+  margin: -4px 0 0 -18px;
+  border-radius: 6px;
+  background: var(--blanc);
+  box-shadow: 0 2px 0 var(--trait);
+  transform: rotate(45deg);
+}
+.btn-fermer::after { transform: rotate(-45deg); }
+.btn-fermer:hover { background: var(--orange-fonce); transform: scale(1.12) rotate(90deg); }
+.btn-fermer:active { box-shadow: 0 2px 0 var(--trait); }
+
+.pp-grille {
+  max-width: 980px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 26px;
+  align-items: start;
+  padding-left: 70px;
+}
+.carte {
+  background: var(--blanc);
+  border: 4px solid var(--trait);
+  border-radius: 26px;
+  box-shadow: 0 6px 0 var(--trait);
+  padding: 18px 24px 22px;
+}
+.carte h2 {
+  font-size: 1rem;
+  color: var(--orange-fonce);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+.carte p { line-height: 1.35; }
+.carte-id { grid-row: span 3; text-align: center; padding-top: 30px; }
+.pp-photo { position: relative; width: 190px; height: 190px; margin: 0 auto 24px; }
+.pp-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 5px solid var(--trait);
+  outline: 8px solid var(--orange-clair);
+  background: var(--gris-photo);
+  display: block;
+}
+.pp-nom { font-size: 1.5rem; line-height: 1.15; }
+.pp-niveau {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 4px 18px;
+  background: var(--orange);
+  color: var(--blanc);
+  text-shadow: 0 2px 0 var(--trait);
+  font-weight: 700;
+  border: 3px solid var(--trait);
+  border-radius: 999px;
+  box-shadow: 0 4px 0 var(--trait);
+}
+.tags, .liens { display: flex; flex-wrap: wrap; gap: 10px; }
+.tag, .lien {
+  padding: 5px 16px;
+  background: var(--orange-clair);
+  border: 3px solid var(--trait);
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--trait);
+  text-decoration: none;
+}
+.lien { background: var(--orange); color: var(--blanc); text-shadow: 0 2px 0 var(--trait); box-shadow: 0 4px 0 var(--trait); transition: transform 0.25s var(--rebond); }
+.lien:hover { transform: translateY(-3px) scale(1.08) rotate(-2deg); }
+
+/* ---------- Rideau de transition ---------- */
+#rideau { position: fixed; inset: 0; z-index: 100; overflow: hidden; visibility: hidden; pointer-events: none; }
+#rideau.actif { visibility: visible; pointer-events: auto; }
+.bande {
+  position: absolute;
+  left: -15%;
+  width: 130%;
+  height: calc(20% + 8px);
+  border-top: 5px solid var(--trait);
+  border-bottom: 5px solid var(--trait);
+  transform: translateX(-120%) skewX(-14deg);
+}
+.centre { position: absolute; left: 50%; top: 50%; width: 0; height: 0; }
+.burst-pop {
+  --W: min(80vmin, 620px);
+  position: absolute;
+  left: 0; top: 0;
+  width: var(--W);
+  height: var(--W);
+  transform: translate(-50%, -50%) scale(0);
+  filter: drop-shadow(5px 0 0 var(--trait)) drop-shadow(-5px 0 0 var(--trait)) drop-shadow(0 5px 0 var(--trait)) drop-shadow(0 -5px 0 var(--trait));
+}
+.burst {
+  width: 100%;
+  height: 100%;
+  background: var(--blanc);
+  clip-path: polygon(50.0% 0.0%,60.1% 12.3%,75.0% 6.7%,77.6% 22.4%,93.3% 25.0%,87.7% 39.9%,100.0% 50.0%,87.7% 60.1%,93.3% 75.0%,77.6% 77.6%,75.0% 93.3%,60.1% 87.7%,50.0% 100.0%,39.9% 87.7%,25.0% 93.3%,22.4% 77.6%,6.7% 75.0%,12.3% 60.1%,0.0% 50.0%,12.3% 39.9%,6.7% 25.0%,22.4% 22.4%,25.0% 6.7%,39.9% 12.3%);
+  animation: tourne-burst 4s linear infinite;
+}
+@keyframes tourne-burst { to { transform: rotate(360deg); } }
+.badge {
+  position: absolute;
+  left: 0; top: 0;
+  transform: translate(-50%, -50%) scale(0);
+  padding: 14px 54px;
+  font-size: clamp(2rem, 7vmin, 3.6rem);
+  font-weight: 700;
+  color: var(--blanc);
+  text-shadow: 0 4px 0 var(--trait);
+  background: var(--orange);
+  border: 6px solid var(--trait);
+  border-radius: 999px;
+  box-shadow: 0 9px 0 var(--trait);
+}
+
+@media (max-width: 800px) {
+  .pp-grille { grid-template-columns: 1fr; padding-left: 0; padding-top: 70px; }
+  .carte-id { grid-row: auto; }
+}
+
 /* ---------- Petits écrans ---------- */
 @media (max-width: 640px) {
   .onglets { gap: 10px; padding-left: 0; flex-wrap: wrap; justify-content: center; }
