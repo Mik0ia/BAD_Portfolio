@@ -23,19 +23,19 @@ const PROFIL = {
     // Jauge 1 : durée totale du diplôme et nombre d'années déjà passées (décimales possibles : 1.5)
     diplome: { label: "Diplôme", anneesTotal: 3, anneesFaites: 3 },
 
-    // Jauge 2 : (années de pro de base + durée totale du stage convertie en années) / prochain palier
+    // Jauge 2 : (années de pro de base + durée du stage DÉJÀ effectuée, en années) / prochain palier
     pro: { label: "Pro (junior)", anneesPro: 0, prochainPalier: 2 },
 
     // Jauge 3 : progression entre la date de début et la date de fin du stage (format AAAA-MM-JJ).
     // Une fois la date de fin dépassée, la jauge reste pleine.
-    stage: { label: "Stage", debut: "2026-07-05", fin: "2027-01-05" }          // ⚠ ajuste les dates réelles de ton stage
+    stage: { label: "Stage", debut: "2026-07-06", fin: "2027-01-06" }          // ⚠ ajuste les dates réelles de ton stage
   },
 
   // Les 4 statistiques brutes : un texte + un nombre (décimales acceptées), tout est modifiable
   statsBrutes: [
-    { texte: "Projets",              valeur: 11 },
+    { texte: "Projets",              auto: "projets" },   // compté automatiquement : nombre de jeux dans la liste PROJETS ci-dessous
     { texte: "Langues",              valeur: 2 },
-    { texte: "Logiciels maîtriser",  valeur: 5 },
+    { texte: "Logiciels maîtrisé",  valeur: 5 },
     { texte: "Engine",               valeur: 2 }
   ]
 };

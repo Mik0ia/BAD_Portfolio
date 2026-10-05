@@ -404,7 +404,7 @@
       }
       if (S.pro) {
         const palier = Number(S.pro.prochainPalier) || 0;
-        const valeur = (Number(S.pro.anneesPro) || 0) + jTotal / 365.25;   // années de pro + stage converti en années
+        const valeur = (Number(S.pro.anneesPro) || 0) + jFaits / 365.25;   // années de pro + durée du stage DÉJÀ effectuée (grandit jour après jour)
         jauges.push({ nom: S.pro.label || "Pro (junior)", ratio: palier ? valeur / palier : 0,
                       texte: fmt(valeur) + " / " + fmt(palier) + " ans" });
       }
@@ -475,7 +475,8 @@
         t.textContent = st.texte;
         const v = document.createElement("span");
         v.className = "brute-val";
-        v.textContent = Number.isFinite(Number(st.valeur)) ? fmt(st.valeur) : st.valeur;
+        const valeur = st.auto === "projets" ? PROJETS.length : st.valeur;   // "Projets" = nombre de jeux enregistrés dans PROJETS
+        v.textContent = Number.isFinite(Number(valeur)) ? fmt(valeur) : valeur;
         zoneBrutes.append(t, v);
       });
     }

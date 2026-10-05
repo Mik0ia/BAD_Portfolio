@@ -540,7 +540,7 @@ html, body, *, *::before, *::after {
 /* avatar (gif) à gauche de la page profil : bulle | avatar + ombre + cadre métier */
 .pp-avatar-zone {
   --bulle-w: clamp(160px, 17vw, 230px);       /* largeur de la bulle de dialogue */
-  --bulle-chevauche: 300px;                    /* PLUS GRAND = bulle plus à DROITE (ex. 120px) ; plus petit ou négatif = plus à gauche */
+  --bulle-chevauche: 250px;                    /* PLUS GRAND = bulle plus à DROITE (ex. 120px) ; plus petit ou négatif = plus à gauche */
   --bulle-y: -20%;                              /* HAUTEUR de la bulle : plus grand = plus BAS (ex. 20% ou 80px) ; plus petit ou négatif (ex. -40px) = plus HAUT */
   flex: 0 1 var(--col);
   min-width: 0;
