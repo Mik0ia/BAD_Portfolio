@@ -9,10 +9,33 @@ const PROFIL = {
   photo: "ASSETS/Profile_Picture.jpeg",
   disponibilite: "Libre",   // "Libre" (vert) | "Temps Partiel" (orange) | "Indisponible" (rouge)
   avatar: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/AVATAR_GIF.gif?raw=true",   // gif affiché à gauche de la page profil
-  bio: "Écris ici ta présentation : qui tu es, ce que tu fais, ce que tu cherches.",
-  competences: ["Game Design", "Level Design", "Unreal Engine", "Game Jams"],   // à remplacer par les tiennes
-  liens: [ { nom: "GitHub", url: "https://github.com/Mik0ia" } ],               // ajoute autant de liens que tu veux
-  naissance: { jour: 9, mois: 12, annee: 2006 }   // niveau et barre d'XP calculés automatiquement
+  metier: "Game / Technical designer",   // cadre sous l'avatar (page profil)
+  bulle: "Bienvenue sur mon portfolio de game designer. Découvrez mes expériences, compétences et projets qui illustrent ma passion pour le design de jeux vidéo.",   // bulle de dialogue au survol de l'avatar
+  cv: "ASSETS/cv-benjamin-akehal--daponte.pdf",   // fichier téléchargé par le bouton à droite du nom
+  competences: ["Game Design", "Level Design", "Unreal Engine", "Game Jams"],   // pour le futur cadre Skills (pas affiché pour l'instant)
+  liens: [ { nom: "GitHub", url: "https://github.com/Mik0ia" } ],               // pas affiché pour l'instant
+  naissance: { jour: 9, mois: 12, annee: 2006 },   // niveau et barre d'XP calculés automatiquement
+
+  /* ---------- Cadre "Stats" de la page profil ---------- */
+  stats: {
+    // Jauge 1 : durée totale du diplôme et nombre d'années déjà passées (décimales possibles : 1.5)
+    diplome: { label: "Diplôme", anneesTotal: 3, anneesFaites: 1 },          // ⚠ valeurs d'exemple, mets les tiennes
+
+    // Jauge 2 : (années de pro de base + durée totale du stage convertie en années) / prochain palier
+    pro: { label: "Pro (junior)", anneesPro: 0, prochainPalier: 2 },
+
+    // Jauge 3 : progression entre la date de début et la date de fin du stage (format AAAA-MM-JJ).
+    // Une fois la date de fin dépassée, la jauge reste pleine.
+    stage: { label: "Stage", debut: "2026-07-06", fin: "2026-10-06" }          // ⚠ dates d'exemple, mets les tiennes
+  },
+
+  // Les 4 statistiques brutes : un texte + un nombre (décimales acceptées), tout est modifiable
+  statsBrutes: [
+    { texte: "Game Jams",       valeur: 4 },     // ⚠ exemples
+    { texte: "Jeux terminés",   valeur: 5 },
+    { texte: "Années de code",  valeur: 2.5 },
+    { texte: "Cafés par jour",  valeur: 3 }
+  ]
 };
 
 /* Chaque projet :

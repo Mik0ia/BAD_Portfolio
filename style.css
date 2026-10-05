@@ -495,13 +495,13 @@ html, body, *, *::before, *::after {
   display: none;
   overflow-y: auto;
   scrollbar-width: none;
-  padding: 36px 40px 60px calc(min(34vw, 400px) + 30px);
+  padding: 36px 40px 60px calc(min(48vw, 680px) + 10px);
   background:
     radial-gradient(var(--orange-clair) 18%, transparent 20%) 0 0 / 22px 22px,
     var(--creme);
 }
 .page-profil::-webkit-scrollbar { display: none; }
-.page-profil.ouverte { display: block; }
+.page-profil.ouverte { display: flex; }
 
 .btn-fermer {
   position: fixed;
@@ -533,17 +533,26 @@ html, body, *, *::before, *::after {
 .btn-fermer:hover { background: var(--orange-fonce); transform: scale(1.12) rotate(90deg); }
 .btn-fermer:active { box-shadow: 0 2px 0 var(--trait); }
 
-/* avatar (gif) à gauche de la page profil */
+/* avatar (gif) à gauche de la page profil : bulle | avatar + ombre + cadre métier */
 .pp-avatar-zone {
+  --bulle-w: clamp(170px, 20vw, 240px);       /* largeur de la bulle de dialogue */
+  --bulle-l: calc(var(--bulle-w) + 34px);     /* place réservée à gauche de l'avatar pour la bulle */
   position: fixed;
   left: 0;
   top: 70px;
   bottom: 30px;
-  width: min(34vw, 400px);
+  width: min(48vw, 680px);
+  padding-left: var(--bulle-l);
   display: flex;
   align-items: center;
   justify-content: center;
   pointer-events: none;
+}
+.pp-perso {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 100%;
 }
 .pp-avatar-wrap {
   --ombre-l: 70%;       /* largeur de l'ombre (% de la largeur de l'avatar) */
@@ -551,14 +560,85 @@ html, body, *, *::before, *::after {
   --ombre-y: 50%;       /* décalage vertical : 50% = centrée sur le bord bas de l'image, 100% = juste en dessous */
   position: relative;
   max-width: 100%;
+  pointer-events: auto;   /* le survol de l'avatar ouvre la bulle */
 }
 .pp-avatar-wrap img {
   position: relative;
   display: block;
   max-width: 100%;
-  max-height: calc(100vh - 150px);   /* avatar toujours en entier à l'écran */
+  max-height: max(180px, calc(100vh - 270px));   /* avatar + cadre métier toujours en entier à l'écran */
   object-fit: contain;
 }
+
+/* bulle de dialogue à gauche de l'avatar : fermée par défaut, s'ouvre au survol */
+.bulle-dialogue {
+  position: absolute;
+  right: calc(100% + 26px);
+  top: 6%;
+  width: var(--bulle-w);
+  padding: 12px 16px;
+  background: var(--blanc);
+  border: 4px solid var(--trait);
+  border-radius: 24px;
+  box-shadow: 0 6px 0 var(--trait);
+  font-size: 0.95rem;
+  line-height: 1.3;
+  font-weight: 600;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(18px) scale(0.5);
+  transform-origin: 100% 30px;               /* part de la queue, côté avatar */
+  transition: opacity 0.2s ease, transform 0.4s var(--rebond);
+  z-index: 3;
+}
+.pp-avatar-wrap:hover .bulle-dialogue,
+.pp-avatar-wrap:focus-visible .bulle-dialogue {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}
+.bulle-dialogue::before, .bulle-dialogue::after {   /* queue vers l'avatar */
+  content: "";
+  position: absolute;
+  border: solid transparent;
+}
+.bulle-dialogue::before {
+  top: 22px;
+  left: calc(100% + 1px);
+  border-width: 13px 0 13px 17px;
+  border-left-color: var(--trait);
+}
+.bulle-dialogue::after {
+  top: 26px;
+  left: calc(100% - 2px);
+  border-width: 9px 0 9px 12px;
+  border-left-color: var(--blanc);
+}
+
+/* pastille de disponibilité : coin droit de l'ombre, au premier plan */
+.pp-avatar-wrap .pastille-profil {
+  right: auto;
+  left: calc(50% + var(--ombre-l) / 2);
+  bottom: 0;
+  margin: 0 0 -19px -19px;
+  z-index: 4;
+}
+
+/* cadre métier sous l'ombre */
+.pp-metier {
+  margin-top: 40px;
+  padding: 8px 26px;
+  background: var(--blanc);
+  border: 4px solid var(--trait);
+  border-radius: 30px;
+  box-shadow: 0 6px 0 var(--trait);
+  font-weight: 700;
+  font-size: clamp(1rem, 1.6vw, 1.35rem);
+  line-height: 1.15;
+  text-align: center;
+  transition: transform 0.3s var(--rebond), background 0.15s;
+  pointer-events: auto;
+}
+.pp-metier:hover { transform: scale(1.05) rotate(-1.5deg); background: var(--orange-clair); }
 .ombre-avatar {                       /* même ombre que sous la cartouche 3D */
   position: absolute;
   bottom: 0;
@@ -571,14 +651,104 @@ html, body, *, *::before, *::after {
   filter: blur(3px);
 }
 
-.pp-grille {
-  max-width: 980px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 300px 1fr;
+/* colonne de droite : nom + CV, XP, cadre Stats */
+.pp-droite {
+  width: min(680px, 100%);
+  margin: auto;                 /* centrée verticalement sans couper le haut si l'écran est petit */
+  display: flex;
+  flex-direction: column;
   gap: 26px;
-  align-items: start;
 }
+.pp-ligne-nom { display: flex; align-items: center; gap: 18px; }
+.pp-nom {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 22px;
+  background: var(--blanc);
+  border: 4px solid var(--trait);
+  border-radius: 34px;
+  box-shadow: 0 6px 0 var(--trait);
+  text-align: center;
+  font-weight: 700;
+  font-size: clamp(1.4rem, 2.6vw, 2.1rem);
+  line-height: 1.1;
+  transition: transform 0.3s var(--rebond), background 0.15s;
+}
+.pp-nom:hover { transform: scale(1.03) rotate(-1deg); background: var(--orange-clair); }
+.btn-cv {
+  flex: none;
+  width: 66px;
+  height: 66px;
+  display: grid;
+  place-items: center;
+  background: var(--orange);
+  border: 5px solid var(--trait);
+  border-radius: 50%;
+  box-shadow: 0 6px 0 var(--trait);
+  transition: transform 0.3s var(--rebond), box-shadow 0.1s, background 0.15s;
+}
+.btn-cv svg { width: 32px; height: 32px; filter: drop-shadow(0 2px 0 var(--trait)); }
+.btn-cv:hover { background: var(--orange-fonce); transform: scale(1.12) rotate(-6deg); }
+.btn-cv:active { box-shadow: 0 2px 0 var(--trait); }
+
+/* barre d'XP agrandie (même look que celle de l'accueil) */
+.xp.xp-grande { height: 46px; margin: 0; border-width: 5px; box-shadow: 0 6px 0 var(--trait); }
+.xp-grande .xp-niveau { left: 18px; font-size: 1.15rem; }
+
+/* cadre Stats */
+.carte-stats { padding: 18px 28px 26px; }
+.carte .stats-titre {
+  margin: 0 0 18px;
+  text-align: center;
+  font-size: 1.35rem;
+  letter-spacing: 0.1em;
+}
+.jauges { display: flex; flex-direction: column; gap: 16px; }
+.jauge {
+  --j: var(--orange);
+  display: grid;
+  grid-template-columns: minmax(84px, 118px) 1fr minmax(76px, 100px);
+  align-items: center;
+  gap: 14px;
+}
+.jauge-nom { font-weight: 700; font-size: 1rem; }
+.jauge-barre {
+  height: 26px;
+  background: var(--blanc);
+  border: 3px solid var(--trait);
+  border-radius: 999px;
+  box-shadow: 0 4px 0 var(--trait);
+  overflow: hidden;
+}
+.jauge-remplissage {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(rgba(255, 255, 255, 0.4) 0 45%, transparent 45%), var(--j);
+  box-shadow: 3px 0 0 var(--trait);      /* trait de fin, invisible quand la jauge est vide */
+  transition: width 0.9s ease;
+}
+.jauge-texte { text-align: right; font-weight: 700; font-size: 0.95rem; white-space: nowrap; }
+.brutes {
+  margin-top: 22px;
+  padding-top: 20px;
+  border-top: 3px dashed var(--orange-clair);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 18px;
+}
+.brute {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 6px 16px;
+  background: var(--creme);
+  border: 3px solid var(--trait);
+  border-radius: 999px;
+}
+.brute-txt { font-size: 0.95rem; }
+.brute-val { font-weight: 700; font-size: 1.15rem; color: var(--orange-fonce); }
+
 .carte {
   background: var(--blanc);
   border: 4px solid var(--trait);
@@ -594,31 +764,6 @@ html, body, *, *::before, *::after {
   margin-bottom: 8px;
 }
 .carte p { line-height: 1.35; }
-.carte-id { grid-row: span 3; text-align: center; padding-top: 30px; }
-.pp-photo { position: relative; width: 190px; height: 190px; margin: 0 auto 24px; }
-.pp-photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 5px solid var(--trait);
-  outline: 8px solid var(--orange-clair);
-  background: var(--gris-photo);
-  display: block;
-}
-.pp-nom { font-size: 1.5rem; line-height: 1.15; }
-.pp-niveau {
-  display: inline-block;
-  margin-top: 12px;
-  padding: 4px 18px;
-  background: var(--orange);
-  color: var(--blanc);
-  text-shadow: 0 2px 0 var(--trait);
-  font-weight: 700;
-  border: 3px solid var(--trait);
-  border-radius: 999px;
-  box-shadow: 0 4px 0 var(--trait);
-}
 .tags, .liens { display: flex; flex-wrap: wrap; gap: 10px; }
 .tag, .lien {
   padding: 5px 16px;
@@ -680,10 +825,30 @@ html, body, *, *::before, *::after {
 
 @media (max-width: 800px) {
   .page-profil { padding: 36px 20px 60px; }
-  .pp-avatar-zone { position: static; width: 100%; padding-top: 70px; }
+  .page-profil.ouverte { flex-direction: column; }
+  .pp-avatar-zone { position: static; width: 100%; padding: 70px 0 0; }
   .pp-avatar-wrap img { max-height: 45vh; }
-  .pp-grille { grid-template-columns: 1fr; margin-top: 30px; }
-  .carte-id { grid-row: auto; }
+  .pp-droite { margin: 34px auto 0; }
+  /* pas de survol possible de façon fiable : la bulle reste ouverte, au-dessus de l'avatar */
+  .bulle-dialogue {
+    position: relative;
+    right: auto;
+    top: auto;
+    width: min(300px, 100%);
+    margin: 0 auto 18px;
+    opacity: 1;
+    transform: none;
+  }
+  .bulle-dialogue::before, .bulle-dialogue::after { display: none; }
+}
+@media (max-width: 560px) {
+  .brutes { grid-template-columns: 1fr; }
+  .jauge { grid-template-columns: 1fr auto; gap: 6px 10px; }
+  .jauge-barre { grid-column: 1 / -1; grid-row: 2; }
+}
+/* écran tactile : pas de survol, la bulle reste visible */
+@media (hover: none) and (pointer: coarse) {
+  .bulle-dialogue { opacity: 1; transform: none; }
 }
 
 /* ---------- Page projet (cadre d'écran façon Wii) ---------- */
