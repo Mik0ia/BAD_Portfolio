@@ -79,7 +79,9 @@
         <h2 class="section-titre">- STATS -</h2>
         <div class="jauges" id="ppJauges"></div>
         <div class="brutes" id="ppBrutes"></div>
-        <hr class="section-sep">
+      </div>
+      <!-- cadre Skills : séparé du cadre Stats -->
+      <div class="panneau-profil panneau-skills">
         <h2 class="section-titre">- SKILLS -</h2>
         <div class="skills" id="ppSkills"></div>
       </div>
@@ -512,9 +514,9 @@
         t.textContent = st.texte;
         const v = document.createElement("span");
         v.className = "brute-val";
-        // auto: "projets" = nombre de jeux dans PROJETS ; auto: "logiciels" = logiciels de SKILLS au niveau Expert
+        // auto: "projets" = nombre de jeux dans PROJETS ; auto: "logiciels" = skills de SKILLS au niveau Expert
         const valeur = st.auto === "projets" ? PROJETS.length
-                     : st.auto === "logiciels" ? SKILLS_LISTE.filter(s => s.logiciel && cleNiveau(s.niveau) === "expert").length
+                     : st.auto === "logiciels" ? SKILLS_LISTE.filter(s => cleNiveau(s.niveau) === "expert").length
                      : st.valeur;
         v.textContent = Number.isFinite(Number(valeur)) ? fmt(valeur) : valeur;
         zoneBrutes.append(t, v);

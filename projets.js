@@ -34,8 +34,8 @@ const PROFIL = {
   // Les 4 statistiques brutes : un texte + un nombre (décimales acceptées), tout est modifiable
   statsBrutes: [
     { texte: "Projets",              auto: "projets" },   // compté automatiquement : nombre de jeux dans la liste PROJETS ci-dessous
-    { texte: "Langues",              valeur: 2 },
-    { texte: "Logiciels maîtrisé",  auto: "logiciels" },   // compté automatiquement : skills avec logiciel: true ET niveau "Expert" (liste SKILLS)
+    { texte: "Langues",              valeur: 2,5 },
+    { texte: "Logiciels maîtrisé",  auto: "logiciels" },   // compté automatiquement : nombre de skills au niveau "Expert" (liste SKILLS)
     { texte: "Engine",               valeur: 2 }
   ]
 };
@@ -82,16 +82,24 @@ const PROJETS = [
    description : texte affiché à côté du logo
    niveau      : "Amateur" (cadre bronze) | "Intermédiaire" (cadre argent) | "Expert" (cadre or)
                  -> le niveau s'affiche aussi dans une bulle au survol du skill
-   logiciel    : true si c'est un logiciel / moteur (compte dans "Logiciels maîtrisé" quand il est Expert)
+                 -> chaque skill au niveau "Expert" compte dans "Logiciels maîtrisé" (tous les skills sont des logiciels)
    ============================================================ */
 const SKILLS = [
   // ⚠ exemples : remplace-les par tes vrais skills et tes vrais logos
-  { image: "", nom: "Unreal Engine", niveau: "Expert", logiciel: true,
+  { image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SKILLS/UE_LOGO.png", nom: "Unreal Engine", niveau: "Expert",
     description: "Blueprints, prototypage de mécaniques et de niveaux, utilisé sur la plupart de mes projets." },
-  { image: "", nom: "Unity", niveau: "Intermédiaire", logiciel: true,
+  { image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SKILLS/Canva_LOGO.png", nom: "Canva", niveau: "Expert",
+    description: "Créations de Jeux de sociétés et Jeux de cartes ainsi que présentations travaillés." },
+  { image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SKILLS/Blender_LOGO.png", nom: "Blender", niveau: "Intermédiaire",
+    description: "Modélisation, Rig et Animation de modèle 3D variés spécialisé dans le style rétro." },
+  { image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SKILLS/Unity_LOGO.png", nom: "Unity", niveau: "Intermédiaire",
     description: "Prototypage rapide et développement en C# pour des projets de Game Jam." },
-  { image: "", nom: "Game Design", niveau: "Expert", logiciel: false,
-    description: "Conception de boucles de gameplay, de systèmes et de documents de game design." },
-  { image: "", nom: "Level Design", niveau: "Amateur", logiciel: false,
-    description: "Blocking, rythme et lisibilité de niveaux." }
+  { image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SKILLS/GitHub_LOGO.png", nom: "Github", niveau: "Intermédiaire",
+    description: "Indispensable de mes projets pour les stocker ainsi qu'héberger des ressources." },
+  { image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SKILLS/Figma_LOGO.png", nom: "Figma", niveau: "Intermédiaire",
+    description: "Prototypage de UI et créations d'assets 2D pour tout les types de projets. " },
+  { image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SKILLS/Claude_LOGO.png", nom: "Claude", niveau: "Intermédiaire",
+    description: "Outil pratique pour le vibe coding, prototype de jeu sur navigateurs et autres." },
+  { image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SKILLS/Pt_LOGO.png", nom: "Substance Painter 3d", niveau: "Amateur",
+    description: "Création de texture pour mes assets 3d, nécessite encore de l'apprentissage." },
 ];
