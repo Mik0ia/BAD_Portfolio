@@ -397,7 +397,13 @@ html, body, *, *::before, *::after {
   clip-path: polygon(0 0, 100% 0, 100% 100%, 16% 100%, 0 84%);
 }
 .cart-rot .forme { position: absolute; inset: 0; }
-.tranche { background: #cdc8bd; }
+.mur {                                /* paroi latérale : épaisseur = --ep */
+  position: absolute;
+  left: 0;
+  top: calc(var(--ep) / -2);
+  height: var(--ep);
+  transform-origin: 0 50%;
+}
 .face {
   background: var(--trait);            /* contour cartoon */
   backface-visibility: hidden;

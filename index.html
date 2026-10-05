@@ -228,22 +228,43 @@
     });
 
     /* ---------- Cartouche 3D (CSS 3D pur : aucune librairie, marche en file://) ---------- */
-    const NB_TRANCHES = 32;                   // plus = tranche plus lisse
     const vitrine = document.getElementById("vitrine");
     const cartImg = document.createElement("img");
     cartImg.alt = "";
     cartImg.onerror = () => { cartImg.src = PLACEHOLDER; };
 
+    /* contour de la cartouche (0..1) : coins arrondis + coin biseauté en bas à gauche, découpé en segments */
+    function contourCartouche() {
+      const r = 0.09, n = 4, pts = [];
+      const arc = (cx, cy, a0, a1) => {
+        for (let k = 0; k <= n; k++) {
+          const a = (a0 + (a1 - a0) * k / n) * Math.PI / 180;
+          pts.push([cx + r * Math.cos(a), cy + r * Math.sin(a)]);
+        }
+      };
+      arc(r, r, 180, 270);           // haut gauche
+      arc(1 - r, r, 270, 360);       // haut droite
+      arc(1 - r, 1 - r, 0, 90);      // bas droite
+      pts.push([0.16, 1], [0, 0.84]);  // biseau en bas à gauche
+      return pts.map((p, i) => [p[0], p[1], pts[(i + 1) % pts.length][0], pts[(i + 1) % pts.length][1]]);
+    }
+
     function construireCartouche3D() {
       const rot = document.getElementById("cartRot");
-      // tranche = empilement de silhouettes entre les deux faces
-      for (let i = 0; i < NB_TRANCHES; i++) {
-        const t = document.createElement("div");
-        t.className = "forme tranche";
-        const z = (i / (NB_TRANCHES - 1) - 0.5) * 0.96;
-        t.style.transform = "translateZ(calc(var(--ep) * " + z.toFixed(4) + "))";
-        rot.appendChild(t);
-      }
+      // tranche = vraies parois : un petit rectangle par segment du contour (léger, sans trous ni clignotement)
+      contourCartouche().forEach(([x0, y0, x1, y1], i, tous) => {
+        const dx = x1 - x0, dy = y1 - y0;
+        const longueur = Math.hypot(dx, dy);
+        const angle = Math.atan2(dy, dx);
+        const mur = document.createElement("div");
+        mur.className = "mur";
+        mur.style.width = "calc(var(--c) * " + (longueur + 0.002).toFixed(4) + ")";
+        mur.style.transform = "translate3d(calc(var(--c) * " + x0.toFixed(4) + "), calc(var(--c) * " + y0.toFixed(4) +
+          "), 0) rotateZ(" + angle.toFixed(4) + "rad) rotateX(90deg)";
+        const clair = 74 + 12 * Math.sin(angle);          // petit éclairage factice selon l'orientation
+        mur.style.background = "hsl(40 12% " + clair.toFixed(0) + "%)";
+        rot.appendChild(mur);
+      });
       const avant = document.createElement("div");
       avant.className = "forme face avant";
       const plaque = document.createElement("div");
