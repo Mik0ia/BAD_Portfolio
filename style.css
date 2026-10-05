@@ -408,6 +408,11 @@ html, body, *, *::before, *::after {
   background: var(--trait);            /* contour cartoon */
   backface-visibility: hidden;
 }
+/* le dos est vu de derrière : le biseau doit être du même côté que les parois, donc forme inversée (biseau en bas à droite) */
+.arriere.forme, .arriere .forme {
+  border-radius: 9% 9% 0 9%;
+  clip-path: polygon(0 0, 100% 0, 100% 84%, 84% 100%, 0 100%);
+}
 .face.avant   { transform: translateZ(calc(var(--ep) / 2)); }
 .face.arriere { transform: rotateY(180deg) translateZ(calc(var(--ep) / 2)); }
 .plaque {
@@ -438,8 +443,8 @@ html, body, *, *::before, *::after {
 }
 .dos-contacts {
   position: absolute;
-  left: 24%;
-  right: 12%;
+  left: 12%;
+  right: 24%;
   bottom: 8%;
   height: 12%;
   border-radius: 8%;
