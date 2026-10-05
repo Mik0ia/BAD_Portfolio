@@ -821,20 +821,43 @@ html, body, *, *::before, *::after {
 /* Skills : une ligne par skill, de haut en bas (la page défile si ça dépasse) */
 .skills { display: flex; flex-direction: column; gap: 16px; padding: 6px 4px 8px; }
 .skill {
-  --niv: #cd7f32;                                   /* bronze = Amateur */
+  --niv: #cd7f32;                                   /* couleur du cadre du logo */
+  --niv-bord: #8a5222;                              /* couleur du contour de la ligne */
+  --metal: linear-gradient(115deg, #a9692f 0%, #e8b27d 22%, #c98544 45%, #f6cfa3 62%, #c98544 80%, #a9692f 100%);   /* bronze = Amateur */
+  position: relative;
   display: grid;
   grid-template-columns: 72px 1fr;
   gap: 20px;
   align-items: center;
   padding: 12px 14px;
-  background: var(--creme);
-  border: 3px solid var(--orange-clair);
+  background: var(--metal);
+  background-size: 220% 100%;                       /* le dégradé est plus large que la ligne : au survol il glisse = reflet métallique */
+  background-position: 0% 0;
+  border: 3px solid var(--niv-bord);
   border-radius: 22px;
-  transition: transform 0.28s var(--rebond), background 0.15s;
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.55), inset 0 -3px 0 rgba(0, 0, 0, 0.15), 0 4px 0 var(--niv-bord);
+  transition: transform 0.28s var(--rebond), background-position 0.7s ease;
 }
-.skill.intermediaire { --niv: #c3ccd8; }            /* argent */
-.skill.expert        { --niv: #ffc21a; }            /* or */
-.skill:hover { transform: scale(1.03) rotate(-0.6deg); background: #ffeacc; }
+.skill.intermediaire {                              /* argent */
+  --niv: #c3ccd8;
+  --niv-bord: #6f7b8a;
+  --metal: linear-gradient(115deg, #9aa5b3 0%, #eef2f6 22%, #c4ccd6 45%, #ffffff 62%, #c4ccd6 80%, #9aa5b3 100%);
+}
+.skill.expert {                                     /* or */
+  --niv: #ffc21a;
+  --niv-bord: #a8740a;
+  --metal: linear-gradient(115deg, #d19a12 0%, #ffe27a 22%, #f0b928 45%, #fff2b0 62%, #f0b928 80%, #d19a12 100%);
+}
+.skill::before {                                    /* bande de reflet sur la moitié haute */
+  content: "";
+  position: absolute;
+  inset: 0 0 50% 0;
+  border-radius: 19px 19px 0 0;
+  background: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.05));
+  pointer-events: none;
+}
+.skill > * { position: relative; }
+.skill:hover { transform: scale(1.03) rotate(-0.6deg); background-position: 100% 0; }
 .skill-logo {                                       /* miniature carrée aux bords arrondis, cadre coloré selon le niveau */
   position: relative;
   width: 72px;
@@ -854,8 +877,8 @@ html, body, *, *::before, *::after {
   pointer-events: none;
 }
 .skill-logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.skill-nom { font-weight: 700; font-size: 1.05rem; line-height: 1.15; }
-.skill-desc { margin: 4px 0 0; font-size: 0.85rem; line-height: 1.3; font-weight: 600; opacity: 0.85; }
+.skill-nom { font-weight: 700; font-size: 1.05rem; line-height: 1.15; text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); }
+.skill-desc { margin: 4px 0 0; font-size: 0.85rem; line-height: 1.3; font-weight: 600; text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4); }
 
 /* 4 statistiques brutes : [texte][nombre] [texte][nombre] sur 2 lignes */
 .brutes {
