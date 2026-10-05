@@ -540,7 +540,8 @@ html, body, *, *::before, *::after {
 /* avatar (gif) à gauche de la page profil : bulle | avatar + ombre + cadre métier */
 .pp-avatar-zone {
   --bulle-w: clamp(160px, 17vw, 230px);       /* largeur de la bulle de dialogue */
-  --bulle-chevauche: 50px;                    /* de combien la bulle empiète sur l'avatar (plus grand = plus près du centre) */
+  --bulle-chevauche: 300px;                    /* PLUS GRAND = bulle plus à DROITE (ex. 120px) ; plus petit ou négatif = plus à gauche */
+  --bulle-y: -20%;                              /* HAUTEUR de la bulle : plus grand = plus BAS (ex. 20% ou 80px) ; plus petit ou négatif (ex. -40px) = plus HAUT */
   flex: 0 1 var(--col);
   min-width: 0;
   padding: 34px clamp(10px, 3vw, 40px) 0 0;
@@ -550,6 +551,9 @@ html, body, *, *::before, *::after {
   pointer-events: none;
 }
 .pp-perso {
+  --sol-remonte: -20px;   /* REMONTE l'ombre, la pastille et le cadre métier sous l'avatar (ex. 40px) ; négatif = les descend */
+  --perso-y: 0px;                             /* monte (valeur négative) ou descend (positive) tout le bloc avatar + ombre + cadre métier */
+  transform: translateY(var(--perso-y));
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -559,19 +563,24 @@ html, body, *, *::before, *::after {
   --ombre-l: 70%;       /* largeur de l'ombre (% de la largeur de l'avatar) */
   --ombre-h: 4%;        /* hauteur de l'ombre (% de la hauteur de l'avatar) */
   --ombre-y: 50%;       /* décalage vertical : 50% = centrée sur le bord bas de l'image, 100% = juste en dessous */
-  --echelle: 2;         /* taille du gif : x2, agrandi depuis le bas (l'ombre, la pastille et la bulle ne bougent pas) */
+  --gif-y: -350px;         /* MONTE (négatif, ex. -50px) ou DESCEND (positif, ex. 50px) le gif seul */
+  --avatar-h: 250px;    /* HAUTEUR du gif avant agrandissement (la hauteur affichée = --avatar-h x --echelle) */
+  --echelle: 3;         /* agrandissement du gif : x2, depuis le HAUT (l'ombre, la pastille et la bulle ne bougent pas) */
   position: relative;
   max-width: 100%;
+  margin-bottom: calc(-1 * var(--sol-remonte));   /* remonte le cadre métier */
   pointer-events: auto;   /* le survol de l'avatar ouvre la bulle */
 }
 .pp-avatar-wrap img {
   position: relative;
   display: block;
   max-width: 100%;
-  max-height: max(180px, calc(100vh - 270px));   /* avatar + cadre métier toujours en entier à l'écran */
+  height: var(--avatar-h);
+  width: auto;
   object-fit: contain;
   transform: scale(var(--echelle));
-  transform-origin: 50% 100%;                     /* agrandi vers le haut et les côtés, les pieds restent sur l'ombre */
+  translate: 0 var(--gif-y);                      /* déplace UNIQUEMENT le gif (ombre, pastille, cadre et bulle ne bougent pas) */
+  transform-origin: 50% 0;                        /* agrandi depuis le HAUT : le haut du gif reste fixe, il grandit vers le bas et les côtés */
   cursor: pointer;
   user-select: none;
   -webkit-user-drag: none;
@@ -594,7 +603,7 @@ html, body, *, *::before, *::after {
   position: absolute;
   /* ancrée sur le bord gauche de l'avatar agrandi, puis ramenée vers lui */
   right: calc(100% + (var(--echelle) - 1) * 50% - var(--bulle-chevauche));
-  top: 6%;
+  top: var(--bulle-y, 6%);
   width: var(--bulle-w);
   padding: 12px 16px;
   background: var(--blanc);
@@ -638,13 +647,15 @@ html, body, *, *::before, *::after {
 .pp-avatar-wrap .pastille-profil {
   right: auto;
   left: calc(50% + var(--ombre-l) / 2);
-  bottom: 0;
+  bottom: var(--sol-remonte);
   margin: 0 0 -19px -19px;
   z-index: 4;
 }
 
 /* cadre métier sous l'ombre */
 .pp-metier {
+  position: relative;
+  z-index: 2;           /* reste cliquable / visible au-dessus du gif agrandi */
   margin-top: 40px;
   padding: 8px 26px;
   background: var(--blanc);
@@ -668,7 +679,7 @@ html, body, *, *::before, *::after {
   left: 50%;
   width: var(--ombre-l);
   height: var(--ombre-h);
-  transform: translate(-50%, var(--ombre-y));
+  transform: translate(-50%, calc(var(--ombre-y) - var(--sol-remonte)));
   border-radius: 50%;
   background: rgba(107, 46, 0, 0.22);
   filter: blur(3px);
@@ -911,7 +922,7 @@ html, body, *, *::before, *::after {
   .page-profil.ouverte { flex-direction: column; }
   .pp-avatar-zone { flex: none; width: 100%; padding: 70px 0 0; justify-content: center; }
   .pp-avatar-wrap { --echelle: 1.5; }
-  .pp-avatar-wrap img { max-height: 45vh; }
+  .pp-avatar-wrap { --avatar-h: 240px; }
   .pp-droite { width: 100%; margin: 34px auto 0; align-self: auto; }
   .panneau-profil { flex: none; }
   /* pas de survol possible de façon fiable : la bulle reste ouverte, au-dessus de l'avatar */
