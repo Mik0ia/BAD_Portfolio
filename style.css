@@ -353,7 +353,8 @@ html, body, *, *::before, *::after {
 .scene {
   position: relative;
   width: var(--c);
-  height: calc(var(--c) * 1.1);
+  height: calc(var(--c) * 1.14);
+  padding-bottom: calc(var(--c) * 0.14);   /* remonte la cartouche (plus = plus haut, plus loin de l'ombre) */
   perspective: calc(var(--c) * 4);
   display: grid;
   place-items: center;
@@ -362,12 +363,12 @@ html, body, *, *::before, *::after {
   position: absolute;
   bottom: 0;
   left: 50%;
-  width: 70%;
-  height: 7%;
+  width: 105%;                              /* taille de l'ombre (% de la cartouche) */
+  height: 10%;
   transform: translateX(-50%);
   border-radius: 50%;
-  background: rgba(107, 46, 0, 0.22);
-  filter: blur(3px);
+  background: rgba(107, 46, 0, 0.26);
+  filter: blur(4px);
 }
 .cart3d, .flotte, .cart-rot {
   width: var(--c);
