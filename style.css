@@ -495,7 +495,11 @@ html, body, *, *::before, *::after {
   display: none;
   overflow-y: auto;
   scrollbar-width: none;
-  padding: 36px 40px 40px calc(min(44vw, 640px) + 10px);
+  --w-panneau: clamp(320px, 30vw, 460px);   /* largeur du panneau blanc */
+  --w-cv: 80px;                             /* place du bouton CV à droite du nom */
+  --col: calc(var(--w-panneau) + var(--w-cv));   /* les 2 colonnes (avatar | stats) ont la même largeur */
+  padding: 36px 40px 40px;
+  justify-content: center;                  /* le centre de l'écran = la frontière entre les 2 colonnes */
   background:
     radial-gradient(var(--orange-clair) 18%, transparent 20%) 0 0 / 22px 22px,
     var(--creme);
@@ -535,17 +539,14 @@ html, body, *, *::before, *::after {
 
 /* avatar (gif) à gauche de la page profil : bulle | avatar + ombre + cadre métier */
 .pp-avatar-zone {
-  --bulle-w: clamp(170px, 20vw, 240px);       /* largeur de la bulle de dialogue */
-  --bulle-l: calc(var(--bulle-w) + 34px);     /* place réservée à gauche de l'avatar pour la bulle */
-  position: fixed;
-  left: 0;
-  top: 70px;
-  bottom: 30px;
-  width: min(44vw, 640px);
-  padding-left: var(--bulle-l);
+  --bulle-w: clamp(160px, 17vw, 230px);       /* largeur de la bulle de dialogue */
+  --bulle-chevauche: 50px;                    /* de combien la bulle empiète sur l'avatar (plus grand = plus près du centre) */
+  flex: 0 1 var(--col);
+  min-width: 0;
+  padding: 34px clamp(10px, 3vw, 40px) 0 0;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;                  /* l'avatar se colle vers le centre de l'écran */
   pointer-events: none;
 }
 .pp-perso {
@@ -558,6 +559,7 @@ html, body, *, *::before, *::after {
   --ombre-l: 70%;       /* largeur de l'ombre (% de la largeur de l'avatar) */
   --ombre-h: 4%;        /* hauteur de l'ombre (% de la hauteur de l'avatar) */
   --ombre-y: 50%;       /* décalage vertical : 50% = centrée sur le bord bas de l'image, 100% = juste en dessous */
+  --echelle: 2;         /* taille du gif : x2, agrandi depuis le bas (l'ombre, la pastille et la bulle ne bougent pas) */
   position: relative;
   max-width: 100%;
   pointer-events: auto;   /* le survol de l'avatar ouvre la bulle */
@@ -568,12 +570,30 @@ html, body, *, *::before, *::after {
   max-width: 100%;
   max-height: max(180px, calc(100vh - 270px));   /* avatar + cadre métier toujours en entier à l'écran */
   object-fit: contain;
+  transform: scale(var(--echelle));
+  transform-origin: 50% 100%;                     /* agrandi vers le haut et les côtés, les pieds restent sur l'ombre */
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-drag: none;
 }
+/* clic : squash & stretch qui s'amortit (rebond d'impact) */
+.pp-avatar-wrap img.touche { animation: avatar-touche var(--duree-coup, 1.2s) ease-out both; }
+@keyframes avatar-touche {
+  0%   { transform: scale(var(--echelle)); }
+  10%  { transform: translateX(-22px) scale(calc(var(--echelle) * 1.18), calc(var(--echelle) * 0.80)); }
+  26%  { transform: translateX(14px)  scale(calc(var(--echelle) * 0.90), calc(var(--echelle) * 1.14)); }
+  42%  { transform: translateX(-9px)  scale(calc(var(--echelle) * 1.08), calc(var(--echelle) * 0.93)); }
+  58%  { transform: translateX(5px)   scale(calc(var(--echelle) * 0.96), calc(var(--echelle) * 1.05)); }
+  74%  { transform: translateX(-2px)  scale(calc(var(--echelle) * 1.02), calc(var(--echelle) * 0.99)); }
+  100% { transform: scale(var(--echelle)); }
+}
+@media (prefers-reduced-motion: reduce) { .pp-avatar-wrap img.touche { animation: none; } }
 
 /* bulle de dialogue à gauche de l'avatar : fermée par défaut, s'ouvre au survol */
 .bulle-dialogue {
   position: absolute;
-  right: calc(100% + 26px);
+  /* ancrée sur le bord gauche de l'avatar agrandi, puis ramenée vers lui */
+  right: calc(100% + (var(--echelle) - 1) * 50% - var(--bulle-chevauche));
   top: 6%;
   width: var(--bulle-w);
   padding: 12px 16px;
@@ -656,11 +676,10 @@ html, body, *, *::before, *::after {
 
 /* colonne de droite : nom + CV, XP, grand panneau blanc Stats / Skills */
 .pp-droite {
-  --w-panneau: clamp(320px, 30vw, 460px);   /* largeur du panneau blanc */
-  --w-cv: 80px;                             /* place du bouton CV à droite (66px + espace) */
-  width: calc(var(--w-panneau) + var(--w-cv));
+  flex: 0 1 var(--col);
+  min-width: 0;
+  width: var(--col);
   max-width: 100%;
-  margin-right: auto;                       /* collée à l'avatar */
   align-self: stretch;                      /* le panneau descend jusqu'en bas de l'écran */
   min-height: min-content;
   display: flex;
@@ -890,7 +909,8 @@ html, body, *, *::before, *::after {
 @media (max-width: 800px) {
   .page-profil { padding: 36px 20px 60px; }
   .page-profil.ouverte { flex-direction: column; }
-  .pp-avatar-zone { position: static; width: 100%; padding: 70px 0 0; }
+  .pp-avatar-zone { flex: none; width: 100%; padding: 70px 0 0; justify-content: center; }
+  .pp-avatar-wrap { --echelle: 1.5; }
   .pp-avatar-wrap img { max-height: 45vh; }
   .pp-droite { width: 100%; margin: 34px auto 0; align-self: auto; }
   .panneau-profil { flex: none; }

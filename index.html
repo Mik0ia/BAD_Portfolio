@@ -380,6 +380,9 @@
     const fmt = (n, d = 2) => Number(n).toLocaleString("en-US", { maximumFractionDigits: d });
     const lireDate = s => { const [a, m, j] = String(s).split("-").map(Number); return new Date(a, (m || 1) - 1, j || 1); };
 
+    // couleur d'une jauge selon sa progression : 0 = rouge, 0.5 = jaune, 1 = vert
+    const couleurJauge = r => "hsl(" + Math.round(borne(r) * 120) + " 85% 46%)";
+
     function calculerJauges() {
       const S = PROFIL.stats || {};
       const jauges = [];
@@ -397,17 +400,17 @@
         const total = Number(S.diplome.anneesTotal) || 0;
         const faites = Math.min(Number(S.diplome.anneesFaites) || 0, total);
         jauges.push({ nom: S.diplome.label || "Diplôme", ratio: total ? faites / total : 0,
-                      texte: fmt(faites) + " / " + fmt(total) + " ans", couleur: "var(--orange)" });
+                      texte: fmt(faites) + " / " + fmt(total) + " ans" });
       }
       if (S.pro) {
         const palier = Number(S.pro.prochainPalier) || 0;
         const valeur = (Number(S.pro.anneesPro) || 0) + jTotal / 365.25;   // années de pro + stage converti en années
         jauges.push({ nom: S.pro.label || "Pro (junior)", ratio: palier ? valeur / palier : 0,
-                      texte: fmt(valeur) + " / " + fmt(palier) + " ans", couleur: "var(--st-fini)" });
+                      texte: fmt(valeur) + " / " + fmt(palier) + " ans" });
       }
       if (S.stage) {
         jauges.push({ nom: S.stage.label || "Stage", ratio: jTotal ? jFaits / jTotal : 0,
-                      texte: fmt(jFaits / MOIS, 1) + " / " + fmt(jTotal / MOIS, 1) + " mois", couleur: "#4aa8ff" });
+                      texte: fmt(jFaits / MOIS, 1) + " / " + fmt(jTotal / MOIS, 1) + " mois" });
       }
       return jauges;
     }
@@ -438,7 +441,7 @@
       calculerJauges().forEach(j => {
         const ligne = document.createElement("div");
         ligne.className = "jauge";
-        ligne.style.setProperty("--j", j.couleur);
+        ligne.style.setProperty("--j", couleurJauge(j.ratio));
         const nom = document.createElement("span");
         nom.className = "jauge-nom";
         const m = String(j.nom).match(/^(.*?)\s*(\(.*\))\s*$/);   // "Pro (junior)" -> "Pro" + petit "(junior)"
@@ -476,6 +479,26 @@
         zoneBrutes.append(t, v);
       });
     }
+
+    /* ---------- Clic sur l'avatar : gif "hit" + rebond, puis retour à l'avatar normal ---------- */
+    const avatarImg = document.getElementById("ppAvatar");
+    const AVATAR_HIT = PROFIL.avatarHit || "";
+    const DUREE_COUP = PROFIL.dureeCoup || 1200;
+    if (AVATAR_HIT) new Image().src = AVATAR_HIT;       // préchargé pour éviter un temps d'attente au clic
+    let enCoup = false;
+    avatarImg.draggable = false;
+    avatarImg.addEventListener("click", () => {
+      if (enCoup || !AVATAR_HIT) return;                // on ignore les clics pendant l'animation
+      enCoup = true;
+      avatarImg.parentElement.style.setProperty("--duree-coup", DUREE_COUP + "ms");
+      avatarImg.src = AVATAR_HIT;
+      avatarImg.classList.remove("touche"); void avatarImg.offsetWidth; avatarImg.classList.add("touche");
+      setTimeout(() => {
+        avatarImg.classList.remove("touche");
+        avatarImg.src = PROFIL.avatar || PLACEHOLDER;
+        enCoup = false;
+      }, DUREE_COUP);
+    });
 
     /* les barres (XP + jauges) repartent de 0 et se remplissent quand la page apparaît */
     let delaiBarres;

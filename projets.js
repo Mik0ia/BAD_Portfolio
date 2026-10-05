@@ -9,6 +9,8 @@ const PROFIL = {
   photo: "ASSETS/Profile_Picture.jpeg",
   disponibilite: "Libre",   // "Libre" (vert) | "Temps Partiel" (orange) | "Indisponible" (rouge)
   avatar: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/AVATAR_GIF.gif?raw=true",   // gif affiché à gauche de la page profil
+  avatarHit: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/AVATAR_hit_GIF.gif?raw=true",   // gif affiché quand on clique sur l'avatar
+  dureeCoup: 1200,   // durée (en ms) pendant laquelle le gif "hit" reste affiché avant de revenir à l'avatar normal
   metier: "Game / Technical designer",   // cadre sous l'avatar (page profil)
   bulle: "Bienvenue sur mon portfolio de game designer. Découvrez mes expériences, compétences et projets qui illustrent ma passion pour le design de jeux vidéo.",   // bulle de dialogue au survol de l'avatar
   cv: "ASSETS/cv-benjamin-akehal--daponte.pdf",   // fichier téléchargé par le bouton à droite du nom
