@@ -11,7 +11,8 @@
   --st-pause: #9a9a9a;
   --st-occupe: #e63946;
   --rebond: cubic-bezier(.34, 1.8, .5, 1);
-  --h-panneau: max(340px, min(54vh, 390px));   /* hauteur du panneau du bas */
+  --cart: clamp(92px, 15vh, 124px);                /* TAILLE d'une cartouche (92px = ancienne taille) ; se réduit sur les écrans peu hauts */
+  --h-panneau: calc(var(--cart) * 2 + 190px);      /* hauteur du panneau du bas : suit la taille des cartouches (2 rangées + onglets + marges) */
   --police: "Fredoka", "Trebuchet MS", "Arial Rounded MT Bold", sans-serif;
 }
 
@@ -206,8 +207,8 @@ html, body, *, *::before, *::after {
 .grille {
   display: grid;
   grid-auto-flow: column;
-  grid-template-rows: repeat(2, 92px);
-  grid-auto-columns: 92px;
+  grid-template-rows: repeat(2, var(--cart));
+  grid-auto-columns: var(--cart);
   gap: 22px 28px;
   padding: 20px 20px 22px 12px;
   overflow-x: auto;
@@ -218,8 +219,8 @@ html, body, *, *::before, *::after {
 
 .cartouche {
   position: relative;
-  width: 92px;
-  height: 92px;
+  width: var(--cart);
+  height: var(--cart);
   background: var(--blanc);
   border: 4px solid var(--trait);
   border-radius: 24px;

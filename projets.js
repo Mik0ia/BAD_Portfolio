@@ -53,7 +53,7 @@ const PROJETS = [
   { type: "Jeu Vidéo", statut: "Terminé",  image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/Mask_Operator_LOGO.png?raw=true",nom: "M.A.S.K Operator", 
     description: "Un FPS multijoueur asymétrique ou les joueur doivent réparé un générateur diriger par l'Opérateur qui peut activer les différents modes de vue de leurs masques." },
   { type: "Jeu Vidéo", statut: "En cours", image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/Hearts_of_Auraliz_LOGO.png?raw=true", nom: "Hearts of Auraliz",
-    description: "Un JRPG inspiré des années 2000, ou on incarne Onde qui doit apprendre à accepter sa partie refoulé pour retrouver son frère. Hearts of Auraliz emmène le joueur dans une aventure onirique et poétique ou le joueur incarne un personnage qui vas apprendre à s'aimer et s'accepter." },
+    description: "Un JRPG inspiré des années 2000, ou on incarne Onde qui doit apprendre à accepter sa partie refoulé pour retrouver son frère." },
   { type: "Jeu Vidéo", statut: "Terminé",  image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/Bienvenue_dans_la_boite_LOGO.png?raw=true", nom: "Bienvenue dans la boite",
     description: "Une expérience de jeux d'horreur psychologique sous pression réalisé pour la Jam Academy 2026 en 48h avec une équipe d'étudiants." },
   { type: "Jeu Vidéo", statut: "Terminé", image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/Project_Humanize_LOGO.png?raw=true", nom: "Project : HUMANIZE",
@@ -69,7 +69,7 @@ const PROJETS = [
     description: "Un jeu de carte à collectionner simple et stratégique ou chaque joueur incarne un chef d'armée qui doit triomphé des autres pour être le dernier sur le champs de bataille." },
 
   { type: "Jeu Mobile", statut: "En pause", image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/Untouchable_Meal_LOGO.png?raw=true", nom: "Untouchable Meal",
-    description: "Un jeu d'ambiance RP multijoueur inspiré de l'Undercover et du Loup Garou ou les joueurs doivent aider Al Capone à récupérer la marchandise sans se faire démasquer par le policier et les autres pertubateurs." }
+    description: "Un jeu d'ambiance RP multijoueur inspiré de l'Undercover et du Loup Garou ou les joueurs doivent aider Al Capone à récupérer la marchandise sans se faire démasquer par leurs ennemis" }
 ];
 
 /* ============================================================
