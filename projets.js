@@ -35,7 +35,7 @@ const PROFIL = {
   statsBrutes: [
     { texte: "Projets",              auto: "projets" },   // compté automatiquement : nombre de jeux dans la liste PROJETS ci-dessous
     { texte: "Langues",              valeur: 2 },
-    { texte: "Logiciels maîtrisé",  valeur: 5 },
+    { texte: "Logiciels maîtrisé",  auto: "logiciels" },   // compté automatiquement : skills avec logiciel: true ET niveau "Expert" (liste SKILLS)
     { texte: "Engine",               valeur: 2 }
   ]
 };
@@ -70,4 +70,28 @@ const PROJETS = [
 
   { type: "Jeu Mobile", statut: "En pause", image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/Untouchable_Meal_LOGO.png?raw=true", nom: "Untouchable Meal",
     description: "Un jeu d'ambiance RP multijoueur inspiré de l'Undercover et du Loup Garou ou les joueurs doivent aider Al Capone à récupérer la marchandise sans se faire démasquer par le policier et les autres pertubateurs." }
+];
+
+/* ============================================================
+   SKILLS (cadre "SKILLS" de la page profil)
+   Ils s'affichent les uns sous les autres, dans l'ordre de cette liste.
+   Si ça dépasse du cadre, la page défile.
+
+   image       : lien d'un jpg/png carré (vide = placeholder)
+   nom         : nom du skill
+   description : texte affiché à côté du logo
+   niveau      : "Amateur" (cadre bronze) | "Intermédiaire" (cadre argent) | "Expert" (cadre or)
+                 -> le niveau s'affiche aussi dans une bulle au survol du skill
+   logiciel    : true si c'est un logiciel / moteur (compte dans "Logiciels maîtrisé" quand il est Expert)
+   ============================================================ */
+const SKILLS = [
+  // ⚠ exemples : remplace-les par tes vrais skills et tes vrais logos
+  { image: "", nom: "Unreal Engine", niveau: "Expert", logiciel: true,
+    description: "Blueprints, prototypage de mécaniques et de niveaux, utilisé sur la plupart de mes projets." },
+  { image: "", nom: "Unity", niveau: "Intermédiaire", logiciel: true,
+    description: "Prototypage rapide et développement en C# pour des projets de Game Jam." },
+  { image: "", nom: "Game Design", niveau: "Expert", logiciel: false,
+    description: "Conception de boucles de gameplay, de systèmes et de documents de game design." },
+  { image: "", nom: "Level Design", niveau: "Amateur", logiciel: false,
+    description: "Blocking, rythme et lisibilité de niveaux." }
 ];

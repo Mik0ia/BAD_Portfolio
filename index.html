@@ -81,7 +81,7 @@
         <div class="brutes" id="ppBrutes"></div>
         <hr class="section-sep">
         <h2 class="section-titre">- SKILLS -</h2>
-        <!-- contenu du cadre Skills : à venir -->
+        <div class="skills" id="ppSkills"></div>
       </div>
     </div>
   </section>
@@ -415,7 +415,44 @@
       return jauges;
     }
 
+    /* ---------- Skills ---------- */
+    const SKILLS_LISTE = (typeof SKILLS !== "undefined" && Array.isArray(SKILLS)) ? SKILLS : [];
+    const cleNiveau = n => String(n || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();   // "Intermédiaire" -> "intermediaire"
+    const NIVEAUX = { amateur: "Amateur", intermediaire: "Intermédiaire", expert: "Expert" };
+
+    function remplirSkills() {
+      const zone = document.getElementById("ppSkills");
+      zone.innerHTML = "";
+      SKILLS_LISTE.forEach(s => {
+        const cle = NIVEAUX[cleNiveau(s.niveau)] ? cleNiveau(s.niveau) : "amateur";
+        const ligne = document.createElement("div");
+        ligne.className = "skill " + cle;                       // la classe donne la couleur du cadre (bronze / argent / or)
+        ligne.dataset.tip = "Niveau : " + NIVEAUX[cle];         // bulle au survol
+
+        const logo = document.createElement("div");
+        logo.className = "skill-logo";
+        const img = document.createElement("img");
+        img.src = s.image || PLACEHOLDER;
+        img.alt = s.nom;
+        img.onerror = () => { img.src = PLACEHOLDER; };
+        logo.appendChild(img);
+
+        const texte = document.createElement("div");
+        const nom = document.createElement("div");
+        nom.className = "skill-nom";
+        nom.textContent = s.nom;
+        const desc = document.createElement("p");
+        desc.className = "skill-desc";
+        desc.textContent = s.description || "";
+        texte.append(nom, desc);
+
+        ligne.append(logo, texte);
+        zone.appendChild(ligne);
+      });
+    }
+
     function remplirPageProfil() {
+      remplirSkills();
       const avatar = document.getElementById("ppAvatar");
       avatar.src = PROFIL.avatar || PLACEHOLDER;
       avatar.onerror = () => { avatar.src = PLACEHOLDER; };
@@ -475,7 +512,10 @@
         t.textContent = st.texte;
         const v = document.createElement("span");
         v.className = "brute-val";
-        const valeur = st.auto === "projets" ? PROJETS.length : st.valeur;   // "Projets" = nombre de jeux enregistrés dans PROJETS
+        // auto: "projets" = nombre de jeux dans PROJETS ; auto: "logiciels" = logiciels de SKILLS au niveau Expert
+        const valeur = st.auto === "projets" ? PROJETS.length
+                     : st.auto === "logiciels" ? SKILLS_LISTE.filter(s => s.logiciel && cleNiveau(s.niveau) === "expert").length
+                     : st.valeur;
         v.textContent = Number.isFinite(Number(valeur)) ? fmt(valeur) : valeur;
         zoneBrutes.append(t, v);
       });

@@ -544,6 +544,10 @@ html, body, *, *::before, *::after {
   --bulle-y: -20%;                              /* HAUTEUR de la bulle : plus grand = plus BAS (ex. 20% ou 80px) ; plus petit ou négatif (ex. -40px) = plus HAUT */
   flex: 0 1 var(--col);
   min-width: 0;
+  position: sticky;                           /* reste visible quand la page défile (liste de skills longue) */
+  top: 36px;
+  align-self: flex-start;
+  height: calc(100vh - 76px);
   padding: 34px clamp(10px, 3vw, 40px) 0 0;
   display: flex;
   align-items: center;
@@ -814,6 +818,45 @@ html, body, *, *::before, *::after {
   white-space: nowrap;
 }
 
+/* Skills : une ligne par skill, de haut en bas (la page défile si ça dépasse) */
+.skills { display: flex; flex-direction: column; gap: 16px; padding: 6px 4px 8px; }
+.skill {
+  --niv: #cd7f32;                                   /* bronze = Amateur */
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 20px;
+  align-items: center;
+  padding: 12px 14px;
+  background: var(--creme);
+  border: 3px solid var(--orange-clair);
+  border-radius: 22px;
+  transition: transform 0.28s var(--rebond), background 0.15s;
+}
+.skill.intermediaire { --niv: #c3ccd8; }            /* argent */
+.skill.expert        { --niv: #ffc21a; }            /* or */
+.skill:hover { transform: scale(1.03) rotate(-0.6deg); background: #ffeacc; }
+.skill-logo {                                       /* miniature carrée aux bords arrondis, cadre coloré selon le niveau */
+  position: relative;
+  width: 72px;
+  height: 72px;
+  margin: 3px;
+  border: 6px solid var(--niv);
+  border-radius: 20px;
+  box-shadow: 0 0 0 3px var(--trait), 0 6px 0 3px var(--trait);
+  overflow: hidden;
+  background: var(--gris-photo);
+}
+.skill-logo::after {                                /* reflet brillant, comme les cartouches */
+  content: "";
+  position: absolute;
+  inset: 0 0 50% 0;
+  background: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.1));
+  pointer-events: none;
+}
+.skill-logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.skill-nom { font-weight: 700; font-size: 1.05rem; line-height: 1.15; }
+.skill-desc { margin: 4px 0 0; font-size: 0.85rem; line-height: 1.3; font-weight: 600; opacity: 0.85; }
+
 /* 4 statistiques brutes : [texte][nombre] [texte][nombre] sur 2 lignes */
 .brutes {
   margin-top: 18px;
@@ -920,7 +963,7 @@ html, body, *, *::before, *::after {
 @media (max-width: 800px) {
   .page-profil { padding: 36px 20px 60px; }
   .page-profil.ouverte { flex-direction: column; }
-  .pp-avatar-zone { flex: none; width: 100%; padding: 70px 0 0; justify-content: center; }
+  .pp-avatar-zone { position: static; align-self: auto; height: auto; flex: none; width: 100%; padding: 70px 0 0; justify-content: center; }
   .pp-avatar-wrap { --echelle: 1.5; }
   .pp-avatar-wrap { --avatar-h: 240px; }
   .pp-droite { width: 100%; margin: 34px auto 0; align-self: auto; }
