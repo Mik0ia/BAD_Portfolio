@@ -8,6 +8,7 @@ const PROFIL = {
   nom: "Benjamin - Akehal daponte",
   photo: "ASSETS/Profile_Picture.jpeg",
   disponibilite: "Libre",   // "Libre" (vert) | "Temps Partiel" (orange) | "Indisponible" (rouge)
+  avatar: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/AVATAR_GIF.gif?raw=true",   // gif affiché à gauche de la page profil
   bio: "Écris ici ta présentation : qui tu es, ce que tu fais, ce que tu cherches.",
   competences: ["Game Design", "Level Design", "Unreal Engine", "Game Jams"],   // à remplacer par les tiennes
   liens: [ { nom: "GitHub", url: "https://github.com/Mik0ia" } ],               // ajoute autant de liens que tu veux

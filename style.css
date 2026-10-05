@@ -483,7 +483,7 @@ html, body, *, *::before, *::after {
   display: none;
   overflow-y: auto;
   scrollbar-width: none;
-  padding: 36px 40px 60px;
+  padding: 36px 40px 60px calc(min(34vw, 400px) + 30px);
   background:
     radial-gradient(var(--orange-clair) 18%, transparent 20%) 0 0 / 22px 22px,
     var(--creme);
@@ -521,6 +521,44 @@ html, body, *, *::before, *::after {
 .btn-fermer:hover { background: var(--orange-fonce); transform: scale(1.12) rotate(90deg); }
 .btn-fermer:active { box-shadow: 0 2px 0 var(--trait); }
 
+/* avatar (gif) à gauche de la page profil */
+.pp-avatar-zone {
+  position: fixed;
+  left: 0;
+  top: 70px;
+  bottom: 30px;
+  width: min(34vw, 400px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+.pp-avatar-wrap {
+  --ombre-l: 70%;       /* largeur de l'ombre (% de la largeur de l'avatar) */
+  --ombre-h: 4%;        /* hauteur de l'ombre (% de la hauteur de l'avatar) */
+  --ombre-y: 50%;       /* décalage vertical : 50% = centrée sur le bord bas de l'image, 100% = juste en dessous */
+  position: relative;
+  max-width: 100%;
+}
+.pp-avatar-wrap img {
+  position: relative;
+  display: block;
+  max-width: 100%;
+  max-height: calc(100vh - 150px);   /* avatar toujours en entier à l'écran */
+  object-fit: contain;
+}
+.ombre-avatar {                       /* même ombre que sous la cartouche 3D */
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: var(--ombre-l);
+  height: var(--ombre-h);
+  transform: translate(-50%, var(--ombre-y));
+  border-radius: 50%;
+  background: rgba(107, 46, 0, 0.22);
+  filter: blur(3px);
+}
+
 .pp-grille {
   max-width: 980px;
   margin: 0 auto;
@@ -528,7 +566,6 @@ html, body, *, *::before, *::after {
   grid-template-columns: 300px 1fr;
   gap: 26px;
   align-items: start;
-  padding-left: 70px;
 }
 .carte {
   background: var(--blanc);
@@ -630,7 +667,10 @@ html, body, *, *::before, *::after {
 }
 
 @media (max-width: 800px) {
-  .pp-grille { grid-template-columns: 1fr; padding-left: 0; padding-top: 70px; }
+  .page-profil { padding: 36px 20px 60px; }
+  .pp-avatar-zone { position: static; width: 100%; padding-top: 70px; }
+  .pp-avatar-wrap img { max-height: 45vh; }
+  .pp-grille { grid-template-columns: 1fr; margin-top: 30px; }
   .carte-id { grid-row: auto; }
 }
 

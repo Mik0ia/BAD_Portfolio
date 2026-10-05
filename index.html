@@ -48,6 +48,12 @@
   <!-- Page profil -->
   <section class="page-profil" id="pageProfil" aria-hidden="true">
     <button class="btn-fermer" id="btnFermer" type="button" aria-label="Retour à l'accueil"></button>
+    <div class="pp-avatar-zone">
+      <div class="pp-avatar-wrap">
+        <div class="ombre-avatar"></div>
+        <img id="ppAvatar" alt="Avatar">
+      </div>
+    </div>
     <div class="pp-grille">
       <div class="carte carte-id">
         <div class="pp-photo"><img id="ppPhoto" alt="Photo de profil"><span class="pastille-profil" id="ppStatut"></span></div>
@@ -331,6 +337,7 @@
       const img = document.getElementById("ppPhoto");
       img.src = PROFIL.photo || PLACEHOLDER;
       img.onerror = () => { img.src = PLACEHOLDER; };
+      document.getElementById("ppAvatar").src = PROFIL.avatar || PLACEHOLDER;
       document.getElementById("ppNom").textContent = PROFIL.nom;
       document.getElementById("ppNiveau").textContent = "niv." + calculerAge().age;
       const s = document.getElementById("ppStatut");
@@ -352,7 +359,7 @@
       cacherVitrine();
       if (versProfil) {
         pageProfil.scrollTop = 0;
-        pageProfil.querySelectorAll(".carte, .btn-fermer").forEach((el, i) => {
+        pageProfil.querySelectorAll(".carte, .btn-fermer, .pp-avatar-wrap").forEach((el, i) => {
           el.style.setProperty("--i", i + 6);        // les cartes arrivent juste après les bandes
           el.classList.remove("entree"); void el.offsetWidth; el.classList.add("entree");
         });
