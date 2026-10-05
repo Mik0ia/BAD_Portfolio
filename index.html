@@ -65,7 +65,7 @@
     <div class="pp-droite">
       <div class="pp-ligne-nom">
         <h1 class="pp-nom" id="ppNom"></h1>
-        <a class="btn-cv" id="ppCv" href="#" download data-tip="Télécharger le CV" aria-label="Télécharger le CV">
+        <a class="btn-cv" id="ppCv" href="#" target="_blank" rel="noopener" download data-tip="Télécharger le CV" aria-label="Télécharger le CV">
           <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M12 3v12"/><path d="M6.5 10.5 12 16l5.5-5.5"/><path d="M4 20h16"/>
           </svg>
@@ -75,10 +75,13 @@
         <div class="xp-remplissage" id="ppXpBarre"></div>
         <span class="xp-niveau" id="ppXpNiveau"></span>
       </div>
-      <div class="carte carte-stats">
-        <h2 class="stats-titre">- Stats -</h2>
+      <div class="panneau-profil">
+        <h2 class="section-titre">- STATS -</h2>
         <div class="jauges" id="ppJauges"></div>
         <div class="brutes" id="ppBrutes"></div>
+        <hr class="section-sep">
+        <h2 class="section-titre">- SKILLS -</h2>
+        <!-- contenu du cadre Skills : à venir -->
       </div>
     </div>
   </section>
@@ -374,7 +377,7 @@
     /* ---------- Stats du profil : calcul des jauges ---------- */
     const MS_JOUR = 864e5;
     const borne = v => Math.min(1, Math.max(0, Number(v) || 0));
-    const fmt = (n, d = 2) => Number(n).toLocaleString("fr-FR", { maximumFractionDigits: d });
+    const fmt = (n, d = 2) => Number(n).toLocaleString("en-US", { maximumFractionDigits: d });
     const lireDate = s => { const [a, m, j] = String(s).split("-").map(Number); return new Date(a, (m || 1) - 1, j || 1); };
 
     function calculerJauges() {
@@ -438,17 +441,25 @@
         ligne.style.setProperty("--j", j.couleur);
         const nom = document.createElement("span");
         nom.className = "jauge-nom";
-        nom.textContent = j.nom;
+        const m = String(j.nom).match(/^(.*?)\s*(\(.*\))\s*$/);   // "Pro (junior)" -> "Pro" + petit "(junior)"
+        if (m && m[1]) {
+          nom.append(m[1] + " ");
+          const petit = document.createElement("small");
+          petit.textContent = m[2];
+          nom.appendChild(petit);
+        } else {
+          nom.textContent = j.nom;
+        }
         const barre = document.createElement("div");
         barre.className = "jauge-barre";
         const rempli = document.createElement("div");
         rempli.className = "jauge-remplissage";
         rempli.dataset.val = borne(j.ratio);
-        barre.appendChild(rempli);
         const texte = document.createElement("span");
         texte.className = "jauge-texte";
         texte.textContent = j.texte;
-        ligne.append(nom, barre, texte);
+        barre.append(rempli, texte);          // le texte est à l'intérieur de la barre, à droite
+        ligne.append(nom, barre);
         zoneJauges.appendChild(ligne);
       });
 
@@ -456,16 +467,13 @@
       const zoneBrutes = document.getElementById("ppBrutes");
       zoneBrutes.innerHTML = "";
       (PROFIL.statsBrutes || []).forEach(st => {
-        const b = document.createElement("div");
-        b.className = "brute";
         const t = document.createElement("span");
         t.className = "brute-txt";
         t.textContent = st.texte;
         const v = document.createElement("span");
         v.className = "brute-val";
         v.textContent = Number.isFinite(Number(st.valeur)) ? fmt(st.valeur) : st.valeur;
-        b.append(t, v);
-        zoneBrutes.appendChild(b);
+        zoneBrutes.append(t, v);
       });
     }
 
@@ -488,7 +496,7 @@
       cacherVitrine();
       if (versProfil) {
         pageProfil.scrollTop = 0;
-        pageProfil.querySelectorAll(".carte, .btn-fermer, .pp-avatar-wrap, .pp-metier, .pp-ligne-nom, .xp").forEach((el, i) => {
+        pageProfil.querySelectorAll(".panneau-profil, .btn-fermer, .pp-avatar-wrap, .pp-metier, .pp-ligne-nom, .xp").forEach((el, i) => {
           el.style.setProperty("--i", i + 6);        // les éléments arrivent juste après les bandes
           el.classList.remove("entree"); void el.offsetWidth; el.classList.add("entree");
         });
@@ -548,6 +556,28 @@
       el.addEventListener("click", e => { e.preventDefault(); changerPage(true); }));
     document.getElementById("btnFermer").addEventListener("click", () => changerPage(false));
     document.addEventListener("keydown", e => { if (e.key === "Escape") changerPage(false); });
+
+    /* ---------- Bouton CV : télécharge le PDF, sinon l'ouvre dans un autre onglet (jamais sur la page du portfolio) ---------- */
+    document.getElementById("ppCv").addEventListener("click", async e => {
+      e.preventDefault();
+      const url = PROFIL.cv;
+      if (!url) return;
+      const nomFichier = decodeURIComponent(url.split("?")[0].split("/").pop()) || "CV.pdf";
+      try {
+        const rep = await fetch(url);
+        if (!rep.ok) throw new Error("HTTP " + rep.status);
+        const blob = await rep.blob();                    // le fichier est récupéré puis enregistré : le navigateur ne l'affiche pas
+        const lien = document.createElement("a");
+        lien.href = URL.createObjectURL(blob);
+        lien.download = nomFichier;
+        document.body.appendChild(lien);
+        lien.click();
+        lien.remove();
+        setTimeout(() => URL.revokeObjectURL(lien.href), 5000);
+      } catch (err) {
+        window.open(url, "_blank", "noopener");           // repli : nouvel onglet
+      }
+    });
 
     /* ---------- Page projet : fondus noir / blanc ---------- */
     const DUREE_NOIR  = 1000;   // ms au total : ouvrir / fermer un projet (fondu au noir, aller + retour)

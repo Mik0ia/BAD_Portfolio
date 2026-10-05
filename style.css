@@ -495,7 +495,7 @@ html, body, *, *::before, *::after {
   display: none;
   overflow-y: auto;
   scrollbar-width: none;
-  padding: 36px 40px 60px calc(min(48vw, 680px) + 10px);
+  padding: 36px 40px 40px calc(min(44vw, 640px) + 10px);
   background:
     radial-gradient(var(--orange-clair) 18%, transparent 20%) 0 0 / 22px 22px,
     var(--creme);
@@ -541,7 +541,7 @@ html, body, *, *::before, *::after {
   left: 0;
   top: 70px;
   bottom: 30px;
-  width: min(48vw, 680px);
+  width: min(44vw, 640px);
   padding-left: var(--bulle-l);
   display: flex;
   align-items: center;
@@ -632,7 +632,10 @@ html, body, *, *::before, *::after {
   border-radius: 30px;
   box-shadow: 0 6px 0 var(--trait);
   font-weight: 700;
-  font-size: clamp(1rem, 1.6vw, 1.35rem);
+  font-size: clamp(0.9rem, 1.3vw, 1.1rem);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  max-width: 200px;
   line-height: 1.15;
   text-align: center;
   transition: transform 0.3s var(--rebond), background 0.15s;
@@ -651,27 +654,32 @@ html, body, *, *::before, *::after {
   filter: blur(3px);
 }
 
-/* colonne de droite : nom + CV, XP, cadre Stats */
+/* colonne de droite : nom + CV, XP, grand panneau blanc Stats / Skills */
 .pp-droite {
-  width: min(680px, 100%);
-  margin: auto;                 /* centrée verticalement sans couper le haut si l'écran est petit */
+  --w-panneau: clamp(320px, 30vw, 460px);   /* largeur du panneau blanc */
+  --w-cv: 80px;                             /* place du bouton CV à droite (66px + espace) */
+  width: calc(var(--w-panneau) + var(--w-cv));
+  max-width: 100%;
+  margin-right: auto;                       /* collée à l'avatar */
+  align-self: stretch;                      /* le panneau descend jusqu'en bas de l'écran */
+  min-height: min-content;
   display: flex;
   flex-direction: column;
-  gap: 26px;
+  gap: 14px;
 }
-.pp-ligne-nom { display: flex; align-items: center; gap: 18px; }
+.pp-ligne-nom { display: flex; align-items: center; gap: 14px; }
 .pp-nom {
   flex: 1;
   min-width: 0;
-  padding: 12px 22px;
+  padding: 12px 20px;
   background: var(--blanc);
   border: 4px solid var(--trait);
-  border-radius: 34px;
+  border-radius: 46px;
   box-shadow: 0 6px 0 var(--trait);
   text-align: center;
   font-weight: 700;
-  font-size: clamp(1.4rem, 2.6vw, 2.1rem);
-  line-height: 1.1;
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
+  line-height: 1.15;
   transition: transform 0.3s var(--rebond), background 0.15s;
 }
 .pp-nom:hover { transform: scale(1.03) rotate(-1deg); background: var(--orange-clair); }
@@ -681,40 +689,79 @@ html, body, *, *::before, *::after {
   height: 66px;
   display: grid;
   place-items: center;
-  background: var(--orange);
+  background: var(--blanc);
   border: 5px solid var(--trait);
   border-radius: 50%;
   box-shadow: 0 6px 0 var(--trait);
   transition: transform 0.3s var(--rebond), box-shadow 0.1s, background 0.15s;
 }
-.btn-cv svg { width: 32px; height: 32px; filter: drop-shadow(0 2px 0 var(--trait)); }
-.btn-cv:hover { background: var(--orange-fonce); transform: scale(1.12) rotate(-6deg); }
+.btn-cv svg { width: 32px; height: 32px; stroke: var(--trait); }
+.btn-cv:hover { background: var(--orange); transform: scale(1.12) rotate(-6deg); }
+.btn-cv:hover svg { stroke: var(--blanc); filter: drop-shadow(0 2px 0 var(--trait)); }
 .btn-cv:active { box-shadow: 0 2px 0 var(--trait); }
 
-/* barre d'XP agrandie (même look que celle de l'accueil) */
-.xp.xp-grande { height: 46px; margin: 0; border-width: 5px; box-shadow: 0 6px 0 var(--trait); }
-.xp-grande .xp-niveau { left: 18px; font-size: 1.15rem; }
+/* barre d'XP agrandie (même look que celle de l'accueil), alignée sur le panneau */
+.pp-droite > .xp-grande {
+  width: calc(100% - var(--w-cv));
+  height: 38px;
+  margin: 0;
+  border-width: 5px;
+  box-shadow: 0 6px 0 var(--trait);
+}
+.xp-grande .xp-niveau { left: 16px; font-size: 1rem; }
 
-/* cadre Stats */
-.carte-stats { padding: 18px 28px 26px; }
-.carte .stats-titre {
-  margin: 0 0 18px;
-  text-align: center;
-  font-size: 1.35rem;
-  letter-spacing: 0.1em;
-}
-.jauges { display: flex; flex-direction: column; gap: 16px; }
-.jauge {
-  --j: var(--orange);
-  display: grid;
-  grid-template-columns: minmax(84px, 118px) 1fr minmax(76px, 100px);
-  align-items: center;
-  gap: 14px;
-}
-.jauge-nom { font-weight: 700; font-size: 1rem; }
-.jauge-barre {
-  height: 26px;
+/* grand panneau blanc : Stats puis Skills, séparés par un trait */
+.panneau-profil {
+  flex: 1;
+  width: calc(100% - var(--w-cv));
+  margin-bottom: 6px;                       /* laisse voir l'ombre en bas */
+  padding: 20px 22px 24px;
   background: var(--blanc);
+  border: 4px solid var(--trait);
+  border-radius: 26px;
+  box-shadow: 0 6px 0 var(--trait);
+}
+.section-titre {
+  width: 72%;
+  margin: 0 auto 16px;
+  padding: 4px 0;
+  text-align: center;
+  font-size: 1.1rem;
+  letter-spacing: 0.1em;
+  color: var(--blanc);
+  text-shadow: 0 2px 0 var(--trait);
+  background: var(--orange);
+  border: 3px solid var(--trait);
+  border-radius: 999px;
+  box-shadow: 0 4px 0 var(--trait);
+}
+.section-sep { border: 0; border-top: 3px dashed var(--orange-clair); margin: 22px 0 18px; }
+
+/* jauges : libellé à gauche, barre à droite avec le texte à l'intérieur */
+.jauges { display: flex; flex-direction: column; gap: 12px; }
+.jauge {
+  --j: var(--st-fini);
+  display: grid;
+  grid-template-columns: 118px 1fr;
+  align-items: center;
+  gap: 10px;
+}
+.jauge-nom {
+  padding: 7px 8px;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 0.85rem;
+  line-height: 1.1;
+  background: var(--orange-clair);
+  border: 3px solid var(--trait);
+  border-radius: 12px;
+}
+.jauge-nom small { text-transform: none; font-size: 0.65em; }
+.jauge-barre {
+  position: relative;
+  height: 32px;
+  background: #f1ebe2;
   border: 3px solid var(--trait);
   border-radius: 999px;
   box-shadow: 0 4px 0 var(--trait);
@@ -727,27 +774,44 @@ html, body, *, *::before, *::after {
   box-shadow: 3px 0 0 var(--trait);      /* trait de fin, invisible quand la jauge est vide */
   transition: width 0.9s ease;
 }
-.jauge-texte { text-align: right; font-weight: 700; font-size: 0.95rem; white-space: nowrap; }
-.brutes {
-  margin-top: 22px;
-  padding-top: 20px;
-  border-top: 3px dashed var(--orange-clair);
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px 18px;
+.jauge-texte {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-weight: 700;
+  font-size: 0.95rem;
+  white-space: nowrap;
 }
-.brute {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 6px 16px;
+
+/* 4 statistiques brutes : [texte][nombre] [texte][nombre] sur 2 lignes */
+.brutes {
+  margin-top: 18px;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr 1.2fr 0.8fr;
+  gap: 8px;
   background: var(--creme);
   border: 3px solid var(--trait);
-  border-radius: 999px;
+  border-radius: 16px;
 }
-.brute-txt { font-size: 0.95rem; }
-.brute-val { font-weight: 700; font-size: 1.15rem; color: var(--orange-fonce); }
+.brute-txt, .brute-val {
+  display: grid;
+  place-items: center;
+  min-height: 52px;
+  padding: 4px 6px;
+  text-align: center;
+  border: 3px solid var(--trait);
+  border-radius: 10px;
+}
+.brute-txt {
+  background: var(--orange-clair);
+  font-weight: 700;
+  font-size: 0.78rem;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+.brute-val { background: var(--blanc); font-weight: 700; font-size: 1.7rem; }
 
 .carte {
   background: var(--blanc);
@@ -828,7 +892,8 @@ html, body, *, *::before, *::after {
   .page-profil.ouverte { flex-direction: column; }
   .pp-avatar-zone { position: static; width: 100%; padding: 70px 0 0; }
   .pp-avatar-wrap img { max-height: 45vh; }
-  .pp-droite { margin: 34px auto 0; }
+  .pp-droite { width: 100%; margin: 34px auto 0; align-self: auto; }
+  .panneau-profil { flex: none; }
   /* pas de survol possible de façon fiable : la bulle reste ouverte, au-dessus de l'avatar */
   .bulle-dialogue {
     position: relative;
@@ -842,9 +907,9 @@ html, body, *, *::before, *::after {
   .bulle-dialogue::before, .bulle-dialogue::after { display: none; }
 }
 @media (max-width: 560px) {
-  .brutes { grid-template-columns: 1fr; }
-  .jauge { grid-template-columns: 1fr auto; gap: 6px 10px; }
-  .jauge-barre { grid-column: 1 / -1; grid-row: 2; }
+  .brutes { grid-template-columns: 1.3fr 0.7fr; }
+  .jauge { grid-template-columns: 1fr; gap: 6px; }
+  .jauge-nom { justify-self: start; padding: 4px 14px; }
 }
 /* écran tactile : pas de survol, la bulle reste visible */
 @media (hover: none) and (pointer: coarse) {
