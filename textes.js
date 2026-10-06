@@ -29,13 +29,125 @@ https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SKILLS/Blender_LOGO.png
 Et voici un troisième paragraphe, sous l'image.`,
 
   // M.A.S.K Operator
-  2: ``,
+  2: `***Bienvenue dans les profondeurs, mécaniciens. *** 
+
+https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/MO/6w9YNz.png?raw=true
+
+Votre escouade a été déployée pour rétablir l'alimentation d'une tour infrasonique. Des entités insectoïdes de classe C ont envahi les tunnels du générateur. L'environnement est instable, plongé dans l'obscurité et hostile. Les grottes sont d'un noir profond. Votre visibilité est assurée par votre casque M.A.S.K. (Mechanics Assist & Surveillance Kit).
+
+https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/MO/SC7Shq.png?raw=true
+
+Ce casque alterne entre différents filtres tactiques activés à distance par l'opérateur de votre escouade :  
+
+- **Filtre rouge** : met en évidence les entités hostiles et les munitions. 
+- **Filtre vert** : affiche l'état de santé et les ressources à récupérer. 
+- **Filtre bleu** : suit les mécaniciens alliés et affiche la mini-carte. Marqueurs violets : indiquent les objectifs de la mission.  
+
+https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/MO/h0GIZo.png?raw=true
+https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/MO/GGOctM.png?raw=true
+https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/MO/gAETcd.png?raw=true
+
+Vous êtes équipés d'un fusil amélioré pour la défense et le contrôle de foule. Utilisez-le à bon escient ; les munitions sont limitées. Votre opérateur assurera une communication constante, changera les modes du casque selon l'évolution de la situation, guidera l'escouade et coordonnera les déplacements vers l'objectif. 
+
+https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/MO/s8BiiJ.png?raw=true
+
+Toutefois, les interférences et la configuration des tunnels pourraient vous faire perdre le contact visuel avec vos coéquipiers.  Restez vigilants. Restez groupés autant que possible. Atteignez le générateur. Réparez-le. Rétablissez le fonctionnement de la tour.  
+
+https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/MO/SC7Shq.png?raw=true
+
+**N'oubliez pas : toute trahison est passible de mort.**
+
+**Crédits :** 
+
+Raphaël BARRIÈRE
+Noé INGLEBERT 
+Diego LLAURY
+Benjamin AKEHAL DA-PONTE`,
 
   // Hearts of Auraliz
-  3: ``,
+  3: `***IL EST RECOMMANDÉ DE JOUER À LA MANETTE, LE JEU EST DÉVELOPPÉ POUR.***
+
+https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/HOA/C9NvpZ.png?raw=true
+
+Hearts of Auraliz est un JRPG narratif inspiré des jeux de la sixième génération de consoles, mêlant exploration, combats au tour par tour et mécaniques de timing. Le joueur suit Onde, un jeune garçon parti traverser les mers célestes d’Auraliz pour retrouver son frère disparu après l’attaque d’un groupe de pirates du ciel. Au cours de son voyage, il rencontrera différents compagnons et découvrira un monde où les parties refoulées de chaque personne peuvent prendre vie sous la forme d’armes.
+
+https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/HOA/F+_zQN.png?raw=true
+
+À travers une aventure centrée sur les personnages et leurs relations, Hearts of Auraliz aborde le thème de l’acceptation de soi. Les combats reposent autant sur la stratégie que sur le lien entre le manieur et son arme, tandis que l’univers mélange paysages oniriques, ambiance mélancolique et esprit d’aventure. Le jeu cherche à proposer une expérience accessible et immersive, dans l’esprit des grands JRPG des années 2000.
+
+https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/HOA/iRBTYA.png?raw=true
+
+**Crédits :**
+
+*Benjamin Akehal–Daponte* :
+
+-Game Designer
+-Developper
+-UI / UX Designer
+-Level Designer
+-3d Modeling
+-3d Texturing
+-3d Rigging
+-3d Animation
+-Narrative Designer
+-Play Test QA
+
+*Maëlys Puertas* :
+
+- Concept Artist
+- Main Artist
+- Environment Artist
+- Character Designer
+- 3d Texturing
+
+*Lisa Gasquy* :
+
+-Main Texture Artist
+-Concept Artist
+-Character Designer
+-Sprite Artist
+-DA referee
+
+*Anthony Colombani-Gailleur* :
+- Gameplay referee
+
+https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/HOA/AfGA5j.png?raw=true
+
+https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/HOA/jAjVr1.png?raw=true
+`,
 
   // Bienvenue dans la boite
-  4: ``,
+  4: `**"Bienvenue dans la boîte"**
+  
+https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/BDLB/ZCsv8O%20(1).png?raw=true
+
+Vous incarnez une sardine qui travaille dans une usine de mise en conserve de soupe de sardines. Tout en accomplissant vos tâches et en élaborant un plan pour devenir libre, vous devez échapper à la pression de votre patron, qui ne laissera passer aucun moment de fainéantise.
+
+https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/BDLB/BEY8n1%20(1).png?raw=true
+
+**Controles:** ZQSD et clic gauche pour toute les interactions.
+
+**Aides :**
+
+*- Vous pouvez mettre les poissons par terre et vous en occupez plus tard.
+- Vous pouvez déplacer les poissons qui tomberaient par terre pour les mettre directement dans le broyeur.
+- La plaque à deviser a une collision capricieuse, éloignez-vous pour déviser correctement.*
+
+https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/BDLB/kt+d36%20(1).png?raw=true
+
+**Crédits : **
+
+*CONCEPT ART & ILLUSTRATIONS*: Killian TARIN Neige FRANQUINET Adam ESSALHI Alexis PRUDHOMME 
+
+*3D & TEXTURES :* Lisa GASQUY Thomas BERRETTA Laurine CAMPREDON Timotée CHARBONNEAU 
+
+*GAME DESIGN :* Alexis ROGER Benjamin AKEHAL--DAPONTE Diego LLAURY
+
+https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/BDLB/fGRo3A%20(1).png?raw=true
+https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/BDLB/hliJYb.png?raw=true
+https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/BDLB/kp6tUe%20(1).png?raw=true
+
+`,
 
   // Project : HUMANIZE
   5: ``,
