@@ -511,7 +511,7 @@ html, body, *, *::before, *::after {
 .btn-fermer {
   position: fixed;
   top: 24px;
-  left: 28px;
+  left: 64px;                                 /* plus grand = plus vers la droite */
   z-index: 2;
   width: 98px;
   height: 58px;
@@ -662,7 +662,7 @@ html, body, *, *::before, *::after {
   position: relative;
   z-index: 2;           /* reste cliquable / visible au-dessus du gif agrandi */
   margin-top: 40px;
-  padding: 8px 26px;
+  padding: 4px 34px;
   background: var(--blanc);
   border: 4px solid var(--trait);
   border-radius: 30px;
@@ -671,7 +671,8 @@ html, body, *, *::before, *::after {
   font-size: clamp(0.9rem, 1.3vw, 1.1rem);
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  max-width: 200px;
+  min-width: 300px;
+  white-space: nowrap;
   line-height: 1.15;
   text-align: center;
   transition: transform 0.3s var(--rebond), background 0.15s;
@@ -1101,7 +1102,7 @@ html, body, *, *::before, *::after {
 }
 
 /* 2) cadre présentation */
-.pj-cadre-pres, .pj-cadre-video {
+.pj-cadre-pres, .pj-cadre-video, .pj-cadre-texte, .pj-cadre-liens {
   background: var(--orange-clair);
   border: 5px solid var(--trait);
   border-radius: 34px;
@@ -1135,7 +1136,64 @@ html, body, *, *::before, *::after {
   text-align: left;
 }
 .pj-nom { font-size: clamp(1.3rem, 2.6vw, 1.9rem); font-weight: 700; line-height: 1.15; }
-.pj-desc { flex: 1; font-size: 1rem; line-height: 1.4; }
+.pj-desc { flex: 1; font-size: 1.2rem; line-height: 1.4; }
+
+/* cadre texte : mise en page du texte = celle de textes.js (retours à la ligne gardés) */
+.pj-cadre-texte[hidden] { display: none; }
+.pj-texte {
+  padding: 16px 22px;
+  font-size: 1.05rem;
+  font-weight: 500;
+  line-height: 1.55;
+  white-space: pre-line;          /* chaque retour à la ligne (et ligne vide) du texte est respecté */
+  overflow-wrap: anywhere;
+}
+.pj-seg { white-space: pre-line; }   /* chaque morceau de texte garde ses retours à la ligne */
+.pj-img {                         /* image seule sur sa ligne : centrée, une ligne d'espace avant et après */
+  display: flex;
+  justify-content: center;
+  margin: 1.55em 0;
+}
+.pj-img:first-child { margin-top: 0; }
+.pj-img:last-child { margin-bottom: 0; }
+.pj-img img {
+  display: block;
+  max-width: 100%;                /* jamais plus large que le cadre, quelle que soit la résolution */
+  height: auto;
+  border-radius: 12px;
+}
+.pj-img img.echelle { width: calc(min(var(--nw), 100%) * var(--s)); }   /* échelle définie dans textes.js ( lien : 0.5 ) ; le centrage ne change pas */
+.pj-img img { transition: transform 0.25s var(--rebond); }
+.pj-img img:hover { transform: scale(1.03); }   /* petit indice : l'image est cliquable */
+.pj-texte strong { font-weight: 700; }
+.pj-texte em { font-style: italic; }
+
+/* 5) cadre liens : boutons côte à côte, espacés, à la ligne si besoin */
+.pj-cadre-liens[hidden] { display: none; }
+.pj-cadre-liens {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 16px 20px;
+}
+.pj-lien {
+  --b: var(--st-occupe);                      /* couleur du bouton : rouge par défaut, changée par "couleur" dans liens.js */
+  padding: 9px 34px;
+  font-weight: 700;
+  font-size: 1.15rem;
+  text-decoration: none;
+  text-align: center;
+  color: var(--blanc);
+  text-shadow: 0 2px 0 var(--trait);
+  background: linear-gradient(rgba(255, 255, 255, 0.35) 0 45%, transparent 45%), var(--b);
+  border: 4px solid var(--trait);
+  border-radius: 999px;
+  box-shadow: 0 6px 0 var(--trait);
+  transition: transform 0.3s var(--rebond), box-shadow 0.1s, filter 0.15s;
+}
+.pj-lien:hover { filter: brightness(0.92); transform: translateY(-3px) scale(1.08) rotate(-2deg); }
+.pj-lien:active { box-shadow: 0 2px 0 var(--trait); transform: translateY(3px) scale(1.02); }
 
 /* 3) cadre vidéo (masqué quand il n'y a pas de lien) */
 .pj-cadre-video[hidden] { display: none; }
@@ -1196,6 +1254,38 @@ html, body, *, *::before, *::after {
   border-radius: 999px;
   box-shadow: 0 4px 0 var(--trait);
 }
+
+/* ---------- Zoom d'image ---------- */
+#zoomImage {
+  position: fixed;
+  inset: 0;
+  z-index: 60;                                   /* au-dessus de la page projet, sous les fondus / rideaux */
+  display: grid;
+  place-items: center;
+  background: rgba(255, 246, 234, 0.45);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);                   /* floute toute la page derrière */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s, visibility 0.2s;
+}
+#zoomImage.ouvert { opacity: 1; visibility: visible; }
+#zoomImg {
+  --r: 1;                                        /* ratio largeur / hauteur, rempli en JS */
+  width: min(92vw, calc(92vh * var(--r)));       /* le plus grand possible sans dépasser l'écran */
+  height: auto;
+  max-width: 92vw;
+  max-height: 92vh;
+  border-radius: 16px;
+  border: 5px solid var(--trait);
+  box-shadow: 0 8px 0 var(--trait);
+  background: var(--blanc);
+  transform: scale(0.8);
+  transition: transform 0.35s var(--rebond);
+  user-select: none;
+  -webkit-user-drag: none;
+}
+#zoomImage.ouvert #zoomImg { transform: scale(1); }
 
 /* ---------- Fondu de page ---------- */
 #fondu { position: fixed; inset: 0; z-index: 110; opacity: 0; visibility: hidden; pointer-events: none; }
