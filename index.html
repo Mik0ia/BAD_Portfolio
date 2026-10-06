@@ -166,6 +166,7 @@
   </div>
 
   <div id="bulle"></div>
+  <div id="bulleLien" role="tooltip"></div>   <!-- bulle de BD des boutons de liens de l'accueil (sort à droite) -->
   <div id="bulleMedaille" role="tooltip"></div>   <!-- bulle de BD des médailles (page du jeu) -->
 
   <script src="projets.js"></script>
@@ -1186,6 +1187,7 @@
       if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(texte).catch(secours);
       else secours();
     }
+    const bulleLien = document.getElementById("bulleLien");
     function afficherLiensAccueil() {
       const nav = document.getElementById("liensAccueil");
       nav.textContent = "";
@@ -1209,7 +1211,8 @@
         el.className = "lien-acc entree";
         el.style.setProperty("--i", i);
         if (/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test((l.couleur || "").trim())) el.style.setProperty("--b", l.couleur.trim());
-        if (copie && !page) el.dataset.tip = "Copier le lien";               // bouton qui ne fait que copier : petite bulle d'aide
+        // texte de la bulle au survol : "page" seul = pas de bulle
+        const aide = copie ? (page ? "Ouvrir la page et copier le lien" : "Copier le lien") : "";
 
         if (l.image) {
           const img = document.createElement("img");
@@ -1222,21 +1225,25 @@
         t.textContent = l.texte || page || copie;
         el.appendChild(t);
 
+        const afficher = txt => {                                          // bulle de BD à droite du bouton, queue vers lui
+          if (!txt) { bulleLien.classList.remove("visible"); return; }
+          bulleLien.textContent = txt;
+          const r = el.getBoundingClientRect();
+          bulleLien.style.left = (r.right + 18) + "px";
+          bulleLien.style.top = (r.top + r.height / 2 - bulleLien.offsetHeight / 2) + "px";
+          bulleLien.classList.add("visible");
+        };
+        el.addEventListener("mouseenter", () => afficher(aide));
+        el.addEventListener("mouseleave", () => { clearTimeout(el._retour); bulleLien.classList.remove("visible"); });
+        el.addEventListener("focus", () => afficher(aide));
+        el.addEventListener("blur", () => bulleLien.classList.remove("visible"));
         if (copie) {
           el.addEventListener("click", () => {                               // copie ET (si "page") ouverture du lien par le navigateur
             copierTexte(copie);
-            const tip = el.dataset.tip;
-            el.dataset.tip = "Lien copié !";
-            bulle.textContent = el.dataset.tip;
-            const r = el.getBoundingClientRect();
-            bulle.style.left = (r.left + r.width / 2) + "px";
-            bulle.style.top = (r.top - bulle.offsetHeight - 14) + "px";
-            bulle.classList.add("visible");
+            afficher("Lien copié !");
             clearTimeout(el._retour);
             el._retour = setTimeout(() => {
-              if (tip) el.dataset.tip = tip; else delete el.dataset.tip;
-              if (!el.matches(":hover")) bulle.classList.remove("visible");
-              else if (tip) bulle.textContent = tip; else bulle.classList.remove("visible");
+              if (el.matches(":hover")) afficher(aide); else bulleLien.classList.remove("visible");
             }, 1500);
           });
         }
