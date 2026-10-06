@@ -45,10 +45,14 @@ const PROFIL = {
    statut : "En cours" | "Terminé" | "En pause" | "Indisponible"
    image  : lien d'un jpg 500x500 (vide = placeholder)
    nom    : affiché au survol de la cartouche
-   description : texte affiché sous la grosse cartouche 3D au survol
+   description : texte affiché sous la grosse cartouche 3D au survol (et dans le cadre de la page de présentation)
+   video  : (facultatif) lien YouTube lu sur la page de présentation du jeu, dans le cadre "vidéo".
+            Formats acceptés : https://www.youtube.com/watch?v=XXXXXXXXXXX | https://youtu.be/XXXXXXXXXXX | .../embed/... | .../shorts/...
+            Pas de "video" (ou lien vide) = le cadre vidéo n'apparaît pas.
 */
 const PROJETS = [
   { type: "Jeu Vidéo", statut: "Terminé", image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/KC-5125_LOGO.png?raw=true", nom: "KC-5125",
+    video: "https://youtu.be/ufGmag99ZkA",   // ← colle ici le lien YouTube de la vidéo du jeu
     description: "Un jeu d'horreur et de simulation de vol réaliser en 72h lors d'une Mini Game Jam avec 2 de mes camarades de classe." },
   { type: "Jeu Vidéo", statut: "Terminé",  image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/Mask_Operator_LOGO.png?raw=true",nom: "M.A.S.K Operator", 
     description: "Un FPS multijoueur asymétrique ou les joueur doivent réparé un générateur diriger par l'Opérateur qui peut activer les différents modes de vue de leurs masques." },

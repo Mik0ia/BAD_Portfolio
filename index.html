@@ -91,13 +91,26 @@
   <!-- Page projet (style Wii : cadre d'écran + flèches) -->
   <section class="page-projet" id="pageProjet" aria-hidden="true">
     <div class="pj-contenu" id="pjContenu">
-      <div class="pj-visuel"><img id="pjImage" alt=""></div>
-      <div class="pj-texte">
-        <div class="pj-type" id="pjType"></div>
-        <h1 class="pj-titre" id="pjTitre"></h1>
-        <span class="etat" id="pjEtat"></span>
-        <p class="pj-desc" id="pjDesc"></p>
-        <div class="pj-bientot">Présentation détaillée du jeu à venir…</div>
+      <!-- 1) cadre catégorie -->
+      <div class="pj-categorie" id="pjType"></div>
+
+      <!-- 2) cadre présentation : cartouche + pastille | nom + description -->
+      <div class="pj-cadre-pres">
+        <div class="pj-visuel">
+          <img id="pjImage" alt="">
+          <span class="pastille" id="pjPastille"></span>
+        </div>
+        <div class="pj-infos">
+          <div class="pj-boite pj-nom" id="pjTitre"></div>
+          <div class="pj-boite pj-desc" id="pjDesc"></div>
+        </div>
+      </div>
+
+      <!-- 3) cadre vidéo : disparaît s'il n'y a pas de lien YouTube -->
+      <div class="pj-cadre-video" id="pjVideoCadre" hidden>
+        <div class="pj-video">
+          <iframe id="pjVideo" title="Vidéo de présentation" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
       </div>
     </div>
     <div class="pj-cadre"></div>
@@ -666,6 +679,23 @@
     let projetCourant = null;
     const memeCategorie = p => PROJETS.filter(x => x.type === p.type);
 
+    /* lien YouTube (watch?v=, youtu.be/, embed/, shorts/) -> adresse d'intégration, "" si le lien n'est pas valide */
+    function urlEmbedYoutube(lien) {
+      if (!lien) return "";
+      let u;
+      try { u = new URL(String(lien).trim()); } catch (err) { return ""; }
+      const hote = u.hostname.replace(/^(www|m)\./, "");
+      let id = "";
+      if (hote === "youtu.be") id = u.pathname.slice(1).split("/")[0];
+      else if (hote === "youtube.com" || hote === "youtube-nocookie.com") {
+        if (u.pathname === "/watch") id = u.searchParams.get("v") || "";
+        else { const m = u.pathname.match(/^\/(embed|shorts|live|v)\/([\w-]+)/); if (m) id = m[2]; }
+      }
+      if (!/^[\w-]{6,}$/.test(id)) return "";
+      const debut = parseInt(u.searchParams.get("t") || u.searchParams.get("start"), 10);
+      return "https://www.youtube-nocookie.com/embed/" + id + "?rel=0" + (debut > 0 ? "&start=" + debut : "");
+    }
+
     function remplirProjet(p) {
       projetCourant = p;
       const img = document.getElementById("pjImage");
@@ -674,10 +704,16 @@
       img.onerror = () => { img.src = PLACEHOLDER; };
       document.getElementById("pjType").textContent = p.type;
       document.getElementById("pjTitre").textContent = p.nom;
-      const etat = document.getElementById("pjEtat");
-      etat.textContent = p.statut;
-      etat.className = "etat " + (CLASSE_STATUT[p.statut] || "en-pause");
+      const pastille = document.getElementById("pjPastille");
+      pastille.className = "pastille " + (CLASSE_STATUT[p.statut] || "en-pause");   // même pastille que sur l'accueil
+      pastille.dataset.tip = p.statut;
       document.getElementById("pjDesc").textContent = p.description || "Pas encore de description.";
+
+      // vidéo YouTube : le cadre n'apparaît que si un lien valide est renseigné (champ "video" dans projets.js)
+      const src = urlEmbedYoutube(p.video);
+      document.getElementById("pjVideoCadre").hidden = !src;
+      if (src) document.getElementById("pjVideo").src = src;
+      else document.getElementById("pjVideo").removeAttribute("src");
 
       const liste = memeCategorie(p);
       document.getElementById("pjCompteur").textContent = (liste.indexOf(p) + 1) + " / " + liste.length;
@@ -706,6 +742,7 @@
       await fonduVers("#000", DUREE_NOIR, () => {
         pageProjet.classList.remove("ouverte");
         pageProjet.setAttribute("aria-hidden", "true");
+        document.getElementById("pjVideo").removeAttribute("src");   // coupe la vidéo
       });
       enTransition = false;
     }
