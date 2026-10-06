@@ -1175,71 +1175,72 @@
 
 
     /* ---------- Liens de l'accueil (liens_accueil.js) ---------- */
+    function copierTexte(texte) {
+      const secours = () => {                                                // secours (ex. page ouverte en file://)
+        const ta = document.createElement("textarea");
+        ta.value = texte; ta.style.position = "fixed"; ta.style.opacity = "0";
+        document.body.appendChild(ta); ta.select();
+        try { document.execCommand("copy"); } catch (_) {}
+        ta.remove();
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(texte).catch(secours);
+      else secours();
+    }
     function afficherLiensAccueil() {
       const nav = document.getElementById("liensAccueil");
       nav.textContent = "";
       const liste = (typeof LIENS_ACCUEIL !== "undefined" && Array.isArray(LIENS_ACCUEIL)) ? LIENS_ACCUEIL : [];
       const urlSure = u => typeof u === "string" && u.trim() && !/^\s*javascript:/i.test(u);
       liste.forEach((l, i) => {
-        if (!l || (!l.texte && !urlSure(l.page))) return;
-        const bloc = document.createElement("div");
-        bloc.className = "lien-acc entree";
-        bloc.style.setProperty("--i", i);
-        if (/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test((l.couleur || "").trim())) bloc.style.setProperty("--b", l.couleur.trim());
+        if (!l) return;
+        const page = urlSure(l.page) ? l.page.trim() : "";
+        const copie = urlSure(l.copie) ? l.copie.trim() : "";
+        if (!l.texte && !page && !copie) return;
 
-        // partie principale : icône + texte, ouvre la page dans un nouvel onglet
-        let principal;
-        if (urlSure(l.page)) {
-          principal = document.createElement("a");
-          principal.href = l.page.trim();
-          principal.target = "_blank";
-          principal.rel = "noopener noreferrer";
+        // un seul bouton : lien (nouvel onglet) si "page", simple bouton sinon
+        let el;
+        if (page) {
+          el = document.createElement("a");
+          el.href = page; el.target = "_blank"; el.rel = "noopener noreferrer";
         } else {
-          principal = document.createElement("span");
+          el = document.createElement("button");
+          el.type = "button";
         }
-        principal.className = "lien-acc-ouvrir";
+        el.className = "lien-acc entree";
+        el.style.setProperty("--i", i);
+        if (/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test((l.couleur || "").trim())) el.style.setProperty("--b", l.couleur.trim());
+        if (copie && !page) el.dataset.tip = "Copier le lien";               // bouton qui ne fait que copier : petite bulle d'aide
+
         if (l.image) {
           const img = document.createElement("img");
-          img.src = l.image;
-          img.alt = "";
+          img.src = l.image; img.alt = "";
           img.onerror = () => img.remove();
-          principal.appendChild(img);
+          el.appendChild(img);
         }
         const t = document.createElement("span");
         t.className = "lien-acc-texte";
-        t.textContent = l.texte || l.page;
-        principal.appendChild(t);
-        bloc.appendChild(principal);
+        t.textContent = l.texte || page || copie;
+        el.appendChild(t);
 
-        // petite icône : copie le lien dans le presse-papier
-        if (urlSure(l.copie)) {
-          const b = document.createElement("button");
-          b.type = "button";
-          b.className = "lien-acc-copie";
-          b.dataset.tip = "Copier le lien";
-          b.setAttribute("aria-label", "Copier le lien : " + (l.texte || ""));
-          b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6.5A2.5 2.5 0 0 0 13.5 4h-7A2.5 2.5 0 0 0 4 6.5v7A2.5 2.5 0 0 0 6.5 16H8"/></svg>';
-          b.addEventListener("click", async () => {
-            const lien = l.copie.trim();
-            try { await navigator.clipboard.writeText(lien); }
-            catch (_) {                                                      // secours (ex. page ouverte en file://)
-              const ta = document.createElement("textarea");
-              ta.value = lien; ta.style.position = "fixed"; ta.style.opacity = "0";
-              document.body.appendChild(ta); ta.select();
-              try { document.execCommand("copy"); } catch (__) {}
-              ta.remove();
-            }
-            b.dataset.tip = "Lien copié !";
-            bulle.textContent = b.dataset.tip;                               // la bulle change tout de suite
-            clearTimeout(b._retour);
-            b._retour = setTimeout(() => {
-              b.dataset.tip = "Copier le lien";
-              if (bulle.classList.contains("visible") && b.matches(":hover")) bulle.textContent = b.dataset.tip;
+        if (copie) {
+          el.addEventListener("click", () => {                               // copie ET (si "page") ouverture du lien par le navigateur
+            copierTexte(copie);
+            const tip = el.dataset.tip;
+            el.dataset.tip = "Lien copié !";
+            bulle.textContent = el.dataset.tip;
+            const r = el.getBoundingClientRect();
+            bulle.style.left = (r.left + r.width / 2) + "px";
+            bulle.style.top = (r.top - bulle.offsetHeight - 14) + "px";
+            bulle.classList.add("visible");
+            clearTimeout(el._retour);
+            el._retour = setTimeout(() => {
+              if (tip) el.dataset.tip = tip; else delete el.dataset.tip;
+              if (!el.matches(":hover")) bulle.classList.remove("visible");
+              else if (tip) bulle.textContent = tip; else bulle.classList.remove("visible");
             }, 1500);
           });
-          bloc.appendChild(b);
         }
-        nav.appendChild(bloc);
+        nav.appendChild(el);
       });
       nav.hidden = !nav.children.length;
     }

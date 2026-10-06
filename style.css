@@ -606,32 +606,28 @@ html, body, *, *::before, *::after {
   --b: var(--orange);                /* couleur du bouton : changée par "couleur" dans liens_accueil.js */
   flex: none;
   display: flex;
-  align-items: stretch;              /* la hauteur suit le contenu */
+  align-items: center;               /* la hauteur suit le contenu */
+  gap: 10px;
+  width: 100%;
   min-height: 52px;
+  padding: 8px 14px 8px 12px;
+  font: inherit;
+  font-weight: 700;
+  font-size: 1.05rem;
+  line-height: 1.15;
+  text-align: left;
+  text-decoration: none;
+  color: var(--blanc);
+  text-shadow: 0 2px 0 var(--trait);
   background: linear-gradient(rgba(255, 255, 255, 0.35) 0 45%, transparent 45%), var(--b);
   border: 4px solid var(--trait);
   border-radius: 24px;
   box-shadow: 0 6px 0 var(--trait);
-  overflow: hidden;
   transition: transform 0.3s var(--rebond), box-shadow 0.1s, filter 0.15s;
 }
 .lien-acc:hover { filter: brightness(0.94); transform: translateY(-3px) scale(1.05) rotate(-1deg); }
 .lien-acc:active { box-shadow: 0 2px 0 var(--trait); transform: translateY(3px) scale(1.01); }
-.lien-acc-ouvrir {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 10px 8px 12px;
-  color: var(--blanc);
-  text-decoration: none;
-  text-shadow: 0 2px 0 var(--trait);
-  font-weight: 700;
-  font-size: 1.05rem;
-  line-height: 1.15;
-}
-.lien-acc-ouvrir img {
+.lien-acc img {
   flex: none;
   width: 34px;
   height: 34px;
@@ -639,26 +635,10 @@ html, body, *, *::before, *::after {
   filter: drop-shadow(0 2px 0 var(--trait));
 }
 .lien-acc-texte { min-width: 0; overflow-wrap: anywhere; }
-.lien-acc-copie {
-  flex: none;
-  width: 40px;
-  display: grid;
-  place-items: center;
-  background: rgba(255, 255, 255, 0.28);
-  border: 0;
-  border-left: 4px solid var(--trait);
-  transition: background 0.15s;
-}
-.lien-acc-copie:hover { background: rgba(255, 255, 255, 0.6); }
-.lien-acc-copie:active { background: rgba(255, 255, 255, 0.85); }
-.lien-acc-copie svg {
-  width: 22px; height: 22px;
-  fill: none; stroke: var(--trait); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
-}
 /* fenêtre étroite : la colonne rétrécit et la vitrine se décale à droite d'elle */
 @media (max-width: 1100px) {
   .liens-accueil { width: 190px; }
-  .lien-acc-ouvrir { font-size: 0.95rem; }
+  .lien-acc { font-size: 0.95rem; }
   .vitrine {
     left: calc(210px + (100vw - 286px - 210px) / 2);
     width: min(540px, calc(100vw - 560px));
@@ -666,7 +646,7 @@ html, body, *, *::before, *::after {
 }
 @media (max-width: 640px) {
   .liens-accueil { width: 150px; left: 14px; }
-  .lien-acc-ouvrir img { width: 26px; height: 26px; }
+  .lien-acc img { width: 26px; height: 26px; }
 }
 
 /* ---------- Page profil ---------- */
