@@ -18,13 +18,13 @@ const LIENS_ACCUEIL = [
   // ⚠ exemples : remplace-les par tes vrais liens
   { image:   "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SKILLS/GitHub_LOGO.png?raw=true",
     texte:   "GitHub",
-    page:    "https://github.com/Mik0ia",
+    page:    "",
     copie:   "https://github.com/Mik0ia",
     couleur: "#3b82f6" },
 
   { image:   "",
     texte:   "Mon portfolio en ligne",
-    page:    "https://github.com/Mik0ia/BAD_Portfolio",
+    page:    "",
     copie:   "https://github.com/Mik0ia/BAD_Portfolio",
     couleur: "#2ecc40" }
 
