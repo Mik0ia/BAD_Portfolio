@@ -1026,7 +1026,7 @@ html, body, *, *::before, *::after {
     radial-gradient(var(--orange-clair) 18%, transparent 20%) 0 0 / 22px 22px,
     var(--creme);
 }
-.page-projet.ouverte { display: flex; align-items: center; justify-content: center; }
+.page-projet.ouverte { display: block; }
 .pj-cadre {                         /* les bords de l'écran recouvrent les coins */
   position: absolute;
   inset: 18px;
@@ -1035,19 +1035,55 @@ html, body, *, *::before, *::after {
   pointer-events: none;
   box-shadow: inset 0 0 0 6px var(--orange), 0 0 0 100vmax var(--trait);
 }
+.pj-defile {                        /* zone qui défile = toute la page ; le cadre d'écran reste fixe par-dessus */
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;             /* barre native cachée : la barre cartoon (.pj-barre) la remplace */
+  padding: 56px 0 120px;             /* le contenu s'accroche en HAUT de la page */
+}
+.pj-defile::-webkit-scrollbar { display: none; }
 .pj-contenu {
   position: relative;
-  z-index: 1;
-  width: min(880px, calc(100vw - 280px));
-  max-height: calc(100vh - 130px);
-  overflow-y: auto;                  /* la page défile si la vidéo dépasse de l'écran */
-  scrollbar-width: none;
-  padding: 10px 14px 34px;
+  width: min(880px, calc(100vw - 340px));
+  margin: 0 auto;
+  padding: 10px 14px 0;
   display: flex;
   flex-direction: column;
   gap: 26px;
 }
-.pj-contenu::-webkit-scrollbar { display: none; }
+
+/* barre de défilement cartoon, à droite de la page, au-dessus du cadre d'écran */
+.pj-barre {
+  position: absolute;
+  right: 28px;
+  top: 100px;
+  bottom: 100px;
+  z-index: 5;
+  width: 30px;
+  background: var(--blanc);
+  border: 4px solid var(--trait);
+  border-radius: 999px;
+  box-shadow: 0 5px 0 var(--trait);
+  touch-action: none;
+}
+.pj-barre.cache { visibility: hidden; pointer-events: none; }   /* rien à défiler : barre invisible */
+.pj-pouce {
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  top: 2px;
+  height: 60px;
+  background: linear-gradient(rgba(255, 255, 255, 0.45) 0 45%, transparent 45%), var(--orange);
+  border: 3px solid var(--trait);
+  border-radius: 999px;
+  transition: background 0.15s, scale 0.25s var(--rebond);
+  touch-action: none;
+}
+.pj-pouce:hover { background: linear-gradient(rgba(255, 255, 255, 0.45) 0 45%, transparent 45%), var(--orange-fonce); scale: 1.12 1; }
+.pj-pouce.saisi { background: linear-gradient(rgba(255, 255, 255, 0.3) 0 45%, transparent 45%), var(--orange-fonce); scale: 1.12 1; }
 
 /* 1) cadre catégorie */
 .pj-categorie {
@@ -1085,6 +1121,9 @@ html, body, *, *::before, *::after {
   box-shadow: 0 6px 0 var(--trait);
   padding: 7px;
 }
+.pj-visuel { transition: transform 0.28s var(--rebond), box-shadow 0.2s; }
+.pj-visuel:hover { transform: translateY(-7px) scale(1.06) rotate(-2.5deg); box-shadow: 0 13px 0 var(--trait); }   /* survol de la cartouche */
+.pj-visuel .pastille { z-index: 2; }                                                                              /* la pastille (et sa bulle de statut) reste survolable */
 .pj-visuel img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 20px; background: var(--gris-photo); }
 .pj-infos { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
 .pj-boite {                           /* encadrements texte : le texte est collé à gauche */
@@ -1122,8 +1161,8 @@ html, body, *, *::before, *::after {
   box-shadow: 0 7px 0 var(--trait);
   transition: background 0.15s, box-shadow 0.1s, translate 0.25s var(--rebond), scale 0.25s var(--rebond);
 }
-.fleche.gauche { left: 36px; }
-.fleche.droite { right: 36px; }
+.fleche.gauche { left: 82px; }
+.fleche.droite { right: 82px; }   /* décalées pour laisser la place à la barre de défilement */
 .fleche::before {                   /* chevron */
   content: "";
   position: absolute;
@@ -1164,6 +1203,7 @@ html, body, *, *::before, *::after {
 
 @media (max-width: 800px) {
   .pj-contenu { width: calc(100vw - 150px); gap: 20px; }
+  .pj-barre { display: none; }          /* petit écran : on défile au doigt */
   .pj-cadre-pres { flex-direction: column; align-items: center; }
   .pj-visuel { align-self: center; width: 180px; }
   .pj-infos { width: 100%; }
