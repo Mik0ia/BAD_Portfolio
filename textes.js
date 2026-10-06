@@ -62,14 +62,14 @@ https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/MO/SC7Shq.png?r
 Raphaël BARRIÈRE
 Noé INGLEBERT 
 Diego LLAURY
-Benjamin AKEHAL DA-PONTE`,
+Benjamin AKEHA--DA PONTE`,
 
   // Hearts of Auraliz
   3: `***IL EST RECOMMANDÉ DE JOUER À LA MANETTE, LE JEU EST DÉVELOPPÉ POUR.***
 
 https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/HOA/C9NvpZ.png?raw=true
 
-Hearts of Auraliz est un JRPG narratif inspiré des jeux de la sixième génération de consoles, mêlant exploration, combats au tour par tour et mécaniques de timing. Le joueur suit Onde, un jeune garçon parti traverser les mers célestes d’Auraliz pour retrouver son frère disparu après l’attaque d’un groupe de pirates du ciel. Au cours de son voyage, il rencontrera différents compagnons et découvrira un monde où les parties refoulées de chaque personne peuvent prendre vie sous la forme d’armes.
+***Hearts of Auraliz*** est un JRPG narratif inspiré des jeux de la sixième génération de consoles, mêlant exploration, combats au tour par tour et mécaniques de timing. Le joueur suit Onde, un jeune garçon parti traverser les mers célestes d’Auraliz pour retrouver son frère disparu après l’attaque d’un groupe de pirates du ciel. Au cours de son voyage, il rencontrera différents compagnons et découvrira un monde où les parties refoulées de chaque personne peuvent prendre vie sous la forme d’armes.
 
 https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/HOA/F+_zQN.png?raw=true
 
@@ -79,7 +79,7 @@ https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/HOA/iRBTYA.png?
 
 **Crédits :**
 
-*Benjamin Akehal–Daponte* :
+*Benjamin AKEHAL--DA PONTE* :
 
 -Game Designer
 -Developper
@@ -92,7 +92,7 @@ https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/HOA/iRBTYA.png?
 -Narrative Designer
 -Play Test QA
 
-*Maëlys Puertas* :
+*Maëlys PUERTAS* :
 
 - Concept Artist
 - Main Artist
@@ -100,7 +100,7 @@ https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/HOA/iRBTYA.png?
 - Character Designer
 - 3d Texturing
 
-*Lisa Gasquy* :
+*Lisa GASQUY* :
 
 -Main Texture Artist
 -Concept Artist
@@ -108,7 +108,7 @@ https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/HOA/iRBTYA.png?
 -Sprite Artist
 -DA referee
 
-*Anthony Colombani-Gailleur* :
+*Anthony COMBANI-GAILLEUR* :
 - Gameplay referee
 
 https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/HOA/AfGA5j.png?raw=true
@@ -117,7 +117,7 @@ https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/HOA/jAjVr1.png?
 `,
 
   // Bienvenue dans la boite
-  4: `**"Bienvenue dans la boîte"**
+  4: `***"Bienvenue dans la boîte"***
   
 https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/BDLB/ZCsv8O%20(1).png?raw=true
 
@@ -137,11 +137,11 @@ https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/BDLB/kt+d36%20(
 
 **Crédits : **
 
-*CONCEPT ART & ILLUSTRATIONS*: Killian TARIN Neige FRANQUINET Adam ESSALHI Alexis PRUDHOMME 
+*CONCEPT ART & ILLUSTRATIONS*: Killian TARIN / Neige FRANQUINET / Adam ESSALHI / Alexis PRUDHOMME 
 
-*3D & TEXTURES :* Lisa GASQUY Thomas BERRETTA Laurine CAMPREDON Timotée CHARBONNEAU 
+*3D & TEXTURES :* Lisa GASQUY / Thomas BERRETTA / Laurine  CAMPREDON / Timotée CHARBONNEAU 
 
-*GAME DESIGN :* Alexis ROGER Benjamin AKEHAL--DAPONTE Diego LLAURY
+*GAME DESIGN :* Alexis ROGER / Benjamin AKEHAL--DA PONTE / Diego LLAURY
 
 https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/BDLB/fGRo3A%20(1).png?raw=true
 https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/BDLB/hliJYb.png?raw=true
@@ -150,10 +150,51 @@ https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/BDLB/kp6tUe%20(
 `,
 
   // Project : HUMANIZE
-  5: ``,
+  5: `
+***Project Humanize*** est un projet étudiant dans lequel nous devions réaliser une expérience en VR sur le thème des émotions. Nous avons choisi d'adopter une approche poétique et narrative en mettant en place une histoire simple : une intelligence artificielle simule des émotions pour observer les réactions d'un humain face à celles-ci.
+
+https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/ProjH/image_2025-04-28_085026935-YBg79x849ahXRnB9.jpeg?raw=true
+
+Nous avons ainsi conçu trois niveaux, représentant respectivement la *sérénité*, *la liberté* et *l'absence d'émotion*.
+
+https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/ProjH/image_2025-04-28_095655312-m2W8NPQMnkiV3vLO.jpeg?raw=true
+https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/ProjH/image_2025-04-28_095747502-m5KMJDb9QDCV8V2l.jpeg?raw=true
+https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/ProjH/image_2025-04-28_095936311-YBg791eBzyfRGzqM.jpeg?raw=true
+
+Notre consigne imposait également de créer une expérience immersive, et non un jeu. Nous avons donc limité les interactions aux gestes les plus instinctifs et naturels, afin que tout type de public puisse y participer facilement.
+
+https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/ProjH/image_2025-04-28_095431814-mxB4o58bOyUE6vEg.jpeg?raw=true
+
+**Crédits :** 
+
+Benjamin AKEHAL--DA PONTE
+Simon COUSIN 
+Diego LLAURY
+
+`,
 
   // Strokes of Madness
-  6: ``,
+  6: `***Strokes of Madness*** est un jeu de labyrinthe où le joueur doit trouver la sortie d’un labyrinthe non linéaire. Pour s’aider, il ne dispose que de deux interactions. Avec le clic gauche, il peut dessiner sur toutes les surfaces, comme il le souhaite. Afin de se repérer dans ce labyrinthe où tout se ressemble, il devra se servir de cette capacité pour cartographier l’environnement et marquer son passage. La seconde interaction permet au joueur de changer son point de gravité en regardant un mur et en maintenant le clic droit. Grâce à ces deux interactions, il a un contrôle total sur son exploration : le plafond peut devenir le sol, et il peut annoter librement chaque surface.
+
+Le but du jeu est de créer une expérience originale et perturbante, où le joueur tente de se repérer dans un level design qui semble irréel. Entre les portails et les changements de gravité, il est impossible de s’orienter sans marquer son passage. Le level design est non linéaire : le joueur peut accéder à la fin instantanément, mais aussi retourner directement au début. Cela permet d’éviter l’illusion de progression, où le joueur penserait avancer alors qu’il reste dans la même zone, l’encourageant ainsi à cartographier l’ensemble du labyrinthe.
+
+https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/SOM/mlQE5A.png?raw=true
+
+Le principal défi de ce jeu, au-delà des aspects techniques liés aux portails et aux changements de gravité, a été le level design. Nous avons dû imaginer un environnement parfaitement symétrique, visible et jouable depuis tous les angles possibles. Penser au pathfinding du joueur avec six points de vue potentiels a représenté un véritable challenge.
+
+https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/SOM/xutY4c.png?raw=true
+
+Dans le prototype final, nous avons réussi à créer une expérience singulière et déroutante. Entre les changements de perspective et un level design qui se répète, le jeu rend fous les joueurs autant que les level designers.
+
+https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/SOM/8kTz4a.png?raw=true
+
+**Crédits :** 
+
+Benjamin AKEHAL--DA PONTE 
+Noé INGLEBERT 
+Raphaël BARRIERE
+
+`,
 
   // Kenshin Neko
   7: ``,
