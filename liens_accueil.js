@@ -16,16 +16,34 @@
 const LIENS_ACCUEIL = [
 
   // ⚠ exemples : remplace-les par tes vrais liens
-  { image:   "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SKILLS/GitHub_LOGO.png?raw=true",
-    texte:   "GitHub",
+  { image:   "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/LOGO/PHONE_LOGO.png?raw=true",
+    texte:   "+33 7 69 07 13 51",
     page:    "",
-    copie:   "https://github.com/Mik0ia",
-    couleur: "#3b82f6" },
+    copie:   "+33 7 69 07 13 51",
+    couleur: "#f3a51f" },
 
-  { image:   "",
-    texte:   "Mon portfolio en ligne",
+  { image:   "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/LOGO/MAIL_LOGO.png?raw=true",
+    texte:   "benjamin.akehal@gmail.com",
     page:    "",
-    copie:   "https://github.com/Mik0ia/BAD_Portfolio",
-    couleur: "#2ecc40" }
+    copie:   "benjamin.akehal@gmail.com",
+    couleur: "#ffe203" },
+
+  { image:   "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/LOGO/LINKEDIN_LOGO.png?raw=true",
+    texte:   "Linkedin",
+    page:    "https://www.linkedin.com/in/benjamin-akehal-da-ponte ",
+    copie:   "",
+    couleur: "#3b41f6" },
+  
+  { image:   "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/LOGO/ITCH_LOGO.png?raw=true",
+    texte:   "Itch.io",
+    page:    "https://bengamin-dev.itch.io",
+    copie:   "",
+    couleur: "#fa5353" },
+  
+  { image:   "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/LOGO/DISCORD_LOGO.png?raw=true",
+    texte:   "Discord",
+    page:    "https://discord.gg/9Njf2r7UGn",
+    copie:   "",
+    couleur: "#6653fa" }
 
 ];

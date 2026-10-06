@@ -65,17 +65,24 @@ const PROJETS = [
   { id: 1, type: "Jeu Vidéo", statut: "Terminé", image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/KC-5125_LOGO.png?raw=true", nom: "KC-5125",
     video: "https://youtu.be/ufGmag99ZkA",   // ← colle ici le lien YouTube de la vidéo du jeu
     medailles: [   // ⚠ exemples : remplace-les par tes vraies médailles
-      { type: "or",     description: "Exemple : 1er prix de la Mini Game Jam" },
-      { type: "argent", description: "Exemple : Prix du meilleur game design" },
-      { type: "bronze", description: "Exemple : Prix du public" }
+      { type: "or", description: "4eme sur 104 de la Mini Game Jam #39" }
     ],
     description: "Un jeu d'horreur et de simulation de vol réaliser en 72h lors d'une Mini Game Jam avec 2 de mes camarades de classe." },
-  { id: 2, type: "Jeu Vidéo", statut: "Terminé",  image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/Mask_Operator_LOGO.png?raw=true",nom: "M.A.S.K Operator", 
-    description: "Un FPS multijoueur asymétrique ou les joueur doivent réparé un générateur diriger par l'Opérateur qui peut activer les différents modes de vue de leurs masques." },
+  { id: 2, type: "Jeu Vidéo", statut: "Terminé",  image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/Mask_Operator_LOGO.png?raw=true",nom: "M.A.S.K Operator", video : "https://youtu.be/QF6UFinslqA?si=7tTyoIm4Lr_Gb_vd", 
+    description: "Un FPS multijoueur asymétrique ou les joueur doivent réparé un générateur diriger par l'Opérateur qui peut activer les différents modes de vue de leurs masques.",     
+    medailles: [   // ⚠ exemples : remplace-les par tes vraies médailles
+      { type: "or", description: "prix du jury pour 'Meilleur développement'."}
+    ], },
   { id: 3, type: "Jeu Vidéo", statut: "En cours", image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/Hearts_of_Auraliz_LOGO.png?raw=true", nom: "Hearts of Auraliz",
-    description: "Un JRPG inspiré des années 2000, ou on incarne Onde qui doit apprendre à accepter sa partie refoulé pour retrouver son frère." },
+    description: "Un JRPG inspiré des années 2000, ou on incarne Onde qui doit apprendre à accepter sa partie refoulé pour retrouver son frère.", video : "https://youtu.be/3OmQrtZMm8o?si=rF9JlL9NaghHNBkm",
+       medailles: [   // ⚠ exemples : remplace-les par tes vraies médailles
+      { type: "argent", description: "Jury de Projet Personnel de Fin d'Études : 14.75/20."}
+    ], },
   { id: 4, type: "Jeu Vidéo", statut: "Terminé",  image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/Bienvenue_dans_la_boite_LOGO.png?raw=true", nom: "Bienvenue dans la boite",
-    description: "Une expérience de jeux d'horreur psychologique sous pression réalisé pour la Jam Academy 2026 en 48h avec une équipe d'étudiants." },
+    description: "Une expérience de jeux d'horreur psychologique sous pression réalisé pour la Jam Academy 2026 en 48h avec une équipe d'étudiants.", video : "https://youtu.be/sQyV0iS2uXI?si=krelrUgQiagsbtet",
+       medailles: [   // ⚠ exemples : remplace-les par tes vraies médailles
+      { type: "argent", description: "4eme sur 41 à la Jam Academy 2026"}
+    ], },
   { id: 5, type: "Jeu Vidéo", statut: "Terminé", image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/Project_Humanize_LOGO.png?raw=true", nom: "Project : HUMANIZE",
     description: "Une expérience VR qui prend place dans l'esprit d'une intelligence qui vous emmène dans sa représentation des émotions : Sérénité et Liberté." },
   { id: 6, type: "Jeu Vidéo", statut: "Terminé",  image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/Strokes_of_Madness_LOGO.png?raw=true", nom: "Strokes of Madness",
