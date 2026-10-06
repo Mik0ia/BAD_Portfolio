@@ -197,7 +197,21 @@ Raphaël BARRIERE
 `,
 
   // Kenshin Neko
-  7: ``,
+  7: `
+  https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/KN/mlQE5A.png?raw=true
+  
+  ***Kenshin Neko*** est un court jeu de plateforme dans lequel vous incarnez un chat ninja nommé Kenshin Neko, dont la quête est de venger son maître.
+  
+  https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/KN/yZCnHG.png?raw=true
+
+  Ce projet était un projet d'algorithme de 1 mois en seconde année de Game Design pour tester nos compétences. Pour ce rendu un simple prototype Unreal nous était demandé, cependant j'ai profiter de l'exercice pour me tester personnellement en faisant un jeu complet notamment les assets de personnages que j'ai modélisé seul.
+
+  https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/KN/5WUEtZ.png?raw=true
+  https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/KN/J4ljsQ.png?raw=true
+  https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/KN/lFYLLX.png?raw=true
+  https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/KN/2xw9Oq.png?raw=true
+
+  `,
 
   // Zelda Triforce Showdwon
   8: ``,
