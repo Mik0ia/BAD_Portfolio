@@ -65,7 +65,7 @@ const PROJETS = [
   { id: 1, type: "Jeu Vidéo", statut: "Terminé", image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/KC-5125_LOGO.png?raw=true", nom: "KC-5125",
     video: "https://youtu.be/ufGmag99ZkA",   // ← colle ici le lien YouTube de la vidéo du jeu
     medailles: [   // ⚠ exemples : remplace-les par tes vraies médailles
-      { type: "or", description: "4eme sur 104 de la Mini Game Jam #39" }
+      { type: "or", description: "4eme sur 104 de la Mini Jame Gam #39" }
     ],
     description: "Un jeu d'horreur et de simulation de vol réaliser en 72h lors d'une Mini Game Jam avec 2 de mes camarades de classe." },
   { id: 2, type: "Jeu Vidéo", statut: "Terminé",  image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/Mask_Operator_LOGO.png?raw=true",nom: "M.A.S.K Operator", video : "https://youtu.be/QF6UFinslqA?si=7tTyoIm4Lr_Gb_vd", 
@@ -75,25 +75,30 @@ const PROJETS = [
     ], },
   { id: 3, type: "Jeu Vidéo", statut: "En cours", image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/Hearts_of_Auraliz_LOGO.png?raw=true", nom: "Hearts of Auraliz",
     description: "Un JRPG inspiré des années 2000, ou on incarne Onde qui doit apprendre à accepter sa partie refoulé pour retrouver son frère.", video : "https://youtu.be/3OmQrtZMm8o?si=rF9JlL9NaghHNBkm",
-       medailles: [   // ⚠ exemples : remplace-les par tes vraies médailles
+    medailles: [   // ⚠ exemples : remplace-les par tes vraies médailles
       { type: "argent", description: "Jury de Projet Personnel de Fin d'Études : 14.75/20."}
     ], },
   { id: 4, type: "Jeu Vidéo", statut: "Terminé",  image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/Bienvenue_dans_la_boite_LOGO.png?raw=true", nom: "Bienvenue dans la boite",
     description: "Une expérience de jeux d'horreur psychologique sous pression réalisé pour la Jam Academy 2026 en 48h avec une équipe d'étudiants.", video : "https://youtu.be/sQyV0iS2uXI?si=krelrUgQiagsbtet",
-       medailles: [   // ⚠ exemples : remplace-les par tes vraies médailles
-      { type: "argent", description: "4eme sur 41 à la Jam Academy 2026"}
+    medailles: [   // ⚠ exemples : remplace-les par tes vraies médailles
+      { type: "or", description: "4eme sur 41 à la Jam Academy 2026"}
     ], },
   { id: 5, type: "Jeu Vidéo", statut: "Terminé", image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/Project_Humanize_LOGO.png?raw=true", nom: "Project : HUMANIZE",
-    description: "Une expérience VR qui prend place dans l'esprit d'une intelligence qui vous emmène dans sa représentation des émotions : Sérénité et Liberté." },
+    description: "Une expérience VR qui prend place dans l'esprit d'une intelligence qui vous emmène dans sa représentation des émotions : Sérénité et Liberté.", video : "https://youtu.be/skhaoye5Evs?si=Ew0DuPUe3VwuA8Zh" },
   { id: 6, type: "Jeu Vidéo", statut: "Terminé",  image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/Strokes_of_Madness_LOGO.png?raw=true", nom: "Strokes of Madness",
-    description: "Un jeu dans lequel vous devez échapper à un monde surréaliste en pliant la gravité et en cartographiant votre sortie avec seulement un stylo." },
+    description: "Un jeu dans lequel vous devez échapper à un monde surréaliste en pliant la gravité et en cartographiant votre sortie avec seulement un stylo.", video : "https://youtu.be/aoujy-BPc3A?si=v_l6DDu8jO8S6JNi", 
+    medailles: [   // ⚠ exemples : remplace-les par tes vraies médailles
+    { type: "bronze", description: "29eme sur 104 à la Mini Jame Gam #48"}
+    ], },
   { id: 7, type: "Jeu Vidéo", statut: "En pause", image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/Kenshin_Neko_LOGO.png?raw=true", nom: "Kenshin Neko",
-    description: "un court plateformer réalisé sous Unreal Engine en 1 mois, ou vous incarnez un chat Samouraï qui doit venger son maitre." },
+    description: "un court plateformer réalisé sous Unreal Engine en 1 mois, ou vous incarnez un chat Samouraï qui doit venger son maitre.", video : "https://youtu.be/rxA72Ajj74o?si=Hyj6fA03QaMgVDjZ" },
 
   { id: 8, type: "Jeu de Société", statut: "En cours",  image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/ZTS_LOGO.png?raw=true", nom: "Zelda Triforce Showdwon",
-    description: "Un jeu de carte à collectionner inspiré de l'univers de The Legends Of Zelda, votre but sera de compléter votre Triforce avant vos adversaires ou d'être le seul survivant du champs de bataille pour l'emporter." },
+    description: "Un jeu de carte à collectionner inspiré de l'univers de The Legends Of Zelda, votre but sera de compléter votre Triforce avant vos adversaires ou d'être le seul survivant du champs de bataille pour l'emporter.", video : "https://youtu.be/8BUOZ74izR4" },
   { id: 9, type: "Jeu de Société", statut: "Indisponible", image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/TERRA_LOGO.png?raw=true", nom: "Terra Card Game",
     description: "Un jeu de carte à collectionner simple et stratégique ou chaque joueur incarne un chef d'armée qui doit triomphé des autres pour être le dernier sur le champs de bataille." },
+  { id: 11, type: "Jeu de Société", statut: "En cours", image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/Contes_de_louest_LOGO.png?raw=true", nom: "Les Contes de l'Ouest",
+    description: "Un jeu de rôle initiatique, qui prend place au Far West destiné à des joueurs de 10 ans et plus." },
 
   { id: 10, type: "Jeu Mobile", statut: "En pause", image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/Untouchable_Meal_LOGO.png?raw=true", nom: "Untouchable Meal",
     description: "Un jeu d'ambiance RP multijoueur inspiré de l'Undercover et du Loup Garou ou les joueurs doivent aider Al Capone à récupérer la marchandise sans se faire démasquer par leurs ennemis" }
