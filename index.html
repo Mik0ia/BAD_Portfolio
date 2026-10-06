@@ -25,6 +25,9 @@
     <a class="btn-profil" href="#">&rarr; PROFIL &larr;</a>
   </aside>
 
+  <!-- Liens de l'accueil (liens_accueil.js) : colonne à gauche, au-dessus des cartouches -->
+  <nav class="liens-accueil" id="liensAccueil" aria-label="Liens" hidden></nav>
+
   <!-- Catégories + cartouches -->
   <main class="panneau">
     <nav class="onglets" id="onglets"></nav>
@@ -58,6 +61,15 @@
           <span class="pastille-profil" id="ppStatut"></span>
         </div>
         <div class="pp-metier" id="ppMetier"></div>
+        <!-- tableau des médailles : toutes celles de tous les projets, or > argent > bronze (rempli automatiquement) -->
+        <div class="pp-medailles" id="ppMedailles" hidden>
+          <div class="hof-titre">&#9733; HALL OF FAME &#9733;</div>
+          <div class="hof-zone">
+            <div class="hof-grille" id="ppMedaillesGrille"></div>
+            <div class="pj-barre hof-barre cache" id="hofBarre" aria-hidden="true"><div class="pj-pouce" id="hofPouce"></div></div>
+          </div>
+          <div class="hof-ciel" id="ppCiel" aria-hidden="true"></div>   <!-- étoiles qui brillent devant tout le cadre -->
+        </div>
       </div>
     </div>
 
@@ -75,6 +87,9 @@
         <div class="xp-remplissage" id="ppXpBarre"></div>
         <span class="xp-niveau" id="ppXpNiveau"></span>
       </div>
+      <!-- seule zone qui défile : Stats + Skills (barre cartoon à droite) -->
+      <div class="pp-zone-defile">
+      <div class="pp-defile" id="ppDefile">
       <div class="panneau-profil">
         <h2 class="section-titre">- STATS -</h2>
         <div class="jauges" id="ppJauges"></div>
@@ -84,6 +99,9 @@
       <div class="panneau-profil panneau-skills">
         <h2 class="section-titre">- SKILLS -</h2>
         <div class="skills" id="ppSkills"></div>
+      </div>
+      </div>
+      <div class="pj-barre pp-barre cache" id="ppBarre" aria-hidden="true"><div class="pj-pouce" id="ppPouce"></div></div>
       </div>
     </div>
   </section>
@@ -100,6 +118,7 @@
         <div class="pj-visuel">
           <img id="pjImage" alt="">
           <span class="pastille" id="pjPastille"></span>
+          <div class="medailles" id="pjMedailles"></div>
         </div>
         <div class="pj-infos">
           <div class="pj-boite pj-nom" id="pjTitre"></div>
@@ -147,10 +166,12 @@
   </div>
 
   <div id="bulle"></div>
+  <div id="bulleMedaille" role="tooltip"></div>   <!-- bulle de BD des médailles (page du jeu) -->
 
   <script src="projets.js"></script>
   <script src="textes.js"></script>
   <script src="liens.js"></script>
+  <script src="liens_accueil.js"></script>
   <script>
     /* ---------- Placeholders (SVG intégré, aucun fichier requis) ---------- */
     const PLACEHOLDER = "data:image/svg+xml;utf8," + encodeURIComponent(
@@ -194,7 +215,9 @@
       const age = derniere.getFullYear() - annee;
       // 0 = jour de l'anniversaire, tend vers 1 à l'approche du suivant
       const progression = (aujourdhui - derniere) / (prochain - derniere);
-      return { age, progression };
+      const anniversaire = derniere.getTime() === aujourdhui.getTime();   // aujourd'hui = jour de l'anniversaire
+      const jours = Math.round((prochain - aujourdhui) / 864e5);          // jours restants avant le prochain level up
+      return { age, progression, jours, anniversaire };
     }
     function afficherProfil() {
       const img = document.getElementById("profilPhoto");
@@ -229,6 +252,81 @@
       });
     }
 
+    /* ---------- Médailles (champ "medailles" de projets.js) ---------- */
+    const CLASSE_MEDAILLE = { bronze: "bronze", argent: "argent", or: "or" };
+    function classeMedaille(type) {
+      const t = String(type || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+      return CLASSE_MEDAILLE[t] || "bronze";   // type inconnu = bronze
+    }
+    // remplit `conteneur` avec les médailles du projet ; interactif = survolable avec bulle (page du jeu uniquement)
+    function remplirMedailles(conteneur, p, interactif) {
+      conteneur.textContent = "";
+      const liste = Array.isArray(p.medailles) ? p.medailles : [];
+      liste.forEach(m => {
+        const el = document.createElement("span");
+        el.className = "medaille " + classeMedaille(m.type);
+        if (interactif && m.description) {
+          el.dataset.medaille = m.description;
+          el.setAttribute("aria-label", m.description);
+        }
+        conteneur.appendChild(el);
+      });
+      conteneur.hidden = !liste.length;
+      return liste.length;
+    }
+
+    /* ---------- Tableau des médailles (page profil) : toutes les médailles de tous les projets ---------- */
+    const RANG_MEDAILLE = { or: 0, argent: 1, bronze: 2 };   // ordre de rareté : or, puis argent, puis bronze
+    function etincelles(parent, n) {
+      const alea = (a, b) => a + Math.random() * (b - a);
+      for (let i = 0; i < n; i++) {
+        const s = document.createElement("i");
+        s.className = "etincelle";
+        s.style.setProperty("--x", alea(-15, 115).toFixed(0) + "%");
+        s.style.setProperty("--y", alea(-15, 115).toFixed(0) + "%");
+        s.style.setProperty("--s", alea(8, 16).toFixed(0) + "px");
+        s.style.setProperty("--d", alea(0, 3).toFixed(2) + "s");
+        s.style.setProperty("--dur", alea(2, 3.4).toFixed(2) + "s");
+        parent.appendChild(s);
+      }
+    }
+    function remplirTableauMedailles() {
+      const zone = document.getElementById("ppMedailles");
+      const grille = document.getElementById("ppMedaillesGrille");
+      grille.textContent = "";
+      const toutes = [];
+      PROJETS.forEach(p => (Array.isArray(p.medailles) ? p.medailles : []).forEach(m => toutes.push({ p, m, cl: classeMedaille(m.type) })));
+      toutes.sort((a, b) => RANG_MEDAILLE[a.cl] - RANG_MEDAILLE[b.cl]);   // tri stable : à rareté égale, l'ordre de projets.js est gardé
+      toutes.forEach(({ p, m, cl }) => {
+        const el = document.createElement("span");
+        el.className = "medaille " + cl;
+        el.projet = p;                                   // le clic ouvre la page de ce jeu
+        el.tabIndex = 0;
+        el.setAttribute("role", "button");
+        el.setAttribute("aria-label", (m.description ? m.description + " — " : "") + p.nom);
+        if (m.description) el.dataset.medaille = m.description;   // bulle de BD au survol
+        etincelles(el, cl === "or" ? 4 : 3);                      // étoiles qui brillent devant la médaille
+        grille.appendChild(el);
+      });
+      const ciel = document.getElementById("ppCiel");             // quelques étoiles flottant devant tout le cadre
+      ciel.textContent = "";
+      etincelles(ciel, 8);
+      zone.hidden = !toutes.length;
+      requestAnimationFrame(() => majBarreHof());
+    }
+    function ouvrirProjetDepuisMedaille(el) {
+      cacherBulleMedaille();
+      ouvrirProjet(el.projet);                           // même fondu au noir que depuis l'accueil
+    }
+    document.getElementById("ppMedailles").addEventListener("click", e => {
+      const el = e.target.closest(".medaille");
+      if (el && el.projet) ouvrirProjetDepuisMedaille(el);
+    });
+    document.getElementById("ppMedailles").addEventListener("keydown", e => {
+      const el = e.target.closest(".medaille");
+      if (el && el.projet && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); ouvrirProjetDepuisMedaille(el); }
+    });
+
     /* ---------- Cartouches ---------- */
     function afficherCartouches() {
       const grille = document.getElementById("grille");
@@ -260,6 +358,11 @@
         pastille.dataset.tip = p.statut;      // bulle = statut
 
         c.append(visuel, pastille);
+
+        const medailles = document.createElement("div");   // médailles en bas à gauche (non survolables sur l'accueil)
+        medailles.className = "medailles";
+        if (remplirMedailles(medailles, p, false)) c.appendChild(medailles);
+
         grille.appendChild(c);
       });
     }
@@ -278,6 +381,39 @@
     document.addEventListener("mouseout", e => {
       if (e.target.closest("[data-tip]")) bulle.classList.remove("visible");
     });
+
+    /* ---------- Bulle de BD des médailles (page du jeu) : sa queue part de la médaille survolée ---------- */
+    const bulleMed = document.getElementById("bulleMedaille");
+    function cacherBulleMedaille() { bulleMed.classList.remove("visible"); }
+    function placerBulleMedaille(m) {
+      const r = m.getBoundingClientRect();
+      const bw = bulleMed.offsetWidth, bh = bulleMed.offsetHeight;
+      const marge = 10, ecart = 16;
+      const cx = r.left + r.width / 2;
+      const left = Math.max(marge, Math.min(cx - bw / 2, window.innerWidth - bw - marge));
+      const dessous = r.top - bh - ecart < marge;            // pas la place au-dessus : la bulle passe sous la médaille
+      bulleMed.style.left = left + "px";
+      bulleMed.style.top = (dessous ? r.bottom + ecart : r.top - bh - ecart) + "px";
+      bulleMed.style.setProperty("--qx", Math.max(18, Math.min(cx - left, bw - 18)) + "px");   // la queue pointe vers le centre de la médaille
+      bulleMed.classList.toggle("bas", dessous);
+    }
+    document.addEventListener("mouseover", e => {
+      const m = e.target.closest("[data-medaille]");
+      if (!m) return;
+      bulleMed.textContent = m.dataset.medaille;
+      placerBulleMedaille(m);
+      bulleMed.classList.add("visible");
+    });
+    document.addEventListener("mousemove", e => {            // la cartouche bouge au survol : on recale la bulle
+      const m = e.target.closest("[data-medaille]");
+      if (m && bulleMed.classList.contains("visible")) placerBulleMedaille(m);
+    });
+    document.addEventListener("mouseout", e => {
+      const m = e.target.closest("[data-medaille]");
+      if (m && !m.contains(e.relatedTarget)) cacherBulleMedaille();
+    });
+    document.addEventListener("scroll", cacherBulleMedaille, true);
+    document.addEventListener("keydown", cacherBulleMedaille);
 
     /* ---------- Cartouche 3D (CSS 3D pur : aucune librairie, marche en file://) ---------- */
     const vitrine = document.getElementById("vitrine");
@@ -432,17 +568,17 @@
         const total = Number(S.diplome.anneesTotal) || 0;
         const faites = Math.min(Number(S.diplome.anneesFaites) || 0, total);
         jauges.push({ nom: S.diplome.label || "Diplôme", ratio: total ? faites / total : 0,
-                      texte: fmt(faites) + " / " + fmt(total) + " ans" });
+                      texte: fmt(faites) + " / " + fmt(total) + " ans", survol: S.diplome.survol });
       }
       if (S.pro) {
         const palier = Number(S.pro.prochainPalier) || 0;
         const valeur = (Number(S.pro.anneesPro) || 0) + jFaits / 365.25;   // années de pro + durée du stage DÉJÀ effectuée (grandit jour après jour)
         jauges.push({ nom: S.pro.label || "Pro (junior)", ratio: palier ? valeur / palier : 0,
-                      texte: fmt(valeur) + " / " + fmt(palier) + " ans" });
+                      texte: fmt(valeur) + " / " + fmt(palier) + " ans", survol: S.pro.survol });
       }
       if (S.stage) {
         jauges.push({ nom: S.stage.label || "Stage", ratio: jTotal ? jFaits / jTotal : 0,
-                      texte: fmt(jFaits / MOIS, 1) + " / " + fmt(jTotal / MOIS, 1) + " mois" });
+                      texte: fmt(jFaits / MOIS, 1) + " / " + fmt(jTotal / MOIS, 1) + " mois", survol: S.stage.survol });
       }
       return jauges;
     }
@@ -490,6 +626,7 @@
       avatar.onerror = () => { avatar.src = PLACEHOLDER; };
       document.getElementById("ppBulle").textContent = PROFIL.bulle || "";
       document.getElementById("ppMetier").textContent = PROFIL.metier || "";
+      remplirTableauMedailles();
       document.getElementById("ppNom").textContent = PROFIL.nom;
 
       const cv = document.getElementById("ppCv");
@@ -500,9 +637,13 @@
       s.dataset.tip = PROFIL.disponibilite;
 
       // XP (même calcul que l'accueil, barre agrandie) : la largeur est animée à l'ouverture de la page
-      const { age, progression } = calculerAge();
+      const { age, progression, jours, anniversaire } = calculerAge();
       document.getElementById("ppXpNiveau").textContent = "niv." + age;
-      document.getElementById("ppXpBarre").dataset.val = borne(progression);
+      const xpBarre = document.getElementById("ppXpBarre"), xpCadre = xpBarre.parentElement;
+      xpCadre.classList.toggle("anniv", anniversaire);                         // anniversaire : barre pleine et jaune
+      xpBarre.dataset.val = anniversaire ? 1 : borne(progression);
+      xpCadre.dataset.medaille = anniversaire ? "Jour de level up !"           // bulle au survol (page profil uniquement)
+        : "Level up dans " + jours + (jours > 1 ? " jours" : " jour");
 
       // jauges
       const zoneJauges = document.getElementById("ppJauges");
@@ -511,6 +652,7 @@
         const ligne = document.createElement("div");
         ligne.className = "jauge";
         ligne.style.setProperty("--j", couleurJauge(j.ratio));
+        if (j.survol) ligne.dataset.medaille = j.survol;      // bulle de BD au survol de la jauge (texte défini dans projets.js)
         const nom = document.createElement("span");
         nom.className = "jauge-nom";
         const m = String(j.nom).match(/^(.*?)\s*(\(.*\))\s*$/);   // "Pro (junior)" -> "Pro" + petit "(junior)"
@@ -592,7 +734,9 @@
       cacherVitrine();
       if (versProfil) {
         pageProfil.scrollTop = 0;
-        pageProfil.querySelectorAll(".panneau-profil, .btn-fermer, .pp-avatar-wrap, .pp-metier, .pp-ligne-nom, .xp").forEach((el, i) => {
+        document.getElementById("ppDefile").scrollTop = 0;
+        requestAnimationFrame(() => majBarrePP());
+        pageProfil.querySelectorAll(".panneau-profil, .btn-fermer, .pp-avatar-wrap, .pp-metier, .pp-medailles, .pp-ligne-nom, .xp").forEach((el, i) => {
           el.style.setProperty("--i", i + 6);        // les éléments arrivent juste après les bandes
           el.classList.remove("entree"); void el.offsetWidth; el.classList.add("entree");
         });
@@ -811,6 +955,8 @@
       pastille.className = "pastille " + (CLASSE_STATUT[p.statut] || "en-pause");   // même pastille que sur l'accueil
       pastille.dataset.tip = p.statut;
       document.getElementById("pjDesc").textContent = p.description || "Pas encore de description.";
+      cacherBulleMedaille();
+      remplirMedailles(document.getElementById("pjMedailles"), p, true);   // médailles survolables de la page du jeu
 
       // vidéo YouTube : le cadre n'apparaît que si un lien valide est renseigné (champ "video" dans projets.js)
       const src = urlEmbedYoutube(p.video);
@@ -946,8 +1092,161 @@
     // la molette fait aussi défiler la page quand la souris est sur le cadre ou les boutons
     pageProjet.addEventListener("wheel", e => { if (!pjDefile.contains(e.target)) pjDefile.scrollTop += e.deltaY; }, { passive: true });
 
+    /* ---------- Barre de défilement cartoon (page profil) : seule la colonne Stats + Skills défile ---------- */
+    const ppDefile = document.getElementById("ppDefile");
+    const ppBarre = document.getElementById("ppBarre");
+    const ppPouce = document.getElementById("ppPouce");
+    function majBarrePP() {
+      const defile = ppDefile.scrollHeight - ppDefile.clientHeight;
+      ppBarre.classList.toggle("cache", defile <= 1);
+      if (defile <= 1) return;
+      const h = ppBarre.clientHeight - MARGE_BARRE * 2;
+      const th = Math.max(44, Math.min(h, h * ppDefile.clientHeight / ppDefile.scrollHeight));
+      ppPouce.style.height = th + "px";
+      ppPouce.style.top = (MARGE_BARRE + ppDefile.scrollTop / defile * (h - th)) + "px";
+    }
+    let glissePP = null;
+    ppPouce.addEventListener("pointerdown", e => {
+      glissePP = { y: e.clientY, st: ppDefile.scrollTop };
+      ppPouce.setPointerCapture(e.pointerId);
+      ppPouce.classList.add("saisi");
+      e.preventDefault();
+    });
+    ppPouce.addEventListener("pointermove", e => {
+      if (!glissePP) return;
+      const defile = ppDefile.scrollHeight - ppDefile.clientHeight;
+      const libre = ppBarre.clientHeight - MARGE_BARRE * 2 - ppPouce.offsetHeight;
+      if (libre > 0) ppDefile.scrollTop = glissePP.st + (e.clientY - glissePP.y) * defile / libre;
+    });
+    const finGlissePP = () => { glissePP = null; ppPouce.classList.remove("saisi"); };
+    ppPouce.addEventListener("pointerup", finGlissePP);
+    ppPouce.addEventListener("pointercancel", finGlissePP);
+    ppBarre.addEventListener("pointerdown", e => {
+      if (e.target !== ppBarre) return;
+      const r = ppPouce.getBoundingClientRect();
+      ppDefile.scrollBy({ top: (e.clientY < r.top ? -1 : 1) * ppDefile.clientHeight * 0.85, behavior: "smooth" });
+    });
+    ppDefile.addEventListener("scroll", majBarrePP, { passive: true });
+    new ResizeObserver(majBarrePP).observe(ppDefile);
+    new ResizeObserver(majBarrePP).observe(document.getElementById("ppSkills"));
+    addEventListener("resize", majBarrePP);
+    // la molette fait défiler la colonne de droite où que soit la souris (sauf sur le Hall of Fame, qui défile lui-même)
+    pageProfil.addEventListener("wheel", e => {
+      if (e.target.closest(".pp-medailles")) return;
+      ppDefile.scrollTop += e.deltaY;
+    }, { passive: true });
+
+    /* ---------- Barre de défilement cartoon du Hall of Fame ---------- */
+    const hofGrille = document.getElementById("ppMedaillesGrille");
+    const hofBarre = document.getElementById("hofBarre");
+    const hofPouce = document.getElementById("hofPouce");
+    function majBarreHof() {
+      const defile = hofGrille.scrollHeight - hofGrille.clientHeight;
+      hofBarre.classList.toggle("cache", defile <= 1);
+      if (defile <= 1) return;
+      const h = hofBarre.clientHeight - MARGE_BARRE * 2;
+      const th = Math.max(30, Math.min(h, h * hofGrille.clientHeight / hofGrille.scrollHeight));
+      hofPouce.style.height = th + "px";
+      hofPouce.style.top = (MARGE_BARRE + hofGrille.scrollTop / defile * (h - th)) + "px";
+    }
+    let glisseHof = null;
+    hofPouce.addEventListener("pointerdown", e => {
+      glisseHof = { y: e.clientY, st: hofGrille.scrollTop };
+      hofPouce.setPointerCapture(e.pointerId);
+      hofPouce.classList.add("saisi");
+      e.preventDefault();
+    });
+    hofPouce.addEventListener("pointermove", e => {
+      if (!glisseHof) return;
+      const defile = hofGrille.scrollHeight - hofGrille.clientHeight;
+      const libre = hofBarre.clientHeight - MARGE_BARRE * 2 - hofPouce.offsetHeight;
+      if (libre > 0) hofGrille.scrollTop = glisseHof.st + (e.clientY - glisseHof.y) * defile / libre;
+    });
+    const finGlisseHof = () => { glisseHof = null; hofPouce.classList.remove("saisi"); };
+    hofPouce.addEventListener("pointerup", finGlisseHof);
+    hofPouce.addEventListener("pointercancel", finGlisseHof);
+    hofBarre.addEventListener("pointerdown", e => {
+      if (e.target !== hofBarre) return;
+      const r = hofPouce.getBoundingClientRect();
+      hofGrille.scrollBy({ top: (e.clientY < r.top ? -1 : 1) * hofGrille.clientHeight * 0.85, behavior: "smooth" });
+    });
+    hofGrille.addEventListener("scroll", majBarreHof, { passive: true });
+    new ResizeObserver(majBarreHof).observe(hofGrille);
+
+
+    /* ---------- Liens de l'accueil (liens_accueil.js) ---------- */
+    function afficherLiensAccueil() {
+      const nav = document.getElementById("liensAccueil");
+      nav.textContent = "";
+      const liste = (typeof LIENS_ACCUEIL !== "undefined" && Array.isArray(LIENS_ACCUEIL)) ? LIENS_ACCUEIL : [];
+      const urlSure = u => typeof u === "string" && u.trim() && !/^\s*javascript:/i.test(u);
+      liste.forEach((l, i) => {
+        if (!l || (!l.texte && !urlSure(l.page))) return;
+        const bloc = document.createElement("div");
+        bloc.className = "lien-acc entree";
+        bloc.style.setProperty("--i", i);
+        if (/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test((l.couleur || "").trim())) bloc.style.setProperty("--b", l.couleur.trim());
+
+        // partie principale : icône + texte, ouvre la page dans un nouvel onglet
+        let principal;
+        if (urlSure(l.page)) {
+          principal = document.createElement("a");
+          principal.href = l.page.trim();
+          principal.target = "_blank";
+          principal.rel = "noopener noreferrer";
+        } else {
+          principal = document.createElement("span");
+        }
+        principal.className = "lien-acc-ouvrir";
+        if (l.image) {
+          const img = document.createElement("img");
+          img.src = l.image;
+          img.alt = "";
+          img.onerror = () => img.remove();
+          principal.appendChild(img);
+        }
+        const t = document.createElement("span");
+        t.className = "lien-acc-texte";
+        t.textContent = l.texte || l.page;
+        principal.appendChild(t);
+        bloc.appendChild(principal);
+
+        // petite icône : copie le lien dans le presse-papier
+        if (urlSure(l.copie)) {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.className = "lien-acc-copie";
+          b.dataset.tip = "Copier le lien";
+          b.setAttribute("aria-label", "Copier le lien : " + (l.texte || ""));
+          b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6.5A2.5 2.5 0 0 0 13.5 4h-7A2.5 2.5 0 0 0 4 6.5v7A2.5 2.5 0 0 0 6.5 16H8"/></svg>';
+          b.addEventListener("click", async () => {
+            const lien = l.copie.trim();
+            try { await navigator.clipboard.writeText(lien); }
+            catch (_) {                                                      // secours (ex. page ouverte en file://)
+              const ta = document.createElement("textarea");
+              ta.value = lien; ta.style.position = "fixed"; ta.style.opacity = "0";
+              document.body.appendChild(ta); ta.select();
+              try { document.execCommand("copy"); } catch (__) {}
+              ta.remove();
+            }
+            b.dataset.tip = "Lien copié !";
+            bulle.textContent = b.dataset.tip;                               // la bulle change tout de suite
+            clearTimeout(b._retour);
+            b._retour = setTimeout(() => {
+              b.dataset.tip = "Copier le lien";
+              if (bulle.classList.contains("visible") && b.matches(":hover")) bulle.textContent = b.dataset.tip;
+            }, 1500);
+          });
+          bloc.appendChild(b);
+        }
+        nav.appendChild(bloc);
+      });
+      nav.hidden = !nav.children.length;
+    }
+
     afficherProfil();
     remplirPageProfil();
+    afficherLiensAccueil();
     afficherOnglets();
     afficherCartouches();
   </script>

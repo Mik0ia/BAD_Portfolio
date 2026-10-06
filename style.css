@@ -277,6 +277,102 @@ html, body, *, *::before, *::after {
 .pastille.en-pause { background: var(--st-pause); }
 .pastille.indisponible { background: var(--st-occupe); }   /* rouge */
 
+/* ---------- Médailles : en bas à gauche de la cartouche, de gauche à droite ---------- */
+.medailles {
+  position: absolute;
+  left: calc(var(--med) * -0.3);
+  bottom: calc(var(--med) * -0.3);
+  display: flex;
+  align-items: center;
+  z-index: 2;
+  pointer-events: none;                     /* accueil : pas de survol */
+}
+.medailles[hidden] { display: none; }
+.cartouche .medailles { --med: clamp(16px, calc(var(--cart) * 0.19), 23px); }
+.medaille {
+  --m-clair: #e9a868; --m-base: #cd7f32; --m-fonce: #8a4f1a;   /* bronze */
+  position: relative;
+  flex: none;
+  width: var(--med);
+  height: var(--med);
+  border-radius: 50%;
+  border: 3px solid var(--trait);
+  box-shadow: 0 0 0 2px var(--blanc);
+  background: radial-gradient(circle at 32% 28%, var(--m-clair) 0%, var(--m-base) 62%, var(--m-fonce) 100%);
+  transition: transform 0.25s var(--rebond);
+}
+.medaille + .medaille { margin-left: calc(var(--med) * -0.1); }   /* les médailles se chevauchent légèrement */
+.medaille.argent { --m-clair: #f4f7fa; --m-base: #c4ccd4; --m-fonce: #7d8893; }
+.medaille.or     { --m-clair: #fff0a0; --m-base: #ffc928; --m-fonce: #c98f00; }
+.medaille::before {                         /* anneau intérieur */
+  content: "";
+  position: absolute;
+  inset: 15%;
+  border-radius: 50%;
+  border: 2px solid var(--m-fonce);
+  opacity: 0.7;
+}
+.medaille::after {                          /* étoile */
+  content: "";
+  position: absolute;
+  inset: 25%;
+  background: var(--m-fonce);
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+/* page du jeu : plus grandes et survolables */
+.pj-visuel .medailles { --med: clamp(30px, 4.6vw, 46px); }
+.pj-visuel .medaille[data-medaille] { pointer-events: auto; }
+.pj-visuel .medaille[data-medaille]:hover { transform: scale(1.25); z-index: 3; }
+
+/* tableau des médailles du profil : voir "HALL OF FAME" en fin de fichier */
+
+/* ---------- Bulle de BD des médailles ---------- */
+#bulleMedaille {
+  position: fixed;
+  z-index: 50;
+  pointer-events: none;
+  width: max-content;
+  max-width: min(260px, calc(100vw - 20px));
+  white-space: normal;
+  text-align: left;
+  line-height: 1.3;
+  background: var(--blanc);
+  color: var(--trait);
+  font-weight: 700;
+  font-size: 0.88rem;
+  border: 3px solid var(--trait);
+  border-radius: 18px;
+  box-shadow: 0 4px 0 var(--trait);
+  padding: 8px 14px;
+  opacity: 0;
+  transform: scale(0.6);
+  transform-origin: var(--qx, 50%) 100%;
+  transition: opacity 0.12s, transform 0.2s var(--rebond);
+}
+#bulleMedaille.bas { transform-origin: var(--qx, 50%) 0; }
+#bulleMedaille.visible { opacity: 1; transform: scale(1); }
+#bulleMedaille::before, #bulleMedaille::after {      /* queue de BD : contour + remplissage blanc */
+  content: "";
+  position: absolute;
+  left: var(--qx, 50%);
+  top: 100%;
+  transform: translateX(-50%);
+  border-style: solid;
+  border-color: transparent;
+  border-bottom-width: 0;
+}
+#bulleMedaille::before { border-width: 12px 11px 0; border-top-color: var(--trait); }
+#bulleMedaille::after  { border-width: 8px 7px 0;   border-top-color: var(--blanc); top: calc(100% - 1px); }
+#bulleMedaille.bas::before, #bulleMedaille.bas::after {   /* bulle sous la médaille : queue vers le haut */
+  top: auto;
+  bottom: 100%;
+  border-top-width: 0;
+  border-bottom-width: 12px;
+  border-top-color: transparent;
+}
+#bulleMedaille.bas::before { border-width: 0 11px 12px; border-bottom-color: var(--trait); }
+#bulleMedaille.bas::after  { border-width: 0 7px 8px;  border-bottom-color: var(--blanc); bottom: calc(100% - 1px); }
+
 .vide {
   font-size: 1rem;
   padding: 10px 6px;
@@ -488,6 +584,91 @@ html, body, *, *::before, *::after {
   .vitrine { display: none; }
 }
 
+/* ---------- Liens de l'accueil : colonne à gauche, au-dessus du panneau des cartouches ---------- */
+.liens-accueil[hidden] { display: none; }
+.liens-accueil {
+  position: fixed;
+  left: 20px;
+  bottom: calc(var(--h-panneau) + 34px);
+  max-height: calc(100vh - var(--h-panneau) - 34px - 24px);
+  width: 224px;                      /* même largeur pour tous les boutons */
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 16px;
+  padding: 8px 10px 12px 8px;        /* laisse la place à l'ombre et au zoom au survol */
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.liens-accueil::-webkit-scrollbar { display: none; }
+.lien-acc {
+  --b: var(--orange);                /* couleur du bouton : changée par "couleur" dans liens_accueil.js */
+  flex: none;
+  display: flex;
+  align-items: stretch;              /* la hauteur suit le contenu */
+  min-height: 52px;
+  background: linear-gradient(rgba(255, 255, 255, 0.35) 0 45%, transparent 45%), var(--b);
+  border: 4px solid var(--trait);
+  border-radius: 24px;
+  box-shadow: 0 6px 0 var(--trait);
+  overflow: hidden;
+  transition: transform 0.3s var(--rebond), box-shadow 0.1s, filter 0.15s;
+}
+.lien-acc:hover { filter: brightness(0.94); transform: translateY(-3px) scale(1.05) rotate(-1deg); }
+.lien-acc:active { box-shadow: 0 2px 0 var(--trait); transform: translateY(3px) scale(1.01); }
+.lien-acc-ouvrir {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px 8px 12px;
+  color: var(--blanc);
+  text-decoration: none;
+  text-shadow: 0 2px 0 var(--trait);
+  font-weight: 700;
+  font-size: 1.05rem;
+  line-height: 1.15;
+}
+.lien-acc-ouvrir img {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 0 var(--trait));
+}
+.lien-acc-texte { min-width: 0; overflow-wrap: anywhere; }
+.lien-acc-copie {
+  flex: none;
+  width: 40px;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.28);
+  border: 0;
+  border-left: 4px solid var(--trait);
+  transition: background 0.15s;
+}
+.lien-acc-copie:hover { background: rgba(255, 255, 255, 0.6); }
+.lien-acc-copie:active { background: rgba(255, 255, 255, 0.85); }
+.lien-acc-copie svg {
+  width: 22px; height: 22px;
+  fill: none; stroke: var(--trait); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
+}
+/* fenêtre étroite : la colonne rétrécit et la vitrine se décale à droite d'elle */
+@media (max-width: 1100px) {
+  .liens-accueil { width: 190px; }
+  .lien-acc-ouvrir { font-size: 0.95rem; }
+  .vitrine {
+    left: calc(210px + (100vw - 286px - 210px) / 2);
+    width: min(540px, calc(100vw - 560px));
+  }
+}
+@media (max-width: 640px) {
+  .liens-accueil { width: 150px; left: 14px; }
+  .lien-acc-ouvrir img { width: 26px; height: 26px; }
+}
+
 /* ---------- Page profil ---------- */
 .page-profil {
   position: fixed;
@@ -510,7 +691,7 @@ html, body, *, *::before, *::after {
 
 .btn-fermer {
   position: fixed;
-  top: 24px;
+  top: 46px;
   left: 64px;                                 /* plus grand = plus vers la droite */
   z-index: 2;
   width: 98px;
@@ -991,6 +1172,7 @@ html, body, *, *::before, *::after {
   .page-profil.ouverte { flex-direction: column; }
   .pp-avatar-zone { position: static; align-self: auto; height: auto; flex: none; width: 100%; padding: 70px 0 0; justify-content: center; }
   .pp-avatar-wrap { --echelle: 1.5; }
+  .pp-medailles { position: static; margin: 26px auto 0; max-height: none; }
   .pp-avatar-wrap { --avatar-h: 240px; }
   .pp-droite { width: 100%; margin: 34px auto 0; align-self: auto; }
   .panneau-profil { flex: none; }
@@ -1315,4 +1497,129 @@ html, body, *, *::before, *::after {
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
   .cart-rot, .flotte, .pop3d { animation: none !important; }
+}
+
+
+/* ============================================================
+   PAGE PROFIL : seule la colonne de droite (Stats + Skills) défile
+   ============================================================ */
+.page-profil { overflow: hidden; }                 /* avatar, médailles, nom, XP : fixes */
+.pp-droite { min-height: 0; max-height: 100%; }
+.pp-zone-defile { position: relative; flex: 1; min-height: 0; }
+.pp-defile {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-bottom: 12px;                            /* laisse voir l'ombre du dernier cadre */
+}
+.pp-defile::-webkit-scrollbar { display: none; }
+.pp-defile .panneau-profil, .pp-defile .panneau-profil:not(.panneau-skills) { flex: none; }
+/* barre cartoon : dans la marge à droite des cadres (sous le bouton CV) */
+.pp-barre { right: 25px; top: 4px; bottom: 14px; }
+
+/* barre d'XP un jour d'anniversaire : jaune et pleine */
+.xp-grande.anniv .xp-remplissage { background: linear-gradient(#fff6a8 0 45%, #ffd400 45%); }
+
+/* ============================================================
+   HALL OF FAME (tableau des médailles du profil)
+   ============================================================ */
+.pp-medailles {
+  --med: 54px;
+  --rangee: calc(var(--med) + 36px);
+  position: absolute;
+  top: calc(100% + 34px);
+  left: 0; right: 0;
+  margin: 0 auto;
+  width: 372px;
+  max-width: 100%;
+  z-index: 5;
+  pointer-events: auto;
+  overflow: hidden;
+  border: 4px solid var(--trait);
+  border-radius: 24px;
+  box-shadow: 0 0 0 4px #ffc928, 0 0 0 8px var(--trait), 0 13px 0 8px var(--trait);   /* cadre doré + épaisseur */
+  background:
+    radial-gradient(120% 70% at 50% 0%, rgba(255, 246, 200, 0.75), transparent 70%),
+    repeating-conic-gradient(from 0deg at 50% -10%, rgba(255, 255, 255, 0.16) 0 6deg, transparent 6deg 12deg),
+    radial-gradient(rgba(255, 255, 255, 0.45) 0 1.5px, transparent 2px) 0 0 / 22px 22px,
+    linear-gradient(#ff9d3d, #e8650a);
+}
+.pp-medailles[hidden] { display: none; }
+.hof-titre {                                       /* bandeau de velours rouge, lettres dorées */
+  padding: 7px 10px 6px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 0.14em;
+  color: #ffe066;
+  text-shadow: 0 2px 0 var(--trait);
+  background: linear-gradient(#8a3d00, var(--trait));
+  border-bottom: 4px solid var(--trait);
+  box-shadow: inset 0 -3px 0 #ffc928;
+}
+.hof-zone { position: relative; }
+.hof-grille {
+  position: relative;
+  max-height: min(calc(var(--rangee) * 2), 32vh);   /* 2 rangées visibles, le reste se découvre au scroll */
+  overflow-y: auto;
+  scrollbar-width: none;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: var(--rangee);
+  align-items: end;
+  justify-items: center;
+  padding: 0 28px 0 10px;                          /* place pour la barre de scroll */
+  /* une étagère dorée sous chaque rangée, qui défile avec les médailles */
+  background: repeating-linear-gradient(to bottom,
+    transparent 0 calc(var(--rangee) - 8px),
+    #ffe08a calc(var(--rangee) - 8px) calc(var(--rangee) - 4px),
+    #6b2e00 calc(var(--rangee) - 4px) var(--rangee)) 0 0 / 100% auto local;
+}
+.hof-grille::-webkit-scrollbar { display: none; }
+.pp-medailles .medaille {
+  margin: 0 0 11px;
+  pointer-events: auto;
+  box-shadow: 0 0 0 2px var(--blanc), 0 0 16px 3px var(--m-base);      /* halo de la couleur de la médaille */
+}
+.pp-medailles .medaille.or { box-shadow: 0 0 0 2px var(--blanc), 0 0 22px 6px rgba(255, 201, 40, 0.8); }
+.pp-medailles .medaille:hover, .pp-medailles .medaille:focus-visible { transform: scale(1.18) rotate(-6deg); z-index: 3; outline: none; }
+.hof-barre { right: 6px; top: 8px; bottom: 8px; width: 20px; border-width: 3px; box-shadow: 0 3px 0 var(--trait); }
+.hof-barre .pj-pouce { border-width: 2px; }
+.hof-ciel { position: absolute; inset: 0; pointer-events: none; z-index: 4; }
+
+/* étoiles qui brillent (devant les médailles) */
+.etincelle {
+  position: absolute;
+  left: var(--x); top: var(--y);
+  width: var(--s); height: var(--s);
+  margin: calc(var(--s) / -2) 0 0 calc(var(--s) / -2);
+  z-index: 3;
+  pointer-events: none;
+  background: #fffbe3;
+  clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
+  opacity: 0;
+  transform: scale(0);
+  animation: briller var(--dur, 2.5s) ease-in-out var(--d, 0s) infinite;
+}
+@keyframes briller {
+  0%   { opacity: 0; transform: scale(0) rotate(0deg); }
+  22%  { opacity: 1; transform: scale(1.1) rotate(70deg); }
+  42%  { opacity: 0; transform: scale(0) rotate(140deg); }
+  100% { opacity: 0; transform: scale(0) rotate(140deg); }
+}
+@media (prefers-reduced-motion: reduce) { .etincelle { animation: none; opacity: 0.8; transform: scale(0.8); } }
+
+/* petit écran : toute la page profil défile comme avant */
+@media (max-width: 800px) {
+  .page-profil { overflow-y: auto; }
+  .pp-droite { max-height: none; }
+  .pp-zone-defile { flex: none; }
+  .pp-defile { height: auto; overflow: visible; }
+  .pp-barre { display: none; }
+  .pp-medailles { position: relative; top: auto; margin: 34px auto 0; }
 }

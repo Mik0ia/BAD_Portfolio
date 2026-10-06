@@ -10,7 +10,7 @@ const PROFIL = {
   disponibilite: "Temps Partiel",   // "Libre" (vert) | "Temps Partiel" (orange) | "Indisponible" (rouge)
   avatar: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/AVATAR_GIF.gif?raw=true",   // gif affiché à gauche de la page profil
   avatarHit: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/AVATAR_hit_GIF.gif?raw=true",   // gif affiché quand on clique sur l'avatar
-  dureeCoup: 1200,   // durée (en ms) pendant laquelle le gif "hit" reste affiché avant de revenir à l'avatar normal
+  dureeCoup: 650,   // durée (en ms) pendant laquelle le gif "hit" reste affiché avant de revenir à l'avatar normal
   metier: "Game / Technical designer",   // cadre sous l'avatar (page profil)
   bulle: "Bienvenue sur mon portfolio de game designer. Découvrez mes expériences, compétences et projets qui illustrent ma passion pour le design de jeux vidéo.",   // bulle de dialogue au survol de l'avatar
   cv: "ASSETS/cv-benjamin-akehal--daponte.pdf",   // fichier téléchargé par le bouton à droite du nom
@@ -21,14 +21,17 @@ const PROFIL = {
   /* ---------- Cadre "Stats" de la page profil ---------- */
   stats: {
     // Jauge 1 : durée totale du diplôme et nombre d'années déjà passées (décimales possibles : 1.5)
-    diplome: { label: "Diplôme", anneesTotal: 3, anneesFaites: 3 },
+    diplome: { label: "Diplôme", anneesTotal: 3, anneesFaites: 3,
+                survol: "Exemple : Bachelor Game Design, 3 années validées sur 3." },   // survol : texte de la bulle au survol de la jauge
 
     // Jauge 2 : (années de pro de base + durée du stage DÉJÀ effectuée, en années) / prochain palier
-    pro: { label: "Pro (junior)", anneesPro: 0, prochainPalier: 2 },
+    pro: { label: "Pro (junior)", anneesPro: 0, prochainPalier: 2,
+            survol: "Exemple : expérience professionnelle cumulée avant le palier confirmé." },
 
     // Jauge 3 : progression entre la date de début et la date de fin du stage (format AAAA-MM-JJ).
     // Une fois la date de fin dépassée, la jauge reste pleine.
-    stage: { label: "Stage", debut: "2026-07-06", fin: "2027-01-06" }          // ⚠ ajuste les dates réelles de ton stage
+    stage: { label: "Stage", debut: "2026-07-06", fin: "2027-01-06",
+             survol: "Exemple : stage de 6 mois en cours, du 6 juillet au 6 janvier." }          // ⚠ ajuste les dates réelles de ton stage
   },
 
   // Les 4 statistiques brutes : un texte + un nombre (décimales acceptées), tout est modifiable
@@ -51,10 +54,21 @@ const PROFIL = {
    video  : (facultatif) lien YouTube lu sur la page de présentation du jeu, dans le cadre "vidéo".
             Formats acceptés : https://www.youtube.com/watch?v=XXXXXXXXXXX | https://youtu.be/XXXXXXXXXXX | .../embed/... | .../shorts/...
             Pas de "video" (ou lien vide) = le cadre vidéo n'apparaît pas.
+   medailles : (facultatif) liste de médailles, affichées de gauche à droite en bas à gauche de la cartouche.
+            Chaque médaille :  { type: "bronze" | "argent" | "or", description: "texte de la bulle" }
+            - page du jeu : les médailles se survolent, la description s'affiche dans une bulle de BD
+            - accueil : les médailles sont visibles sur les cartouches mais ne se survolent pas
+            Pas de "medailles" (ou liste vide) = aucune médaille.
+            Exemple :  medailles: [ { type: "or", description: "1er prix de la Game Jam" }, { type: "bronze", description: "Prix du public" } ]
 */
 const PROJETS = [
   { id: 1, type: "Jeu Vidéo", statut: "Terminé", image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/KC-5125_LOGO.png?raw=true", nom: "KC-5125",
     video: "https://youtu.be/ufGmag99ZkA",   // ← colle ici le lien YouTube de la vidéo du jeu
+    medailles: [   // ⚠ exemples : remplace-les par tes vraies médailles
+      { type: "or",     description: "Exemple : 1er prix de la Mini Game Jam" },
+      { type: "argent", description: "Exemple : Prix du meilleur game design" },
+      { type: "bronze", description: "Exemple : Prix du public" }
+    ],
     description: "Un jeu d'horreur et de simulation de vol réaliser en 72h lors d'une Mini Game Jam avec 2 de mes camarades de classe." },
   { id: 2, type: "Jeu Vidéo", statut: "Terminé",  image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/Mask_Operator_LOGO.png?raw=true",nom: "M.A.S.K Operator", 
     description: "Un FPS multijoueur asymétrique ou les joueur doivent réparé un générateur diriger par l'Opérateur qui peut activer les différents modes de vue de leurs masques." },
