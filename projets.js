@@ -22,16 +22,16 @@ const PROFIL = {
   stats: {
     // Jauge 1 : durée totale du diplôme et nombre d'années déjà passées (décimales possibles : 1.5)
     diplome: { label: "Diplôme", anneesTotal: 3, anneesFaites: 3,
-                survol: "Exemple : Bachelor Game Design, 3 années validées sur 3." },   // survol : texte de la bulle au survol de la jauge
+                survol: "Bachelor en Game Design de 3 ans à Brassart - Aix-en-provence." },   // survol : texte de la bulle au survol de la jauge
 
     // Jauge 2 : (années de pro de base + durée du stage DÉJÀ effectuée, en années) / prochain palier
     pro: { label: "Pro (junior)", anneesPro: 0, prochainPalier: 2,
-            survol: "Exemple : expérience professionnelle cumulée avant le palier confirmé." },
+            survol: "Expérience professionnelle cumulée avant d'être 'Confirmé'." },
 
     // Jauge 3 : progression entre la date de début et la date de fin du stage (format AAAA-MM-JJ).
     // Une fois la date de fin dépassée, la jauge reste pleine.
     stage: { label: "Stage", debut: "2026-07-06", fin: "2027-01-06",
-             survol: "Exemple : stage de 6 mois en cours, du 6 juillet au 6 janvier." }          // ⚠ ajuste les dates réelles de ton stage
+             survol: "Stage de 6 mois en cours, du 6 juillet au 6 janvier." }          // ⚠ ajuste les dates réelles de ton stage
   },
 
   // Les 4 statistiques brutes : un texte + un nombre (décimales acceptées), tout est modifiable
@@ -39,7 +39,7 @@ const PROFIL = {
     { texte: "Projets",              auto: "projets" },   // compté automatiquement : nombre de jeux dans la liste PROJETS ci-dessous
     { texte: "Langues",              valeur: 2.5 },
     { texte: "Logiciels maîtrisé",  auto: "logiciels" },   // compté automatiquement : nombre de skills au niveau "Expert" (liste SKILLS)
-    { texte: "Engine",               valeur: 2 }
+    { texte: "Litres de Crazy Tiger", valeur: 4 }
   ]
 };
 
