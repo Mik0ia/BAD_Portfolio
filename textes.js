@@ -214,12 +214,60 @@ Raphaël BARRIERE
   `,
 
   // Zelda Triforce Showdwon
-  8: ``,
+  8: `***Zelda: Triforce Showdown*** est un jeu de cartes à collectionner se déroulant dans l’univers de The Legend of Zelda. L’objectif de ce projet est de proposer un TCG cohérent avec l’œuvre originale de Nintendo, en respectant à la fois son esthétique et ses mécaniques emblématiques, notamment celles de Breath of the Wild et Tears of the Kingdom.
+
+**Structure du jeu : **
+
+Chaque joueur dispose d’un deck de 63 cartes, composé de :
+*
+- 45 cartes dans le deck principal
+- 12 sanctuaires
+- 1 créature divine
+- 2 héros
+- 3 fragments de Triforce
+*
+**Conditions de victoire :**
+
+Il existe deux manières de remporter la partie :
+
+- Être le dernier joueur à avoir son héros encore en vie sur le champ de bataille.
+- Assembler sa Triforce avant les autres joueurs.
+
+Chaque fragment de Triforce possède un objectif spécifique, plus ou moins complexe selon le deck. Une fois cet objectif accompli, le fragment peut être forgé, accordant un bonus durable pour le reste de la partie.
+Ce système récompense l’investissement stratégique tout en offrant aux joueurs en difficulté une opportunité de revenir dans la course.
+
+**Exploration et sanctuaires : **
+
+À chaque tour, le joueur :
+
+- Pioche une carte.
+- Révèle un sanctuaire.
+
+Les sanctuaires proviennent d’un deck séparé, placé face cachée. Ils peuvent être épuisés pour générer de l’essence de leur couleur.Cette mécanique symbolise l’exploration du monde : plus les joueurs découvrent de sanctuaires, plus ils accèdent à de nouvelles possibilités — invoquer des guerriers, activer des capacités ou jouer des cartes de soutien — à l’image de la progression dans BOTW et TOTK.
+
+**Les essences et les peuples :**
+
+Les couleurs d’essence sont directement liées aux peuples d’Hyrule :
+
+- Essence Piaf
+- Essence Goron
+- Essence Gerudo, etc.
+
+Chaque race possède sa propre identité ludique, avec des mécaniques et des stratégies qui reflètent fidèlement leur représentation dans les jeux.
+
+**Les créatures divines :**
+
+Dernier pilier du gameplay inspiré de la saga : les créatures divines. Ces cartes puissantes fonctionnent comme des guerriers auxquels le joueur a toujours accès, mais à un coût très élevé.
+
+Leur particularité réside dans leur double nature : elles peuvent être placées aussi bien dans la zone des sanctuaires que sur le champ de bataille. Selon leur position, leurs effets varient, rappelant le rôle unique des créatures divines dans les jeux, à la fois machines colossales et lieux sacrés.`,
 
   // Terra Card Game
   9: ``,
 
   // Untouchable Meal
   10: ``
+
+  // Les Contes de l Ouest
+  11: ``
 
 };
