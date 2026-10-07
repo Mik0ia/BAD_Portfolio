@@ -16,9 +16,9 @@ const LIENS = {
 
   // KC-5125   ⚠ exemple : remplace-le par tes vrais liens
   1: [
-    { nom: "Jouer",  url: "https://github.com/Mik0ia", survol: "Télécharger le jeu", couleur: "#2ecc40" },
-    { nom: "GitHub", url: "https://github.com/Mik0ia", survol: "Voir le projet sur GitHub" },
-    { nom: "Vidéo",  url: "https://youtu.be/ufGmag99ZkA", survol: "Voir la vidéo sur YouTube", couleur: "#3b82f6" }
+    //{ nom: "Jouer",  url: "https://github.com/Mik0ia", survol: "Télécharger le jeu", couleur: "#2ecc40" },
+    //{ nom: "GitHub", url: "https://github.com/Mik0ia", survol: "Voir le projet sur GitHub" },
+    //{ nom: "Vidéo",  url: "https://youtu.be/ufGmag99ZkA", survol: "Voir la vidéo sur YouTube", couleur: "#3b82f6" }
   ],
 
   // M.A.S.K Operator

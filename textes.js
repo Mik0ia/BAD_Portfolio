@@ -19,14 +19,22 @@
 const TEXTES = {
 
   // KC-5125
-  1: `Voici un exemple de premier paragraphe : j'ai travaillé sur le **game design** et le *level design* du jeu.
-Ce retour à la ligne apparaît aussi sur la page.
+  1: `***Bienvenue à bord pour votre premier vol, pilote.***
 
-Et voici un second paragraphe, séparé par une ligne vide. On peut aussi mélanger : ***gras et italique***.
+https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/KC/seMl5f.png?raw=true
 
-https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SKILLS/Blender_LOGO.png?raw=true : 0.5
+Votre mission du jour : atteindre la cible indiquée sur votre radar. Des entités insectoïdes de classe B se sont installées le long de votre itinéraire. Leurs éclaireurs tenteront d'alerter les essaims dès qu'ils vous repéreront. Évitez-les à tout prix.
 
-Et voici un troisième paragraphe, sous l'image.`,
+https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/KC/VJYS1Z.png?raw=true
+
+Des tours à infrasons ont été déployées sur votre trajectoire. Si vous vous retrouvez encerclé, repérez-les : elles peuvent repousser ces créatures.
+
+https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/KC/RGAQRGAQ.PNG?raw=true
+
+N'oubliez pas : toute trahison est passible de mort.
+
+https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/KC/QEDVSDV.PNG?raw=true
+`,
 
   // M.A.S.K Operator
   2: `***Bienvenue dans les profondeurs, mécaniciens. *** 

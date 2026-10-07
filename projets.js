@@ -96,7 +96,7 @@ const PROJETS = [
   { id: 8, type: "Jeu de Société", statut: "En cours",  image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/ZTS_LOGO.png?raw=true", nom: "Zelda Triforce Showdwon",
     description: "Un jeu de carte à collectionner inspiré de l'univers de The Legends Of Zelda, votre but sera de compléter votre Triforce avant vos adversaires ou d'être le seul survivant du champs de bataille pour l'emporter.", video : "https://youtu.be/8BUOZ74izR4" },
   { id: 9, type: "Jeu de Société", statut: "Indisponible", image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/TERRA_LOGO.png?raw=true", nom: "Terra Card Game",
-    description: "Un jeu de carte à collectionner simple et stratégique ou chaque joueur incarne un chef d'armée qui doit triomphé des autres pour être le dernier sur le champs de bataille." },
+    description: "Un jeu de carte à collectionner simple et stratégique ou chaque joueur incarne un chef d'armée qui doivent triompher des autres pour être le dernier sur le champs de bataille." },
   { id: 11, type: "Jeu de Société", statut: "En cours", image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/Contes_de_louest_LOGO.png?raw=true", nom: "Les Contes de l'Ouest",
     description: "Un jeu de rôle initiatique, qui prend place au Far West destiné à des joueurs de 10 ans et plus." },
 
