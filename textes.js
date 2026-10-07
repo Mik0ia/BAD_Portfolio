@@ -192,7 +192,7 @@ https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/SOM/8kTz4a.png?
 
 Benjamin AKEHAL--DA PONTE 
 Noé INGLEBERT 
-Raphaël BARRIERE
+Raphaël BARRIÈRE
 
 `,
 
@@ -279,6 +279,46 @@ https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/ZTS/Capture5.PN
   10: ``,
 
   // Les Contes de l Ouest
-  11: ``
+  11: `
+  https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/LCDO/image_2025-04-27_160224733-AVL7j6BbxziNP053.webp?raw=true : 0.5
+  
+  **Présentation :**
+
+  ***Les Contes de l’Ouest*** est un jeu de rôle initiatique, qui prend place au Far West destiné à des joueurs de 10 ans et plus. Il constitue une porte d’entrée idéale vers les jeux de rôle classiques et encourage la créativité de tous les participants.
+
+https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/LCDO/dsc00494-avl78rboz5s7om9e-mxB4wDoPNBcop7JL.png?raw=true
+
+Avec des règles simples à comprendre, de nombreuses aides, et des personnages attachants, Les Contes de l’Ouest offre une expérience inoubliable à partager entre amis ou en famille. Jouable de 3 à 7 participants, ce jeu revisite les grands concepts des jeux de rôle tout en s’assurant que personne n’est laissé de côté, qu’il s’agisse des joueurs ou du maître du jeu.
+
+https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/LCDO/dsc00498-amq1eyvnm9cqk0mn-1-Yyv9lMVa3Li4MrM0.png?raw=true
+
+**Les règles résumé :**
+
+Le maître du jeu place des planches les unes à la suite des autres pour former un plateau. Il pioche ensuite une carte par case, qu’il associe à chacune d’entre elles pour les modifier. Le maître du jeu doit inventer une quête dans laquelle les joueurs progresseront. Ces derniers choisissent un personnage doté d’un passif et de compétences qu’ils débloqueront au fur et à mesure de la partie.
+
+https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/LCDO/img_20240112_153909-YZ9x27NaX6tVr91Z.jpg?raw=true : 0.5
+
+Le maître du jeu crée des événements pour les joueurs à l’aide des cartes, qu’il intègre à son histoire. Si les joueurs parviennent à surmonter ces événements, ils débloquent de nouvelles compétences et continuent d’avancer sur le plateau. Une fois arrivés à la case finale, les joueurs vivent une ultime péripétie pour conclure leur aventure. S’ils réussissent à la surmonter, ils remportent la partie.
+
+https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/LCDO/dsc00464-mxb4od5em5t6bked-m7V3G11nZziDokly.png?raw=true
+
+**Pourquoi vous allez aimer ? :**
+
+Les contes de L'ouest est un jeu idéal pour jeunes comme adultes, il permet de découvrir et redécouvrir le jeu de rôle pour tous, avec des mécaniques simples et originales. 
+
+https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/LCDO/dsc00500-a85ezbjzboso9nbk-AR0LaRk9VksZbJ7P.png?raw=true
+
+Si vous cherchez à vivre une expérience créative à partager avec vos proches, dont vous parlerez encore après, les contes de l'ouest est le jeu pour vous.
+
+https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/LCDO/dsc00491-dwxv2rprjwcxlevx-AVL7jrg2DKIxXXNx.png?raw=true
+
+**Crédits :**
+
+Benjamin AKEHAL--DA PONTE
+Raphaël BARRIÈRE 
+Alex CAVALLARO
+Louka VERGÈS
+
+`
 
 };
