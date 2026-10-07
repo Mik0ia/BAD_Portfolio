@@ -31,7 +31,7 @@ Des tours à infrasons ont été déployées sur votre trajectoire. Si vous vous
 
 https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/KC/RGAQRGAQ.PNG?raw=true
 
-N'oubliez pas : toute trahison est passible de mort.
+**N'oubliez pas : toute trahison est passible de mort.**
 
 https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/KC/QEDVSDV.PNG?raw=true
 `,
