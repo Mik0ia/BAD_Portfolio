@@ -103,7 +103,7 @@ const PROJETS = [
   { id: 9, type: "Jeu de Société", statut: "Indisponible", image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/TERRA_LOGO.png?raw=true", nom: "Terra Card Game",
     description: "Un jeu de carte à collectionner simple et stratégique ou chaque joueur incarne un chef d'armée qui doivent triompher des autres pour être le dernier sur le champs de bataille." },
   { id: 11, type: "Jeu de Société", statut: "En cours", image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/Contes_de_louest_LOGO.png?raw=true", nom: "Les Contes de l'Ouest",
-    description: "Un jeu de rôle initiatique, qui prend place au Far West destiné à des joueurs de 10 ans et plus.", commentaire : "Cela fait mantenant plus de 3ans que nous travaillons sur le jeu et nous cherchons activement une Mmaison d'édition ou un imprimeur pour s'auto-éditer." },
+    description: "Un jeu de rôle initiatique, qui prend place au Far West destiné à des joueurs de 10 ans et plus.", commentaire : "Cela fait maintenant plus de 3ans que nous travaillons sur le jeu et nous cherchons activement une Mmaison d'édition ou un imprimeur pour s'auto-éditer." },
 
   { id: 10, type: "Jeu Mobile", statut: "En pause", image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/Untouchable_Meal_LOGO.png?raw=true", nom: "Untouchable Meal",
     description: "Un jeu d'ambiance RP multijoueur inspiré de l'Undercover et du Loup Garou ou les joueurs doivent aider Al Capone à récupérer la marchandise sans se faire démasquer par leurs ennemis" }
