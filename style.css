@@ -621,22 +621,86 @@ html, body, *, *::before, *::after {
 
 /* ---------- Liens de l'accueil : colonne à gauche, en haut de la page ---------- */
 .liens-accueil[hidden] { display: none; }
-.liens-accueil {
+.liens-accueil {                     /* le bloc "Liens" : un titre avec une flèche, puis la liste (fermée au départ) */
+  --pl: 8px;                         /* marges autour des boutons : laissent la place à l'ombre et au zoom au survol */
+  --pr: 10px;
+  --ex: 18px;                        /* marge en plus de chaque côté de la liste : les boutons grossissent à l'ouverture (animation) sans être coupés */
   position: fixed;
   left: 20px;
   top: 12px;                         /* en haut de la page */
-  max-height: calc(100vh - var(--h-panneau) - 34px - 24px);
   width: 224px;                      /* même largeur pour tous les boutons */
   z-index: 4;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  gap: 16px;
-  padding: 8px 10px 12px 8px;        /* laisse la place à l'ombre et au zoom au survol */
-  overflow-y: auto;
-  scrollbar-width: none;
+  padding: 8px var(--pr) 12px var(--pl);
 }
-.liens-accueil::-webkit-scrollbar { display: none; }
+.liens-titre {                       /* bouton "LIENS" + flèche */
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  min-height: 48px;
+  padding: 5px 9px 5px 20px;
+  font: inherit;
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--trait);
+  background: var(--blanc);
+  border: 4px solid var(--trait);
+  border-radius: 24px;
+  box-shadow: 0 6px 0 var(--trait);
+  cursor: pointer;
+  transition: transform 0.3s var(--rebond), box-shadow 0.1s, background 0.15s;
+}
+.liens-titre:hover { background: var(--orange-clair); transform: translateY(-3px) scale(1.04) rotate(-1deg); }
+.liens-titre:active { box-shadow: 0 2px 0 var(--trait); transform: translateY(3px) scale(1.01); }
+.liens-titre:focus-visible { outline: 4px solid var(--orange); outline-offset: 3px; }
+.liens-fleche {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  color: var(--blanc);
+  background: var(--orange);
+  border: 3px solid var(--trait);
+  border-radius: 50%;
+  transition: transform 0.4s var(--rebond);
+}
+.liens-fleche svg { width: 18px; height: 18px; filter: drop-shadow(0 1.5px 0 var(--trait)); }
+.liens-accueil.ouvert .liens-fleche { transform: rotate(180deg); }     /* ouvert : la flèche pointe vers le haut */
+
+.liens-corps {                       /* se déplie en douceur : 0 -> hauteur de la liste */
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s ease;
+}
+.liens-accueil.ouvert .liens-corps { grid-template-rows: 1fr; }
+.liens-liste {
+  min-height: 0;
+  overflow: hidden;
+  visibility: hidden;                /* fermé : les boutons ne sont ni visibles ni accessibles au clavier */
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 0 calc(-1 * (var(--pr) + var(--ex))) 0 calc(-1 * (var(--pl) + var(--ex)));
+  padding: 0 calc(var(--pr) + var(--ex)) 0 calc(var(--pl) + var(--ex));
+  scrollbar-width: none;
+  transition: visibility 0s 0.4s;
+}
+.liens-liste::-webkit-scrollbar { display: none; }
+.liens-liste > :first-child { margin-top: 16px; }
+.liens-liste > :last-child { margin-bottom: 18px; }
+.liens-accueil.ouvert .liens-liste {
+  visibility: visible;
+  overflow-y: auto;                  /* si ça dépasse de l'écran, la liste défile */
+  max-height: max(120px, calc(100vh - var(--h-panneau) - 34px - 24px - 76px));
+  transition-delay: 0s;
+}
 .lien-acc {
   --b: var(--orange);                /* couleur du bouton : changée par "couleur" dans liens_accueil.js */
   flex: none;
@@ -1842,15 +1906,22 @@ html, body, *, *::before, *::after {
     padding: 8px 10px 0;
   }
   .liens-accueil {
+    --pl: 2px;
+    --pr: 4px;
+    --ex: 8px;
     grid-column: 1;
     grid-row: 1;
     position: static;
     width: auto;
-    max-height: none;
-    gap: 8px;
-    padding: 2px 4px 8px 2px;
-    overflow: visible;
+    padding: 2px var(--pr) 8px var(--pl);
   }
+  .liens-titre { min-height: 36px; padding: 3px 6px 3px 12px; font-size: 0.74rem; letter-spacing: 0.08em; border-width: 3px; border-radius: 14px; box-shadow: 0 4px 0 var(--trait); }
+  .liens-fleche { width: 22px; height: 22px; border-width: 2px; }
+  .liens-fleche svg { width: 13px; height: 13px; }
+  .liens-liste { gap: 8px; }
+  .liens-liste > :first-child { margin-top: 10px; }
+  .liens-liste > :last-child { margin-bottom: 12px; }
+  .liens-accueil.ouvert .liens-liste { max-height: 48vh; }
   .lien-acc {
     min-height: 34px;
     gap: 6px;

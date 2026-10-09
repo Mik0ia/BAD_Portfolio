@@ -38,8 +38,18 @@
     </button>
   </aside>
 
-  <!-- Liens de l'accueil (liens_accueil.js) : colonne à gauche, au-dessus des cartouches -->
-  <nav class="liens-accueil" id="liensAccueil" aria-label="Liens" hidden></nav>
+  <!-- Bloc "Liens" (liens_accueil.js) : à gauche, au-dessus des cartouches. Fermé par défaut ; la flèche l'ouvre / le ferme -->
+  <div class="liens-accueil" id="liensAccueil" hidden>
+    <button class="liens-titre entree" id="liensTitre" type="button" aria-expanded="false" aria-controls="liensListe">
+      <span>Liens</span>
+      <span class="liens-fleche" aria-hidden="true">
+        <svg viewBox="0 0 20 20"><path d="M5 7.5l5 5 5-5" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+    </button>
+    <div class="liens-corps">
+      <nav class="liens-liste" id="liensListe" aria-label="Liens"></nav>
+    </div>
+  </div>
 
   </div>
 
@@ -1451,7 +1461,8 @@
     }
     const bulleLien = document.getElementById("bulleLien");
     function afficherLiensAccueil() {
-      const nav = document.getElementById("liensAccueil");
+      const bloc = document.getElementById("liensAccueil");     // le bloc "Liens" (titre + flèche + liste)
+      const nav = document.getElementById("liensListe");        // la liste des boutons, à l'intérieur
       nav.textContent = "";
       const liste = (typeof LIENS_ACCUEIL !== "undefined" && Array.isArray(LIENS_ACCUEIL)) ? LIENS_ACCUEIL : [];
       const urlSure = u => typeof u === "string" && u.trim() && !/^\s*javascript:/i.test(u);
@@ -1511,8 +1522,22 @@
         }
         nav.appendChild(el);
       });
-      nav.hidden = !nav.children.length;
+      bloc.hidden = !nav.children.length;                         // aucun lien = pas de bloc
     }
+
+    /* flèche du bloc "Liens" : ouvre / ferme la liste (fermée au chargement) */
+    (function () {
+      const bloc = document.getElementById("liensAccueil");
+      const titre = document.getElementById("liensTitre");
+      titre.addEventListener("click", () => {
+        const ouvert = bloc.classList.toggle("ouvert");
+        titre.setAttribute("aria-expanded", ouvert ? "true" : "false");
+        bulleLien.classList.remove("visible");
+        if (ouvert) bloc.querySelectorAll(".lien-acc").forEach(b => {          // les boutons ressortent l'un après l'autre
+          b.classList.remove("entree"); void b.offsetWidth; b.classList.add("entree");
+        });
+      });
+    })();
 
     afficherProfil();
     remplirPageProfil();
