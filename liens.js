@@ -58,7 +58,7 @@ const LIENS = {
     { nom : "Lien TCG Arena", url : "https://tcg-arena.fr/load/aHR0cHMlM0ElMkYlMkZtaWswaWEuZ2l0aHViLmlvJTJGWmVsZGEtVHJpZm9yY2UtU2hvd2Rvd24lMkZHYW1lRmlsZXMlMkZHYW1lX1plbGRhX1RyaWZvcmNlX1Nob3dkb3duLmpzb24=", survol : "Ajouter à votre catalogue de jeu TCG Arena", couleur : "#ae00ff"},
     { nom : "Discord", url : "https://discord.gg/DJGt97S6tw", survol : "Catégorie dans le discord pour ZTS", couleur : "#3b41f6"},
     { nom : "Règles", url : "https://docs.google.com/document/d/1pq0hcpWtqeUqezxZkCP4cIaozBUl5ZCBw7W-pzluUYg/edit?usp=sharing", survol : "Règles du jeu", couleur : "#fffb00"},
-    { nom : "Github", url : "https://docs.google.com/document/d/1pq0hcpWtqeUqezxZkCP4cIaozBUl5ZCBw7W-pzluUYg/edit?usp=sharing", survol : "Repositorie du sur jeu TCG Arena", couleur : "#9400a8"}
+    { nom : "Github", url : "https://github.com/Mik0ia/Zelda-Triforce-Showdown", survol : "Repositorie du sur jeu TCG Arena", couleur : "#9400a8"}
   ],
 
   // Terra Card Game
