@@ -1502,8 +1502,15 @@
           if (!txt) { bulleLien.classList.remove("visible"); return; }
           bulleLien.textContent = txt;
           const r = el.getBoundingClientRect();
-          const w = bulleLien.offsetWidth;
-          const gauche = r.right + 18 + w > innerWidth - 8;                // pas la place à droite (mobile : colonne de droite) : la bulle sort à gauche
+          bulleLien.style.maxWidth = "";
+          let w = bulleLien.offsetWidth;
+          const placeDroite = innerWidth - 8 - (r.right + 18), placeGauche = r.left - 18 - 8;
+          let gauche = false;
+          if (w > placeDroite) {                                          // pas assez de place à droite du bouton (mobile) : on prend le côté le plus large
+            gauche = placeGauche > placeDroite;
+            const place = Math.max(80, gauche ? placeGauche : placeDroite);
+            if (w > place) { bulleLien.style.maxWidth = place + "px"; w = bulleLien.offsetWidth; }   // trop large : le texte passe à la ligne
+          }
           bulleLien.classList.toggle("gauche", gauche);
           bulleLien.style.left = (gauche ? r.left - 18 - w : r.right + 18) + "px";
           bulleLien.style.top = (r.top + r.height / 2 - bulleLien.offsetHeight / 2) + "px";

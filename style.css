@@ -1903,7 +1903,7 @@ html, body, *, *::before, *::after {
     flex: none;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;                     /* tout est collé à DROITE : profil, mégaphone, puis bloc "Liens" en dessous */
+    align-items: center;                       /* tout est CENTRÉ dans la page : profil, mégaphone, puis bloc "Liens" en dessous */
     gap: 4px;
     padding: 8px 10px 0;
   }
