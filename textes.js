@@ -281,7 +281,18 @@ https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/ZTS/Capture5.PN
 `,
 
   // Terra Card Game
-  9: ``,
+  9: `***Terra Card Game*** est un jeu de carte simple ou on incarne un chef d'armée et avec un deck de 50 cartes on part affronté jsuqu'à 6 adversaires pour être le dernier à survivre sur le champs de bataille, avec des mécaniques inspiré des grands jeux de cartes comme Yu-Gi-Oh, Pokémon et Magic, Terra Card Game est un jeu qui veut familiariser les nouveaux joueurs avec le jeu de carte compétitif. En développement depuis bientôt 3 ans le jeu à connu beaucoup de changement et de rework et aujourd'hui il n'a jamais été aussi jouable, mais il lui reste encore beaucoup d'ajustements pour pouvoir être le jeune fun, simple et stratégique que je souhaite créer..
+  
+  https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/TCG/img_20250926_224854-Yg249QM2qzIQGoKn-_1_.jpg?raw=true
+
+  https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/TCG/img_20250926_224921-m7VDK9X1eLfxDNy7.jpg?raw=true
+
+  https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/TCG/img_20250926_225012-A85M49LDWJUM1Ml7.jpg?raw=true
+
+  https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/TCG/img_20250926_225143-m5K8bkQv6VfPnM7j.jpg?raw=true
+
+  
+  `,
 
   // Untouchable Meal
   10: ``,

@@ -36,16 +36,25 @@ const ACTUS = [
 
   // ⚠ exemple : remplace-le par ta vraie première actu
   {
-    date: "2026-10-09",
-    titre: "Le portfolio s'agrandit !",
-    texte: `**Nouveau :** les actualités arrivent sur le portfolio.
-
-Tu pourras y suivre mes *nouveaux projets*, mes résultats de Game Jam et tout ce qui se passe de mon côté.
-
-Un lien dans le texte devient cliquable : https://bengamin-dev.itch.io`,
-    // video: "https://youtu.be/ufGmag99ZkA",
+    date: "2026-01-08",
+    titre: "Notre Jeu pour la Global Game Jam 2026",
+    texte: `**Mask Operator** est le jeu que nous avons réalisé pour la Global Game Jam 2026. Dans ce jeu de tir d'horreur asymétrique les joueurs incarnent des "Diver" qui doivent réparer le générateur dans le souterrain, pour les aider "l'Opérateur" peut mettre des modes d'affichages sur leurs masques pour leurs permettre de voir mieux dans l'obscurité.
+    
+    https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/MO/h0GIZo.png?raw=true
+    `, 
     liens: [
-      { nom: "Itch.io", url: "https://bengamin-dev.itch.io", survol: "Voir mes jeux sur Itch.io", couleur: "#fa5353" }
+      { nom: "Post LINKEDIN", url: "https://lnkd.in/p/eydRKBqZ", survol: "", couleur: "#0c36ee" }
+    ],  
+  },
+  {
+    date: "2025-10-22",
+    titre: "Tout se ressemble dans ce labyrinthe ?",
+    texte : `**Strokes of Madness** est un jeu que nous avons réalisé pour la Mini Jame Gam #48, dans ce jeu tout se ressemble et le seul moyen de se repérer dans ce dédale est le stylo rouge à disposition pour marquer votre chemin en espérant ne pas devenir fou.
+    
+    https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/SOM/mlQE5A.png?raw=true
+    `,
+    liens : [
+      { nom : "Post LINKEDIN", url : "https://lnkd.in/p/eFqs3hSD", survol : "", couleur: "#0c36ee"}
     ]
   }
 
