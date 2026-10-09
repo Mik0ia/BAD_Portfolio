@@ -1942,3 +1942,136 @@ html, body, *, *::before, *::after {
   }
   .grille-barre .pj-pouce { border-width: 2px; }
 }
+
+
+/* ============================================================
+   PAGE PROFIL SUR MOBILE (écran de 800px de large ou moins)
+   Gauche (46 % de l'écran) : avatar, cadre métier, Hall of Fame (fixes).
+   Droite : nom + CV, XP, Stats, Skills -> cette colonne défile, comme sur ordinateur.
+   Réglages rapides :
+     --mav  : taille de l'avatar (plus grand = avatar plus gros)
+     --bulle-y (dans .pp-avatar-wrap) : hauteur de la bulle de dialogue
+   ============================================================ */
+@media (max-width: 800px) {
+  .page-profil {
+    --mav: clamp(90px, 26vw, 140px);          /* taille de l'avatar sur mobile */
+    --w-cv: 40px;                             /* place du bouton CV à droite du nom */
+    overflow: hidden;                         /* la page ne défile plus : seule la colonne de droite défile */
+    padding: 10px 8px 12px;
+    gap: 8px;
+    justify-content: flex-start;
+  }
+  .page-profil.ouverte { flex-direction: row; align-items: stretch; }
+
+  /* bouton retour : plus petit, en haut à gauche */
+  .page-profil .btn-fermer { top: 10px; left: 10px; width: 56px; height: 36px; border-width: 3px; border-radius: 12px; box-shadow: 0 4px 0 var(--trait); }
+  .page-profil .btn-fermer::before, .page-profil .btn-fermer::after { width: 20px; height: 5px; margin: -2.5px 0 0 -10px; box-shadow: 0 1px 0 var(--trait); }
+
+  /* ---------- colonne de gauche ---------- */
+  .pp-avatar-zone {
+    position: static;
+    flex: 0 0 46%;
+    width: 46%;
+    min-width: 0;
+    height: auto;
+    align-self: flex-start;
+    align-items: flex-start;
+    justify-content: center;
+    padding: calc(var(--mav) * 1.15 + 14px) 8px 0;   /* laisse la place au haut du gif (agrandi vers le haut) */
+  }
+  .pp-perso { --sol-remonte: -8px; width: 100%; align-items: stretch; }
+  .pp-avatar-wrap {
+    --avatar-h: var(--mav);
+    --echelle: 3;
+    --gif-y: calc(var(--mav) * -1.4);            /* même proportion que sur ordinateur (-350px pour 250px) */
+    --bulle-y: calc(var(--mav) * -0.9);          /* hauteur de la bulle de dialogue */
+    align-self: center;
+  }
+  .pp-avatar-wrap .pastille-profil { width: 22px; height: 22px; border-width: 3px; box-shadow: 0 0 0 3px var(--blanc); margin: 0 0 -11px -11px; }
+
+  /* bulle de dialogue : cachée, s'ouvre au toucher / survol de l'avatar */
+  .pp-avatar-wrap .bulle-dialogue {
+    position: absolute;
+    right: auto;
+    left: 50%;
+    top: var(--bulle-y);
+    width: min(42vw, 210px);
+    margin: 0;
+    padding: 8px 10px;
+    font-size: 0.72rem;
+    border-width: 3px;
+    border-radius: 16px;
+    box-shadow: 0 4px 0 var(--trait);
+    opacity: 0;
+    transform: translate(-50%, 8px) scale(0.5);
+    transform-origin: 50% 100%;
+    z-index: 6;
+  }
+  .pp-avatar-wrap:hover .bulle-dialogue,
+  .pp-avatar-wrap:focus-within .bulle-dialogue,
+  .pp-avatar-wrap:focus-visible .bulle-dialogue { opacity: 1; transform: translate(-50%, 0) scale(1); }
+
+  /* cadre métier : pleine largeur de la colonne, texte réduit */
+  .pp-metier {
+    min-width: 0;
+    margin-top: 12px;
+    padding: 4px 8px;
+    border-width: 3px;
+    border-radius: 18px;
+    box-shadow: 0 4px 0 var(--trait);
+    font-size: clamp(0.5rem, 2.3vw, 0.75rem);
+    letter-spacing: 0.02em;
+    white-space: normal;
+  }
+
+  /* Hall of Fame : sous le cadre métier, 3 médailles par rangée */
+  .pp-medailles {
+    --med: 30px;
+    --rangee: calc(var(--med) + 20px);
+    position: relative;
+    top: auto;
+    width: 100%;
+    margin: 18px 0 0;
+    border-width: 3px;
+    border-radius: 16px;
+    box-shadow: 0 0 0 3px #ffc928, 0 0 0 6px var(--trait), 0 9px 0 6px var(--trait);
+  }
+  .hof-titre { padding: 4px 6px 3px; font-size: 0.62rem; letter-spacing: 0.06em; border-bottom-width: 3px; box-shadow: inset 0 -2px 0 #ffc928; }
+  .hof-grille { grid-template-columns: repeat(3, 1fr); max-height: calc(var(--rangee) * 2); padding: 0 18px 0 4px; }
+  .pp-medailles .medaille { margin: 0 0 8px; }
+  .page-profil .hof-barre { display: block; right: 3px; top: 6px; bottom: 6px; width: 12px; border-width: 2px; box-shadow: 0 2px 0 var(--trait); }
+
+  /* ---------- colonne de droite : défile comme sur ordinateur ---------- */
+  .pp-droite { flex: 1 1 0; width: auto; min-width: 0; max-width: none; margin: 0; align-self: stretch; max-height: 100%; min-height: 0; gap: 10px; }
+  .pp-zone-defile { flex: 1; min-height: 0; }
+  .pp-defile { height: 100%; overflow-x: hidden; overflow-y: auto; gap: 10px; }
+  .page-profil .pp-barre { display: block; right: 12px; top: 4px; bottom: 10px; width: 16px; border-width: 3px; box-shadow: 0 3px 0 var(--trait); }
+
+  .pp-ligne-nom { gap: 6px; }
+  .pp-nom { padding: 6px 8px; font-size: clamp(0.8rem, 3.6vw, 1.1rem); border-width: 3px; border-radius: 22px; box-shadow: 0 4px 0 var(--trait); }
+  .btn-cv { width: 34px; height: 34px; border-width: 3px; box-shadow: 0 4px 0 var(--trait); }
+  .btn-cv svg { width: 18px; height: 18px; }
+  .pp-droite > .xp-grande { height: 24px; border-width: 3px; box-shadow: 0 4px 0 var(--trait); }
+  .xp-grande .xp-niveau { left: 10px; font-size: 0.72rem; }
+
+  .panneau-profil { padding: 12px 10px 14px; border-width: 3px; border-radius: 18px; box-shadow: 0 4px 0 var(--trait); }
+  .section-titre { width: 82%; margin-bottom: 10px; font-size: 0.8rem; letter-spacing: 0.06em; border-width: 2px; box-shadow: 0 3px 0 var(--trait); }
+
+  .jauges { gap: 10px; }
+  .jauge { grid-template-columns: 1fr; gap: 4px; }
+  .jauge-nom { justify-self: start; padding: 3px 10px; font-size: 0.7rem; border-width: 2px; border-radius: 10px; }
+  .jauge-barre { height: 24px; border-width: 2px; box-shadow: 0 3px 0 var(--trait); }
+  .jauge-texte { right: 8px; font-size: 0.7rem; }
+
+  .brutes { margin-top: 12px; padding: 6px; gap: 5px; grid-template-columns: 1.3fr 0.7fr; border-width: 2px; border-radius: 12px; }
+  .brute-txt, .brute-val { min-height: 36px; padding: 3px 4px; border-width: 2px; border-radius: 8px; }
+  .brute-txt { font-size: 0.6rem; }
+  .brute-val { font-size: 1.1rem; }
+
+  .skills { gap: 8px; }
+  .skill { grid-template-columns: 36px 1fr; gap: 8px; padding: 5px 8px 5px 5px; border-width: 2px; border-radius: 14px; }
+  .skill::before { border-radius: 12px 12px 0 0; }
+  .skill-logo { width: 36px; height: 36px; margin: 1px; border-width: 3px; border-radius: 10px; }
+  .skill-nom { font-size: 0.78rem; }
+  .skill-desc { font-size: 0.64rem; }
+}
