@@ -1150,6 +1150,8 @@
     window.addEventListener("resize", mesurerSprite);
     function majBarre() {
       majCommentaire();
+      pageProjet.style.setProperty("--defil", pjDefile.scrollTop + "px");          // mobile : les flèches défilent avec la page
+      pageProjet.classList.toggle("defile-loin", pjDefile.scrollTop > 110);        // ...puis disparaissent une fois hors de vue
       const defile = pjDefile.scrollHeight - pjDefile.clientHeight;
       pjBarre.classList.toggle("cache", defile <= 1);       // rien à défiler : on cache la barre
       if (defile <= 1) return;

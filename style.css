@@ -2166,3 +2166,100 @@ html, body, *, *::before, *::after {
   .act-texte { padding: 12px 14px; font-size: 0.98rem; line-height: 1.5; }
   .act-liens { gap: 12px 14px; }
 }
+
+
+/* ============================================================
+   PAGE D'UN JEU SUR MOBILE (écran de 700px de large ou moins)
+   De haut en bas :
+     1) la croix (retour) à gauche, sur la même ligne que le cadre catégorie centré
+     2) le cadre présentation : cartouche à gauche | nom + description à droite
+        (les flèches précédent / suivant sont sur les côtés de ce cadre et défilent avec la page)
+     3) vidéo, 4) texte, 5) liens : pleine largeur
+   Le compteur "3 / 7" reste fixe en bas de l'écran. On défile au doigt (pas de barre cartoon).
+   Réglages rapides :  --fl-top : hauteur des flèches (au centre du cadre présentation)
+   ============================================================ */
+@media (max-width: 700px) {
+  .page-projet:not(.page-actus) { --fl-top: 132px; }
+
+  /* cadre d'écran plus fin pour gagner de la place */
+  .page-projet:not(.page-actus) .pj-cadre { inset: 8px; border-radius: 28px; box-shadow: inset 0 0 0 4px var(--orange), 0 0 0 100vmax var(--trait); }
+
+  /* 1) bouton retour : petit, en haut à gauche */
+  .page-projet:not(.page-actus) .btn-fermer {
+    top: 30px;
+    left: 24px;
+    width: 52px;
+    height: 34px;
+    border-width: 3px;
+    border-radius: 12px;
+    box-shadow: 0 4px 0 var(--trait);
+  }
+  .page-projet:not(.page-actus) .btn-fermer::before,
+  .page-projet:not(.page-actus) .btn-fermer::after { width: 20px; height: 5px; margin: -2.5px 0 0 -10px; box-shadow: 0 1px 0 var(--trait); }
+
+  /* zone qui défile : le contenu commence sur la ligne de la croix */
+  .page-projet:not(.page-actus) .pj-defile { padding: 26px 0 96px; }
+  .page-projet:not(.page-actus) .pj-contenu { width: calc(100vw - 64px); padding: 0; gap: 18px; }
+  .page-projet:not(.page-actus) .pj-categorie { padding: 4px 26px; font-size: 1.05rem; border-width: 3px; box-shadow: 0 4px 0 var(--trait); }
+
+  /* tous les cadres : bordures et ombres plus fines */
+  .page-projet:not(.page-actus) .pj-cadre-pres,
+  .page-projet:not(.page-actus) .pj-cadre-video,
+  .page-projet:not(.page-actus) .pj-cadre-texte,
+  .page-projet:not(.page-actus) .pj-cadre-liens { border-width: 4px; border-radius: 26px; box-shadow: 0 5px 0 var(--trait); padding: 10px; }
+
+  /* 2) cadre présentation : cartouche à gauche, textes à droite */
+  .page-projet:not(.page-actus) .pj-cadre-pres { flex-direction: row; align-items: stretch; gap: 10px; }
+  .page-projet:not(.page-actus) .pj-visuel {
+    align-self: flex-start;
+    width: clamp(84px, 26vw, 124px);
+    border-width: 4px;
+    border-radius: 22px;
+    padding: 4px;
+    box-shadow: 0 4px 0 var(--trait);
+  }
+  .page-projet:not(.page-actus) .pj-visuel img { border-radius: 15px; }
+  .page-projet:not(.page-actus) .pj-visuel .medailles { --med: 22px; }
+  .page-projet:not(.page-actus) .pj-visuel .pastille { transform: scale(0.8); }
+  .page-projet:not(.page-actus) .pj-infos { width: auto; flex: 1; min-width: 0; gap: 8px; }
+  .page-projet:not(.page-actus) .pj-boite { border-width: 3px; border-radius: 14px; box-shadow: 0 3px 0 var(--trait); padding: 6px 12px; }
+  .page-projet:not(.page-actus) .pj-nom { font-size: 1.05rem; }
+  .page-projet:not(.page-actus) .pj-desc { font-size: 0.78rem; line-height: 1.35; }
+
+  /* flèches : sur les côtés du cadre présentation, elles défilent avec la page (--defil mis à jour en JS) */
+  .page-projet:not(.page-actus) .fleche {
+    top: calc(var(--fl-top) - var(--defil, 0px));
+    margin-top: -23px;
+    width: 34px;
+    height: 46px;
+    border-width: 3px;
+    border-radius: 16px;
+    box-shadow: 0 4px 0 var(--trait);
+    z-index: 2;
+    transition: background 0.15s, box-shadow 0.1s, translate 0.25s var(--rebond), scale 0.25s var(--rebond), opacity 0.2s;
+  }
+  .page-projet:not(.page-actus) .fleche.gauche { left: 12px; }
+  .page-projet:not(.page-actus) .fleche.droite { right: 12px; }
+  .page-projet:not(.page-actus) .fleche::before { width: 11px; height: 11px; margin-top: -5.5px; border-width: 0 4px 4px 0; filter: drop-shadow(0 2px 0 var(--trait)); }
+  .page-projet:not(.page-actus) .fleche.droite::before { margin-left: -9px; }
+  .page-projet:not(.page-actus) .fleche.gauche::before { margin-left: -2px; }
+  .page-projet.defile-loin:not(.page-actus) .fleche { opacity: 0; pointer-events: none; }
+
+  /* 3) vidéo */
+  .page-projet:not(.page-actus) .pj-video { border-width: 3px; border-radius: 14px; }
+
+  /* 4) texte */
+  .page-projet:not(.page-actus) .pj-texte { padding: 10px 12px; font-size: 0.8rem; line-height: 1.5; }
+  .page-projet:not(.page-actus) .pj-img img { border-radius: 8px; }
+
+  /* 5) liens */
+  .page-projet:not(.page-actus) .pj-cadre-liens { gap: 12px; }
+  .page-projet:not(.page-actus) .pj-lien { padding: 6px 22px; font-size: 1rem; border-width: 3px; box-shadow: 0 4px 0 var(--trait); }
+
+  /* compteur "3 / 7" : fixe en bas, dans le cadre d'écran */
+  .page-projet:not(.page-actus) .pj-compteur { bottom: 22px; padding: 2px 16px; font-size: 0.85rem; z-index: 4; }
+
+  /* commentaire de l'avatar : au-dessus du compteur */
+  .page-projet:not(.page-actus) .pj-commentaire { right: 16px; bottom: 58px; }
+  .page-projet:not(.page-actus) .pj-commentaire img { height: 150px; }
+}
