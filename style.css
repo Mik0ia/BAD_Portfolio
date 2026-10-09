@@ -1809,3 +1809,132 @@ html, body, *, *::before, *::after {
   gap: 16px 20px;
   padding: 4px 0 6px;
 }
+
+/* ============================================================
+   ACCUEIL SUR MOBILE (écran de 700px de large ou moins)
+   Haut : liens à gauche (empilés) | profil à droite, en 2 colonnes égales.
+   Bas  : menu des cartouches, 2 par ligne, qui défile de haut en bas (barre cartoon).
+   Pas de survol sur mobile : la vitrine 3D disparaît et son espace aussi.
+   ============================================================ */
+.haut-accueil { display: contents; }          /* ordinateur : le conteneur n'existe pas, rien ne change */
+.grille-barre { display: none; }
+
+@media (max-width: 700px) {
+  body {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    height: 100dvh;
+    overflow-x: hidden;
+    overflow-y: auto;                         /* écran vraiment trop court : toute la page défile */
+  }
+  .vitrine { display: none; }
+
+  /* ---- haut : liens | profil ---- */
+  .haut-accueil {
+    flex: none;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 12px;
+    align-items: start;
+    padding: 12px 12px 0;
+  }
+  .liens-accueil {
+    grid-column: 1;
+    grid-row: 1;
+    position: static;
+    width: auto;
+    max-height: none;
+    gap: 10px;
+    padding: 4px 6px 10px 4px;
+    overflow: visible;
+  }
+  .lien-acc {
+    min-height: 44px;
+    gap: 8px;
+    padding: 6px 10px 6px 8px;
+    font-size: 0.82rem;
+    border-width: 3px;
+    border-radius: 18px;
+    box-shadow: 0 5px 0 var(--trait);
+  }
+  .lien-acc img { width: 24px; height: 24px; }
+  #bulleLien { max-width: max(90px, calc(100vw - 210px)); }
+
+  .profil {
+    grid-column: 2;
+    grid-row: 1;
+    position: static;
+    width: auto;
+    padding-bottom: 8px;
+  }
+  .profil-photo { --photo: min(124px, 30vw); width: var(--photo); height: var(--photo); margin-bottom: 12px; }
+  .profil-photo img { border-width: 4px; outline-width: 6px; box-shadow: 0 5px 0 6px var(--trait); }
+  .profil .pastille-profil { width: 30px; height: 30px; border-width: 4px; right: -6px; bottom: 0; }
+  .profil-nom { margin-top: 8px; padding: 8px 10px; font-size: 1.02rem; border-width: 3px; border-radius: 24px; box-shadow: 0 5px 0 var(--trait); }
+  .profil .xp { height: 24px; margin: 14px 0 12px; border-width: 3px; box-shadow: 0 4px 0 var(--trait); }
+  .profil .xp-niveau { font-size: 0.72rem; left: 9px; }
+  .btn-profil { width: 100%; padding: 6px 0; font-size: 0.98rem; border-width: 3px; box-shadow: 0 5px 0 var(--trait); }
+  .btn-actus { width: 66px; height: 52px; margin-top: 16px; }
+  .btn-actus svg { width: 32px; height: 32px; }
+
+  /* ---- bas : menu des cartouches ---- */
+  .panneau {
+    position: relative;
+    left: auto; right: auto; bottom: auto;
+    flex: 1 1 0;                              /* prend toute la place restante sous le haut */
+    min-height: 300px;
+    height: auto;
+    margin: 28px 10px 12px;                   /* la marge du haut laisse sortir le triangle de l'onglet actif */
+    padding: 20px 14px 10px;
+    display: flex;
+    flex-direction: column;
+    border-width: 4px;
+    border-radius: 26px;
+    box-shadow: 0 6px 0 var(--trait);
+  }
+  .onglets { flex: none; flex-wrap: nowrap; gap: 8px; margin-bottom: 14px; }
+  .onglet {
+    flex: 0 1 auto;
+    min-width: 0;
+    padding: 6px clamp(8px, 2.6vw, 14px);
+    font-size: clamp(0.6rem, 2.9vw, 0.72rem);
+    line-height: 1.1;
+    text-align: center;
+    border-width: 3px;
+  }
+  .onglet.actif { font-size: clamp(0.85rem, 4.2vw, 1.05rem); padding: 8px clamp(12px, 4vw, 20px); }
+  .onglet.actif::before { display: block; }   /* le triangle de sélection reste, comme sur ordinateur */
+
+  .grille {
+    flex: 1 1 0;
+    min-height: 0;
+    grid-auto-flow: row;
+    grid-template-columns: repeat(2, minmax(0, 1fr));   /* 2 cartouches par ligne, toujours */
+    grid-template-rows: none;
+    grid-auto-columns: auto;
+    grid-auto-rows: max-content;
+    gap: 26px 20px;
+    padding: 14px 34px 26px 12px;             /* place pour la barre (droite) et pour les pastilles qui dépassent */
+    overflow-x: hidden;
+    overflow-y: auto;                         /* défilement de haut en bas */
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+  }
+  .cartouche { width: 100%; height: auto; aspect-ratio: 1 / 1; --cart: 118px; }
+  .cartouche .visuel { position: absolute; inset: 5px; width: auto; height: auto; }
+  .cartouche:hover, .cartouche:nth-child(even):hover { transform: none; box-shadow: 0 5px 0 var(--trait); z-index: auto; }
+  .cartouche:hover img { transform: none; }
+
+  /* barre de défilement cartoon du menu */
+  .grille-barre {
+    display: block;
+    right: 10px;
+    top: 84px;
+    bottom: 22px;
+    width: 22px;
+    border-width: 3px;
+    box-shadow: 0 4px 0 var(--trait);
+  }
+  .grille-barre .pj-pouce { border-width: 2px; }
+}

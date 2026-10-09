@@ -11,6 +11,9 @@
 </head>
 <body>
 
+  <!-- Haut de l'accueil : liens + profil (sur mobile : liens à gauche, profil à droite) -->
+  <div class="haut-accueil">
+
   <!-- Profil -->
   <aside class="profil">
     <div class="profil-photo">
@@ -38,10 +41,13 @@
   <!-- Liens de l'accueil (liens_accueil.js) : colonne à gauche, au-dessus des cartouches -->
   <nav class="liens-accueil" id="liensAccueil" aria-label="Liens" hidden></nav>
 
+  </div>
+
   <!-- Catégories + cartouches -->
   <main class="panneau">
     <nav class="onglets" id="onglets"></nav>
     <section class="grille" id="grille"></section>
+    <div class="pj-barre grille-barre cache" id="grilleBarre" aria-hidden="true"><div class="pj-pouce" id="grillePouce"></div></div>   <!-- mobile : barre de défilement du menu -->
   </main>
 
   <!-- Vitrine : grosse cartouche 3D + description (au survol d'une cartouche) -->
@@ -362,6 +368,8 @@
     function afficherCartouches() {
       const grille = document.getElementById("grille");
       grille.innerHTML = "";
+      grille.scrollTop = 0;
+      requestAnimationFrame(() => majBarreGrille());   // barre de défilement du menu (mobile)
       const liste = PROJETS.filter(p => p.type === categorieActive);
 
       if (!liste.length) {
@@ -536,8 +544,9 @@
     construireCartouche3D();
 
     /* ---------- Molette = défilement horizontal (sans barre) ---------- */
+    const MOBILE = matchMedia("(max-width: 700px)");   // mise en page mobile de l'accueil (voir style.css, fin de fichier)
     document.getElementById("grille").addEventListener("wheel", e => {
-      if (!e.deltaY) return;
+      if (!e.deltaY || MOBILE.matches) return;
       e.currentTarget.scrollLeft += e.deltaY;
       bulle.classList.remove("visible");
       e.preventDefault();
@@ -1310,6 +1319,8 @@
     const majBarreActus = brancherBarre(actDefile, document.getElementById("actusBarre"), document.getElementById("actusPouce"));
     new ResizeObserver(majBarreActus).observe(document.getElementById("actusContenu"));
     addEventListener("resize", majBarreActus);
+    const majBarreGrille = brancherBarre(document.getElementById("grille"), document.getElementById("grilleBarre"), document.getElementById("grillePouce"));   // menu des cartouches (mobile)
+    addEventListener("resize", majBarreGrille);
     pageActus.addEventListener("wheel", e => { if (!actDefile.contains(e.target)) actDefile.scrollTop += e.deltaY; }, { passive: true });
     document.addEventListener("keydown", e => {
       if (!pageActus.classList.contains("ouverte")) return;
