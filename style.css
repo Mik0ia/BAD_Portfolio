@@ -1955,7 +1955,7 @@ html, body, *, *::before, *::after {
 @media (max-width: 800px) {
   .page-profil {
     --mav: clamp(110px, 38vw, 220px);         /* taille de l'avatar sur mobile */
-    --w-cv: 56px;                             /* place du bouton CV à droite du nom */
+    --w-cv: 0px;                              /* le bouton CV n'est plus à côté du nom : tout est centré sur la pleine largeur */
     overflow-x: hidden;
     overflow-y: auto;                         /* toute la page défile */
     -webkit-overflow-scrolling: touch;
@@ -2047,10 +2047,10 @@ html, body, *, *::before, *::after {
   .pp-defile { height: auto; overflow: visible; gap: 18px; padding-bottom: 8px; }
   .page-profil .pp-barre { display: none; }        /* la page entière défile : plus de barre séparée */
 
-  .pp-ligne-nom { gap: 8px; }
+  .pp-ligne-nom { gap: 0; }
   .pp-nom { padding: 8px 12px; font-size: clamp(1rem, 4.6vw, 1.4rem); border-width: 3px; border-radius: 30px; box-shadow: 0 4px 0 var(--trait); }
-  .btn-cv { width: 48px; height: 48px; border-width: 4px; box-shadow: 0 4px 0 var(--trait); }
-  .btn-cv svg { width: 24px; height: 24px; }
+  .page-profil .btn-cv { position: fixed; top: 10px; right: 10px; z-index: 7; width: 44px; height: 44px; border-width: 4px; box-shadow: 0 4px 0 var(--trait); }   /* tout en haut à droite, fixe */
+  .btn-cv svg { width: 22px; height: 22px; }
   .pp-droite > .xp-grande { height: 30px; border-width: 4px; box-shadow: 0 4px 0 var(--trait); }
   .xp-grande .xp-niveau { left: 12px; font-size: 0.85rem; }
 
