@@ -42,7 +42,7 @@ const LIENS_ACCUEIL = [
   
   { image:   "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/LOGO/DISCORD_LOGO.png?raw=true",
     texte:   "Discord",
-    page:    "https://discord.gg/9Njf2r7UGn",
+    page:    "https://discord.gg/8ZXjCM3jdu",
     copie:   "",
     couleur: "#6653fa" }
 

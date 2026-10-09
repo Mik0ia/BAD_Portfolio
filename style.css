@@ -2067,3 +2067,81 @@ html, body, *, *::before, *::after {
   .panneau-profil { padding: 16px 14px 18px; border-width: 3px; border-radius: 22px; box-shadow: 0 4px 0 var(--trait); }
   .section-titre { font-size: 0.95rem; border-width: 2px; box-shadow: 0 3px 0 var(--trait); }
 }
+
+/* ============================================================
+   ACTUALITÉS SUR MOBILE (écran de 700px de large ou moins)
+   Dans chaque article, de haut en bas :
+     1) la date (avec sa bulle "Il y a X jours" toujours affichée à côté)
+     2) le titre
+     3) le texte du post (+ vidéo, + boutons)
+   Tout reste à l'intérieur du cadre de l'article, sur toute la largeur de l'écran.
+   Sur mobile la date n'est plus survolable : la bulle est fixe (pas de survol).
+   ============================================================ */
+@media (max-width: 700px) {
+  /* la page prend toute la largeur (à l'intérieur du cadre d'écran) */
+  .page-actus .pj-contenu { width: calc(100vw - 64px); padding: 6px 0 0; gap: 18px; }
+  .page-actus .pj-categorie { padding: 5px 28px; font-size: 1.05rem; border-width: 3px; box-shadow: 0 4px 0 var(--trait); }
+  .act-liste { gap: 24px; }
+
+  /* le cadre de l'article */
+  .act { gap: 12px; padding: 14px; border-width: 4px; border-radius: 26px; box-shadow: 0 5px 0 var(--trait); }
+
+  /* 1) la date, puis 2) le titre : l'un sous l'autre */
+  .act-entete { flex-direction: column; align-items: stretch; gap: 12px; }
+  .act-date {
+    position: relative;
+    align-self: flex-start;
+    padding: 5px 14px;
+    font-size: 0.95rem;
+    pointer-events: none;                  /* plus de survol : pas de bulle au toucher / au survol */
+    transition: none;
+  }
+  .act-date:hover { transform: none; }
+
+  /* la bulle "Il y a X jours" : toujours visible, à droite de la date (texte lu dans data-tip) */
+  .act-date::before {
+    content: attr(data-tip);
+    position: absolute;
+    left: calc(100% + 16px);
+    top: 50%;
+    transform: translateY(-50%);
+    white-space: nowrap;
+    background: var(--blanc);
+    color: var(--trait);
+    text-shadow: none;
+    font-weight: 700;
+    font-size: 0.8rem;
+    line-height: 1.2;
+    padding: 4px 10px;
+    border: 3px solid var(--trait);
+    border-radius: 14px;
+    box-shadow: 0 3px 0 var(--trait);
+  }
+  .act-date::after {                       /* queue de BD vers la date */
+    content: "";
+    position: absolute;
+    left: calc(100% + 9px);
+    top: 50%;
+    width: 14px;
+    height: 14px;
+    box-sizing: border-box;
+    background: var(--blanc);
+    border-left: 3px solid var(--trait);
+    border-bottom: 3px solid var(--trait);
+    transform: translateY(-50%) rotate(45deg);
+    z-index: 1;
+  }
+  .act-date:not([data-tip])::before,
+  .act-date:not([data-tip])::after { display: none; }   /* date invalide ("—") : pas de bulle */
+
+  .act-titre { flex: none; font-size: clamp(1.1rem, 5.2vw, 1.4rem); }
+  .act .pj-boite { border-width: 3px; border-radius: 16px; box-shadow: 0 3px 0 var(--trait); }
+  .act-date.pj-boite { border-radius: 999px; }
+
+  /* 3) le texte du post */
+  .act-texte { padding: 12px 14px; font-size: 0.98rem; line-height: 1.5; }
+  .act-liens { gap: 12px 14px; }
+}
+@media (max-width: 340px) {
+  .act-date::before { font-size: 0.72rem; padding: 3px 8px; }
+}
