@@ -1950,7 +1950,7 @@ html, body, *, *::before, *::after {
    avatar + cadre métier -> Hall of Fame -> nom / CV / XP -> Stats -> Skills.
    Réglages rapides :
      --mav     : taille de l'avatar (plus grand = avatar plus gros)
-     --bulle-y : hauteur de la bulle de dialogue (dans .pp-avatar-wrap)
+     --bulle-gap : distance entre la bulle et le personnage (dans .pp-avatar-wrap)
    ============================================================ */
 @media (max-width: 800px) {
   .page-profil {
@@ -1978,39 +1978,49 @@ html, body, *, *::before, *::after {
     align-self: stretch;
     align-items: flex-start;
     justify-content: center;
-    padding: calc(var(--mav) * 1.15 + 14px) 0 0;   /* laisse la place au haut du gif (agrandi vers le haut) */
+    padding: 52px 0 0;                         /* sous les boutons retour / CV ; la bulle prend la place au-dessus du gif */
   }
   .pp-perso { --sol-remonte: -10px; width: min(100%, 360px); align-items: stretch; }
   .pp-avatar-wrap {
     --avatar-h: var(--mav);
     --echelle: 3;
     --gif-y: calc(var(--mav) * -1.4);            /* même proportion que sur ordinateur (-350px pour 250px) */
-    --bulle-y: calc(var(--mav) * -0.9);          /* hauteur de la bulle de dialogue */
+    --bulle-gap: calc(var(--mav) * 1.1 + 14px);  /* espace entre la bulle et le haut du gif : plus grand = bulle plus haute, plus loin de la tête */
+    --ombre-l: calc(var(--mav) * 0.7);           /* l'ombre garde la même proportion que sur ordinateur */
+    --ombre-h: calc(var(--mav) * 0.04);
     align-self: center;
   }
   .pp-avatar-wrap .pastille-profil { width: 28px; height: 28px; border-width: 4px; box-shadow: 0 0 0 3px var(--blanc); margin: 0 0 -14px -14px; }
 
-  /* bulle de dialogue : cachée, s'ouvre au toucher / survol de l'avatar */
+  /* bulle de dialogue : toujours ouverte, au-dessus du personnage (queue vers le bas) */
+  .pp-avatar-wrap img { margin: 0 auto; }
   .pp-avatar-wrap .bulle-dialogue {
-    position: absolute;
+    position: relative;
     right: auto;
-    left: 50%;
-    top: var(--bulle-y);
-    width: min(64vw, 280px);
-    margin: 0;
+    left: auto;
+    top: auto;
+    width: min(76vw, 300px);
+    margin: 0 auto var(--bulle-gap);
     padding: 10px 14px;
     font-size: 0.82rem;
+    text-align: center;
     border-width: 3px;
     border-radius: 18px;
     box-shadow: 0 4px 0 var(--trait);
-    opacity: 0;
-    transform: translate(-50%, 8px) scale(0.5);
-    transform-origin: 50% 100%;
+    opacity: 1;
+    transform: none;
     z-index: 6;
   }
-  .pp-avatar-wrap:hover .bulle-dialogue,
-  .pp-avatar-wrap:focus-within .bulle-dialogue,
-  .pp-avatar-wrap:focus-visible .bulle-dialogue { opacity: 1; transform: translate(-50%, 0) scale(1); }
+  .pp-avatar-wrap .bulle-dialogue::before,
+  .pp-avatar-wrap .bulle-dialogue::after {
+    display: block;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    border-color: transparent;
+  }
+  .pp-avatar-wrap .bulle-dialogue::before { top: 100%; border-width: 14px 13px 0; border-top-color: var(--trait); }
+  .pp-avatar-wrap .bulle-dialogue::after  { top: calc(100% - 2px); border-width: 10px 9px 0; border-top-color: var(--blanc); }
 
   .pp-metier {
     min-width: 0;
