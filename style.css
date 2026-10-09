@@ -1940,9 +1940,9 @@ html, body, *, *::before, *::after {
     width: var(--col-droite);
     padding-bottom: 6px;
   }
-  .profil-photo { --photo: min(84px, 22vw); width: var(--photo); height: var(--photo); margin-bottom: 8px; }
+  .profil-photo { --photo: min(112px, 29.3vw);   /* +33 % (avant : min(84px, 22vw)) */ width: var(--photo); height: var(--photo); margin-bottom: 8px; }
   .profil-photo img { border-width: 3px; outline-width: 4px; box-shadow: 0 4px 0 4px var(--trait); }
-  .profil .pastille-profil { width: 22px; height: 22px; border-width: 3px; box-shadow: 0 0 0 3px var(--blanc); right: -4px; bottom: 0; }
+  .profil .pastille-profil { width: 29px; height: 29px; border-width: 4px; box-shadow: 0 0 0 3px var(--blanc); right: -5px; bottom: 0; }
   .profil-nom { margin-top: 6px; padding: 4px 8px; font-size: 0.8rem; border-width: 3px; border-radius: 18px; box-shadow: 0 4px 0 var(--trait); }
   .profil .xp { height: 18px; margin: 10px 0 8px; border-width: 3px; box-shadow: 0 3px 0 var(--trait); }
   .profil .xp-niveau { font-size: 0.6rem; left: 7px; }
