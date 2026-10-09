@@ -40,7 +40,7 @@ const PROFIL = {
     { texte: "Projets",              auto: "projets" },   // compté automatiquement : nombre de jeux dans la liste PROJETS ci-dessous
     { texte: "Langues",              valeur: 2.5 },
     { texte: "Logiciels maîtrisé",  auto: "logiciels" },   // compté automatiquement : nombre de skills au niveau "Expert" (liste SKILLS)
-    { texte: "Litres de Crazy Tiger", valeur: 4 }
+    { texte: "Litres de Crazy Tiger bu", valeur: 4 }
   ]
 };
 
