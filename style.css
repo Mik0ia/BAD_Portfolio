@@ -350,6 +350,9 @@ html, body, *, *::before, *::after {
   transition: opacity 0.12s, transform 0.2s var(--rebond);
 }
 #bulleLien.visible { opacity: 1; transform: scale(1); }
+#bulleLien.gauche { transform-origin: 100% 50%; }          /* pas de place à droite du bouton : la bulle sort à gauche, queue vers la droite */
+#bulleLien.gauche::before { right: auto; left: 100%; border-width: 11px 0 11px 12px; border-right-color: transparent; border-left-color: var(--trait); }
+#bulleLien.gauche::after  { right: auto; left: calc(100% - 1px); border-width: 7px 0 7px 8px; border-right-color: transparent; border-left-color: var(--blanc); }
 #bulleLien::before, #bulleLien::after {      /* queue de BD vers le bouton : contour + remplissage blanc */
   content: "";
   position: absolute;
@@ -1896,24 +1899,21 @@ html, body, *, *::before, *::after {
 
   /* ---- haut : liens | profil ---- */
   .haut-accueil {
+    --col-droite: min(42vw, 170px);            /* largeur de la colonne (même taille qu'avant pour le profil) */
     flex: none;
-    display: grid;
-    grid-template-columns: min(38vw, 150px) min(42vw, 170px);   /* liens étroits (le texte passe à la ligne) | profil */
-    justify-content: space-between;                             /* l'espace restant sépare les deux colonnes : les boutons ne touchent jamais le profil */
-    column-gap: 14px;
-    row-gap: 10px;
-    align-items: start;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;                     /* tout est collé à DROITE : profil, mégaphone, puis bloc "Liens" en dessous */
+    gap: 4px;
     padding: 8px 10px 0;
   }
   .liens-accueil {
-    --pl: 2px;
-    --pr: 4px;
+    --pl: 0px;
+    --pr: 0px;
     --ex: 8px;
-    grid-column: 1;
-    grid-row: 1;
     position: static;
-    width: auto;
-    padding: 2px var(--pr) 8px var(--pl);
+    width: var(--col-droite);
+    padding: 2px 0 6px;
   }
   .liens-titre { min-height: 36px; padding: 3px 6px 3px 12px; font-size: 0.74rem; letter-spacing: 0.08em; border-width: 3px; border-radius: 14px; box-shadow: 0 4px 0 var(--trait); }
   .liens-fleche { width: 22px; height: 22px; border-width: 2px; }
@@ -1936,10 +1936,8 @@ html, body, *, *::before, *::after {
   #bulleLien { max-width: max(90px, calc(100vw - 210px)); }
 
   .profil {
-    grid-column: 2;
-    grid-row: 1;
     position: static;
-    width: auto;
+    width: var(--col-droite);
     padding-bottom: 6px;
   }
   .profil-photo { --photo: min(84px, 22vw); width: var(--photo); height: var(--photo); margin-bottom: 8px; }
@@ -1957,9 +1955,9 @@ html, body, *, *::before, *::after {
   .panneau {
     position: relative;
     left: auto; right: auto; bottom: auto;
-    flex: 1 1 0;                              /* prend toute la place restante sous le haut */
-    min-height: 300px;
-    height: auto;
+    flex: none;                               /* il ne rétrécit pas : quand "Liens" s'ouvre, il est poussé vers le bas (la page défile) */
+    height: max(300px, calc(100vh - var(--haut-h, 340px) - 36px));    /* fermé : remplit l'écran sous le haut (--haut-h mesuré en JS) */
+    height: max(300px, calc(100dvh - var(--haut-h, 340px) - 36px));
     margin: 26px 10px 10px;                   /* la marge du haut laisse sortir le triangle de l'onglet actif */
     padding: 20px 14px 10px;
     display: flex;
@@ -2183,9 +2181,9 @@ html, body, *, *::before, *::after {
     position: relative;
     align-self: center;
     justify-content: center;
-    margin-bottom: 40px;                   /* place pour la bulle "Il y a X jours" sous la date */
-    padding: 5px 16px;
-    font-size: 0.95rem;
+    margin-bottom: 46px;                   /* place pour la bulle "Il y a X jours" sous la date */
+    padding: 4px 14px;
+    font-size: 0.82rem;
     border-radius: 14px;
     pointer-events: none;                  /* plus de survol : pas de bulle au toucher / au survol */
     transition: none;
@@ -2205,9 +2203,9 @@ html, body, *, *::before, *::after {
     color: var(--trait);
     text-shadow: none;
     font-weight: 700;
-    font-size: 0.8rem;
+    font-size: 0.72rem;
     line-height: 1.2;
-    padding: 4px 10px;
+    padding: 6px 10px 3px;      /* un peu plus de place en haut : la queue de la bulle ne touche pas le texte */
     border: 3px solid var(--trait);
     border-radius: 14px;
     box-shadow: 0 3px 0 var(--trait);
@@ -2229,13 +2227,14 @@ html, body, *, *::before, *::after {
   .act-date:not([data-tip])::before,
   .act-date:not([data-tip])::after { display: none; }   /* date invalide ("—") : pas de bulle */
 
-  .act-titre { flex: none; font-size: clamp(1.1rem, 5.2vw, 1.4rem); }
+  .act-titre { flex: none; font-size: 1.05rem; line-height: 1.2; }
   .act .pj-boite { border-width: 3px; border-radius: 16px; box-shadow: 0 3px 0 var(--trait); }
   .act .act-date.pj-boite { border-width: 4px; border-radius: 14px; box-shadow: 0 4px 0 var(--trait); }
 
   /* 3) le texte du post */
-  .act-texte { padding: 12px 14px; font-size: 0.98rem; line-height: 1.5; }
+  .act-texte { padding: 10px 12px; font-size: 0.8rem; line-height: 1.5; }   /* même taille que le texte d'une page de jeu */
   .act-liens { gap: 12px 14px; }
+  .act .pj-lien { padding: 5px 18px; font-size: 0.9rem; border-width: 3px; box-shadow: 0 4px 0 var(--trait); }
 }
 
 

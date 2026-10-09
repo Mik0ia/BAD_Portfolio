@@ -1502,7 +1502,10 @@
           if (!txt) { bulleLien.classList.remove("visible"); return; }
           bulleLien.textContent = txt;
           const r = el.getBoundingClientRect();
-          bulleLien.style.left = (r.right + 18) + "px";
+          const w = bulleLien.offsetWidth;
+          const gauche = r.right + 18 + w > innerWidth - 8;                // pas la place à droite (mobile : colonne de droite) : la bulle sort à gauche
+          bulleLien.classList.toggle("gauche", gauche);
+          bulleLien.style.left = (gauche ? r.left - 18 - w : r.right + 18) + "px";
           bulleLien.style.top = (r.top + r.height / 2 - bulleLien.offsetHeight / 2) + "px";
           bulleLien.classList.add("visible");
         };
@@ -1524,6 +1527,16 @@
       });
       bloc.hidden = !nav.children.length;                         // aucun lien = pas de bloc
     }
+
+    /* mobile : mesure la hauteur du haut de l'accueil QUAND "Liens" est fermé ; le menu des jeux garde cette base,
+       donc quand "Liens" s'ouvre il est poussé vers le bas au lieu d'être écrasé */
+    (function () {
+      const haut = document.querySelector(".haut-accueil");
+      const bloc = document.getElementById("liensAccueil");
+      const mesurer = () => { if (!bloc.classList.contains("ouvert") && haut.offsetHeight) document.documentElement.style.setProperty("--haut-h", haut.offsetHeight + "px"); };
+      new ResizeObserver(mesurer).observe(haut);
+      addEventListener("resize", mesurer);
+    })();
 
     /* flèche du bloc "Liens" : ouvre / ferme la liste (fermée au chargement) */
     (function () {
