@@ -1834,10 +1834,10 @@ html, body, *, *::before, *::after {
   .haut-accueil {
     flex: none;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 12px;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);   /* le profil est un peu plus étroit */
+    gap: 10px;
     align-items: start;
-    padding: 12px 12px 0;
+    padding: 8px 10px 0;
   }
   .liens-accueil {
     grid-column: 1;
@@ -1845,20 +1845,21 @@ html, body, *, *::before, *::after {
     position: static;
     width: auto;
     max-height: none;
-    gap: 10px;
-    padding: 4px 6px 10px 4px;
+    gap: 8px;
+    padding: 2px 4px 8px 2px;
     overflow: visible;
   }
   .lien-acc {
-    min-height: 44px;
-    gap: 8px;
-    padding: 6px 10px 6px 8px;
-    font-size: 0.82rem;
+    min-height: 34px;
+    gap: 6px;
+    padding: 4px 8px 4px 6px;
+    font-size: 0.7rem;
+    line-height: 1.1;
     border-width: 3px;
-    border-radius: 18px;
-    box-shadow: 0 5px 0 var(--trait);
+    border-radius: 14px;
+    box-shadow: 0 4px 0 var(--trait);
   }
-  .lien-acc img { width: 24px; height: 24px; }
+  .lien-acc img { width: 18px; height: 18px; }
   #bulleLien { max-width: max(90px, calc(100vw - 210px)); }
 
   .profil {
@@ -1866,17 +1867,18 @@ html, body, *, *::before, *::after {
     grid-row: 1;
     position: static;
     width: auto;
-    padding-bottom: 8px;
+    padding-bottom: 6px;
   }
-  .profil-photo { --photo: min(124px, 30vw); width: var(--photo); height: var(--photo); margin-bottom: 12px; }
-  .profil-photo img { border-width: 4px; outline-width: 6px; box-shadow: 0 5px 0 6px var(--trait); }
-  .profil .pastille-profil { width: 30px; height: 30px; border-width: 4px; right: -6px; bottom: 0; }
-  .profil-nom { margin-top: 8px; padding: 8px 10px; font-size: 1.02rem; border-width: 3px; border-radius: 24px; box-shadow: 0 5px 0 var(--trait); }
-  .profil .xp { height: 24px; margin: 14px 0 12px; border-width: 3px; box-shadow: 0 4px 0 var(--trait); }
-  .profil .xp-niveau { font-size: 0.72rem; left: 9px; }
-  .btn-profil { width: 100%; padding: 6px 0; font-size: 0.98rem; border-width: 3px; box-shadow: 0 5px 0 var(--trait); }
-  .btn-actus { width: 66px; height: 52px; margin-top: 16px; }
-  .btn-actus svg { width: 32px; height: 32px; }
+  .profil-photo { --photo: min(84px, 22vw); width: var(--photo); height: var(--photo); margin-bottom: 8px; }
+  .profil-photo img { border-width: 3px; outline-width: 4px; box-shadow: 0 4px 0 4px var(--trait); }
+  .profil .pastille-profil { width: 22px; height: 22px; border-width: 3px; box-shadow: 0 0 0 3px var(--blanc); right: -4px; bottom: 0; }
+  .profil-nom { margin-top: 6px; padding: 4px 8px; font-size: 0.8rem; border-width: 3px; border-radius: 18px; box-shadow: 0 4px 0 var(--trait); }
+  .profil .xp { height: 18px; margin: 10px 0 8px; border-width: 3px; box-shadow: 0 3px 0 var(--trait); }
+  .profil .xp-niveau { font-size: 0.6rem; left: 7px; }
+  .btn-profil { width: 100%; padding: 3px 0; font-size: 0.78rem; border-width: 3px; box-shadow: 0 4px 0 var(--trait); }
+  .btn-actus { width: 52px; height: 40px; margin-top: 10px; border-width: 3px; box-shadow: 0 4px 0 var(--trait); }
+  .btn-actus svg { width: 24px; height: 24px; }
+  .btn-actus .notif { width: 20px; height: 20px; top: -8px; right: -7px; border-width: 3px; }
 
   /* ---- bas : menu des cartouches ---- */
   .panneau {
@@ -1885,7 +1887,7 @@ html, body, *, *::before, *::after {
     flex: 1 1 0;                              /* prend toute la place restante sous le haut */
     min-height: 300px;
     height: auto;
-    margin: 28px 10px 12px;                   /* la marge du haut laisse sortir le triangle de l'onglet actif */
+    margin: 26px 10px 10px;                   /* la marge du haut laisse sortir le triangle de l'onglet actif */
     padding: 20px 14px 10px;
     display: flex;
     flex-direction: column;
