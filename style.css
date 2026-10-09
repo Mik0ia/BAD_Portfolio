@@ -1638,3 +1638,174 @@ html, body, *, *::before, *::after {
   .pp-barre { display: none; }
   .pp-medailles { position: relative; top: auto; margin: 34px auto 0; }
 }
+
+/* ---------- Commentaire du jeu : avatar en bas à droite + bulle de dialogue (apparaît tout en bas de la page) ---------- */
+.pj-commentaire {
+  --queue: 44px;                     /* longueur de la queue de la bulle (sa pointe est au centre du sprite) */
+  position: absolute;
+  right: 96px;
+  bottom: 40px;
+  z-index: 4;
+  display: flex;
+  align-items: center;                 /* la bulle part du milieu du sprite */
+  pointer-events: none;
+  visibility: hidden;
+  transition: visibility 0s 0.3s;
+}
+.pj-commentaire.visible { visibility: visible; transition-delay: 0s; }
+.pj-commentaire img {
+  display: block;
+  height: clamp(220px, 48vh, 380px);
+  width: auto;
+  transform: translateY(40px) scale(0.6);
+  transform-origin: 50% 100%;
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.45s var(--rebond);
+}
+.pj-commentaire.visible img { opacity: 1; transform: none; }
+.pj-commentaire .pj-bulle {
+  position: relative;
+  right: auto;
+  top: auto;
+  width: min(300px, 32vw);
+  margin: 0 calc(var(--queue) - 3px - var(--sw, 80px) / 2) 0 0;   /* la bulle chevauche la moitié du sprite : sa queue (courte) finit pile au centre */
+  white-space: pre-line;
+  opacity: 0;
+  transform: translateX(18px) scale(0.5);
+  transform-origin: 100% 50%;
+  transition: opacity 0.2s ease, transform 0.4s var(--rebond);
+}
+.pj-commentaire.visible .pj-bulle {
+  opacity: 1;
+  transform: none;
+  transition-delay: 0.35s;
+}
+/* queue : pointe vers le CENTRE du sprite ; la bulle est décalée selon la largeur du sprite (--sw, mesurée en JS) */
+.pj-commentaire .pj-bulle { z-index: 2; }
+.pj-commentaire .pj-bulle::before, .pj-commentaire .pj-bulle::after { border: 0; }
+.pj-commentaire .pj-bulle::before {
+  top: calc(50% - 14px);
+  left: calc(100% + 1px);
+  width: var(--queue);
+  height: 28px;
+  background: var(--trait);
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+.pj-commentaire .pj-bulle::after {
+  top: calc(50% - 10px);
+  left: calc(100% - 2px);
+  width: calc(var(--queue) - 3px);
+  height: 20px;
+  background: var(--blanc);
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+@media (max-width: 800px) {
+  .pj-commentaire { right: 20px; bottom: 30px; }
+  .pj-commentaire img { height: 180px; }
+  .pj-commentaire .pj-bulle { width: min(220px, 52vw); font-size: 0.85rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pj-commentaire img, .pj-commentaire .pj-bulle { transition: opacity 0.2s; transform: none; }
+}
+
+/* ============================================================
+   ACTUALITÉS : bouton mégaphone (sous PROFIL) + page (cadre d'écran de la page d'un jeu)
+   ============================================================ */
+.btn-actus {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 74px;
+  height: 58px;
+  margin-top: 18px;
+  background: var(--blanc);
+  border: 4px solid var(--trait);
+  border-radius: 999px;
+  box-shadow: 0 6px 0 var(--trait);
+  transform-origin: 50% 70%;
+  transition: transform 0.3s var(--rebond), box-shadow 0.1s, background 0.15s;
+}
+.btn-actus[hidden] { display: none; }
+.btn-actus svg { width: 36px; height: 36px; display: block; }
+.btn-actus:hover { background: var(--orange-clair); transform: scale(1.1) rotate(-6deg); }
+.btn-actus:active { box-shadow: 0 2px 0 var(--trait); }
+.btn-actus .notif {                 /* pastille rouge à côté du mégaphone */
+  position: absolute;
+  top: -12px;
+  right: -10px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--st-occupe);
+  border: 4px solid var(--trait);
+  box-shadow: 0 0 0 3px var(--blanc);
+  display: none;
+}
+.btn-actus.non-lu .notif { display: block; animation: notif-pulse 1.4s ease-in-out infinite; }
+@keyframes notif-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+.btn-actus.secoue { animation: secoue 0.9s ease-in-out; }
+@keyframes secoue {
+  0%, 100% { transform: rotate(0) scale(1); }
+  10% { transform: rotate(-16deg) scale(1.12); }
+  20% { transform: rotate(14deg) scale(1.12); }
+  30% { transform: rotate(-12deg) scale(1.1); }
+  40% { transform: rotate(10deg) scale(1.1); }
+  50% { transform: rotate(-7deg) scale(1.05); }
+  60% { transform: rotate(5deg) scale(1.05); }
+  70% { transform: rotate(-3deg); }
+  80% { transform: rotate(2deg); }
+}
+@media (prefers-reduced-motion: reduce) { .btn-actus.non-lu .notif { animation: none; } }
+
+.act-liste { display: flex; flex-direction: column; gap: 30px; }
+.act {                              /* une actu = un cadre orange clair, comme les cadres d'un jeu */
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: var(--orange-clair);
+  border: 5px solid var(--trait);
+  border-radius: 34px;
+  box-shadow: 0 7px 0 var(--trait);
+  padding: 22px;
+}
+.act-entete { display: flex; gap: 14px; align-items: stretch; }
+.act-date {                         /* la date, avant le titre ; bulle "Il y a X jours" au survol */
+  flex: none;
+  display: flex;
+  align-items: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--blanc);
+  text-shadow: 0 2px 0 var(--trait);
+  background: var(--orange);
+  transition: transform 0.3s var(--rebond);
+}
+.act-date:hover { transform: scale(1.08) rotate(-2deg); }
+.act-titre {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  font-size: clamp(1.2rem, 2.4vw, 1.7rem);
+  font-weight: 700;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+.act-texte .pj-video { margin-top: 1.55em; }       /* la vidéo est tout en bas du texte, dans le même cadre */
+.act-texte .pj-video:first-child { margin-top: 0; }
+.act-lien {                         /* lien dans le texte : bleu, souligné, cliquable */
+  color: #1d4ed8;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-weight: 600;
+}
+.act-lien:hover { color: #1e3a8a; }
+.act-liens {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 16px 20px;
+  padding: 4px 0 6px;
+}

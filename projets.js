@@ -10,6 +10,7 @@ const PROFIL = {
   disponibilite: "Temps Partiel",   // "Libre" (vert) | "Temps Partiel" (orange) | "Indisponible" (rouge)
   avatar: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/AVATAR_GIF.gif?raw=true",   // gif affiché à gauche de la page profil
   avatarHit: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/AVATAR_hit_GIF.gif?raw=true",   // gif affiché quand on clique sur l'avatar
+  avatarShow: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/AVATAR_show_GIF.gif?raw=true",   // gif qui apparaît en bas à droite d'une page de jeu (tout en bas) quand le jeu a un "commentaire"
   dureeCoup: 650,   // durée (en ms) pendant laquelle le gif "hit" reste affiché avant de revenir à l'avatar normal
   metier: "Game / Technical designer",   // cadre sous l'avatar (page profil)
   bulle: "Bienvenue sur mon portfolio de game designer. Découvrez mes expériences, compétences et projets qui illustrent ma passion pour le design de jeux vidéo.",   // bulle de dialogue au survol de l'avatar
@@ -54,6 +55,10 @@ const PROFIL = {
    video  : (facultatif) lien YouTube lu sur la page de présentation du jeu, dans le cadre "vidéo".
             Formats acceptés : https://www.youtube.com/watch?v=XXXXXXXXXXX | https://youtu.be/XXXXXXXXXXX | .../embed/... | .../shorts/...
             Pas de "video" (ou lien vide) = le cadre vidéo n'apparaît pas.
+   commentaire : (facultatif) texte dit par l'avatar. Quand on scrolle tout en bas de la page du jeu, l'avatar apparaît
+            dans le coin inférieur droit et une bulle de dialogue affiche ce texte.
+            Pas de "commentaire" (ou texte vide) = l'avatar n'apparaît pas.
+            Exemple :  commentaire: "Merci d'avoir lu jusqu'ici ! N'hésite pas à tester le jeu."
    medailles : (facultatif) liste de médailles, affichées de gauche à droite en bas à gauche de la cartouche.
             Chaque médaille :  { type: "bronze" | "argent" | "or", description: "texte de la bulle" }
             - page du jeu : les médailles se survolent, la description s'affiche dans une bulle de BD

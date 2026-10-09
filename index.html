@@ -23,6 +23,16 @@
       <span class="xp-niveau" id="xpNiveau"></span>
     </div>
     <a class="btn-profil" href="#">&rarr; PROFIL &larr;</a>
+    <!-- Actualités (actus.js) : mégaphone + pastille rouge tant qu'elles n'ont pas été ouvertes -->
+    <button class="btn-actus non-lu" id="btnActus" type="button" data-tip="Actualités" aria-label="Actualités (nouveautés)" hidden>
+      <svg viewBox="0 0 32 32" fill="none" stroke="#6b2e00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M5 12h5l11-6v20l-11-6H5a1.5 1.5 0 0 1-1.5-1.5v-5A1.5 1.5 0 0 1 5 12z" fill="#ff8a1f"/>
+        <path d="M10.5 20l1.7 6.5h3.8l-1.4-5.4" fill="#ffd9b0"/>
+        <path d="M24.5 12a5 5 0 0 1 0 8"/>
+        <path d="M27.5 9a9 9 0 0 1 0 14"/>
+      </svg>
+      <span class="notif" id="actusNotif"></span>
+    </button>
   </aside>
 
   <!-- Liens de l'accueil (liens_accueil.js) : colonne à gauche, au-dessus des cartouches -->
@@ -149,6 +159,25 @@
     <button class="fleche gauche" id="pjPrec" type="button" aria-label="Jeu précédent"></button>
     <button class="fleche droite" id="pjSuiv" type="button" aria-label="Jeu suivant"></button>
     <div class="pj-compteur" id="pjCompteur"></div>
+
+    <!-- commentaire du jeu : l'avatar apparaît en bas à droite quand on a scrollé tout en bas -->
+    <div class="pj-commentaire" id="pjCommentaire" aria-live="polite">
+      <div class="bulle-dialogue pj-bulle" id="pjCommentaireBulle"></div>
+      <img id="pjCommentaireImg" alt="">
+    </div>
+  </section>
+
+  <!-- Page Actualités (même cadre d'écran que la page d'un jeu) : cartes remplies par actus.js -->
+  <section class="page-projet page-actus" id="pageActus" aria-hidden="true">
+    <div class="pj-defile" id="actusDefile">
+      <div class="pj-contenu" id="actusContenu">
+        <div class="pj-categorie">Actualités</div>
+        <div class="act-liste" id="actusListe"></div>
+      </div>
+    </div>
+    <div class="pj-cadre"></div>
+    <div class="pj-barre cache" id="actusBarre" aria-hidden="true"><div class="pj-pouce" id="actusPouce"></div></div>
+    <button class="btn-fermer" id="actFermer" type="button" aria-label="Retour à l'accueil"></button>
   </section>
 
   <!-- Zoom d'image (clic sur une image du texte d'un jeu) : page floutée + image en grand, clic ailleurs = fermer -->
@@ -173,6 +202,7 @@
   <script src="textes.js"></script>
   <script src="liens.js"></script>
   <script src="liens_accueil.js"></script>
+  <script src="actus.js"></script>
   <script>
     /* ---------- Placeholders (SVG intégré, aucun fichier requis) ---------- */
     const PLACEHOLDER = "data:image/svg+xml;utf8," + encodeURIComponent(
@@ -515,7 +545,7 @@
 
     /* ---------- Rebond cartoon au clic ---------- */
     document.addEventListener("click", e => {
-      const el = e.target.closest(".cartouche, .btn-profil, .profil-photo, .profil-nom, .xp, .fleche, .pp-nom, .pp-metier, .pj-visuel");
+      const el = e.target.closest(".cartouche, .btn-profil, .btn-actus, .profil-photo, .profil-nom, .xp, .fleche, .pp-nom, .pp-metier, .pj-visuel");
       if (!el) return;
       el.classList.remove("rebond");
       void el.offsetWidth;               // relance l'animation même si on clique vite
@@ -528,6 +558,9 @@
     /* ---------- Transition de page (bandes blanches/orange + badge cartoon) ---------- */
     const rideau = document.getElementById("rideau");
     const pageProfil = document.getElementById("pageProfil");
+    const pageActus = document.getElementById("pageActus");
+    const pageCourante = () => pageProfil.classList.contains("ouverte") ? "profil" : pageActus.classList.contains("ouverte") ? "actus" : "accueil";
+    const TITRE_TRANSITION = { accueil: "ACCUEIL", profil: "PROFIL", actus: "ACTUALITÉS" };   // texte du badge de la transition
     const rBadge = document.getElementById("rBadge");
     const rBurst = document.getElementById("rBurst");
     const COULEURS_BANDES = ["var(--orange)", "var(--blanc)", "var(--orange-fonce)", "var(--blanc)", "var(--orange)"];
@@ -728,11 +761,15 @@
       }, 550);   // laisse le rideau se retirer avant de remplir
     }
 
-    function basculerPage(versProfil) {
+    function basculerPage(cible) {                       // cible : "accueil" | "profil" | "actus"
+      const versProfil = cible === "profil", versActus = cible === "actus";
       pageProfil.classList.toggle("ouverte", versProfil);
       pageProfil.setAttribute("aria-hidden", versProfil ? "false" : "true");
+      pageActus.classList.toggle("ouverte", versActus);
+      pageActus.setAttribute("aria-hidden", versActus ? "false" : "true");
       bulle.classList.remove("visible");
       cacherVitrine();
+      if (versActus) ouvrirActus(); else viderActus();
       if (versProfil) {
         pageProfil.scrollTop = 0;
         document.getElementById("ppDefile").scrollTop = 0;
@@ -745,13 +782,13 @@
       }
     }
 
-    async function changerPage(versProfil) {
-      if (enTransition || pageProfil.classList.contains("ouverte") === versProfil) return;
+    async function changerPage(cible) {                  // cible : "accueil" | "profil" | "actus"
+      if (enTransition || pageCourante() === cible) return;
       enTransition = true;
-      if (matchMedia("(prefers-reduced-motion: reduce)").matches) { basculerPage(versProfil); enTransition = false; return; }
+      if (matchMedia("(prefers-reduced-motion: reduce)").matches) { basculerPage(cible); enTransition = false; return; }
 
-      const sens = versProfil ? 1 : -1;
-      rBadge.textContent = versProfil ? "PROFIL" : "ACCUEIL";
+      const sens = cible === "accueil" ? -1 : 1;
+      rBadge.textContent = TITRE_TRANSITION[cible];
       rideau.classList.add("actif");
 
       // 1) les bandes entrent en alternant gauche / droite
@@ -771,7 +808,7 @@
       await pause(520);
 
       // 3) pendant que tout est couvert : on change de page
-      basculerPage(versProfil);
+      basculerPage(cible);
       await pause(260);
 
       // 4) sortie : badge qui disparaît, bandes qui repartent du côté opposé
@@ -794,9 +831,13 @@
     }
 
     document.querySelectorAll(".profil-photo, .profil-nom, .btn-profil").forEach(el =>
-      el.addEventListener("click", e => { e.preventDefault(); changerPage(true); }));
-    document.getElementById("btnFermer").addEventListener("click", () => changerPage(false));
-    document.addEventListener("keydown", e => { if (e.key === "Escape") changerPage(false); });
+      el.addEventListener("click", e => { e.preventDefault(); changerPage("profil"); }));
+    document.getElementById("btnFermer").addEventListener("click", () => changerPage("accueil"));
+    document.getElementById("actFermer").addEventListener("click", () => changerPage("accueil"));
+    document.addEventListener("keydown", e => {
+      if (e.key !== "Escape" || zoomOuvert()) return;     // zoom ouvert : Échap ferme seulement le zoom
+      changerPage("accueil");
+    });
 
     /* ---------- Bouton CV : télécharge le PDF, sinon l'ouvre dans un autre onglet (jamais sur la page du portfolio) ---------- */
     document.getElementById("ppCv").addEventListener("click", async e => {
@@ -859,24 +900,46 @@
     }
 
     /* ---------- Texte du jeu : retours à la ligne gardés, *italique*, **gras**, ***gras + italique*** ---------- */
-    function ecrireTexte(parent, texte) {
+    /* liens dans le texte (actus uniquement) : https://... devient un lien bleu souligné, sauf s'il pointe vers ce projet GitHub */
+    const PREFIXE_PROJET_GITHUB = "https://github.com/Mik0ia/BAD_Portfolio";
+    function ajouterTexte(parent, t, liens) {
+      if (!liens) { parent.append(t); return; }
+      const re = /https?:\/\/[^\s<>"'`]+/g;
+      let dernier = 0, m;
+      while ((m = re.exec(t))) {
+        let url = m[0];
+        const fin = url.match(/[.,;:!?)\]]+$/);                // ponctuation collée à la fin : elle reste du texte normal
+        if (fin) url = url.slice(0, -fin[0].length);
+        if (url.toLowerCase().startsWith(PREFIXE_PROJET_GITHUB.toLowerCase())) continue;   // élément de ce projet : pas de lien
+        if (m.index > dernier) parent.append(t.slice(dernier, m.index));
+        const a = document.createElement("a");
+        a.className = "act-lien";
+        a.href = url; a.target = "_blank"; a.rel = "noopener noreferrer";
+        a.textContent = url;
+        parent.appendChild(a);
+        dernier = m.index + url.length;
+        re.lastIndex = dernier;
+      }
+      if (dernier < t.length) parent.append(t.slice(dernier));
+    }
+    function ecrireTexte(parent, texte, liens) {
       const re = /\*\*\*([^*]+?)\*\*\*|\*\*([\s\S]+?)\*\*|\*([^\s*][^*]*?)\*/g;
       let dernier = 0, m;
       while ((m = re.exec(texte))) {
-        if (m.index > dernier) parent.append(texte.slice(dernier, m.index));
+        if (m.index > dernier) ajouterTexte(parent, texte.slice(dernier, m.index), liens);
         if (m[1] != null) {                                   // ***mot***
           const g = document.createElement("strong"), i = document.createElement("em");
-          i.textContent = m[1]; g.appendChild(i); parent.appendChild(g);
+          ajouterTexte(i, m[1], liens); g.appendChild(i); parent.appendChild(g);
         } else if (m[2] != null) {                            // **mot** (peut contenir du *italique*)
           const g = document.createElement("strong");
-          ecrireTexte(g, m[2]); parent.appendChild(g);
+          ecrireTexte(g, m[2], liens); parent.appendChild(g);
         } else {                                              // *mot*
           const i = document.createElement("em");
-          i.textContent = m[3]; parent.appendChild(i);
+          ajouterTexte(i, m[3], liens); parent.appendChild(i);
         }
         dernier = re.lastIndex;
       }
-      if (dernier < texte.length) parent.append(texte.slice(dernier));
+      if (dernier < texte.length) ajouterTexte(parent, texte.slice(dernier), liens);
     }
 
     /* ---------- Zoom d'une image : fond flouté, image en grand, clic en dehors de l'image (ou Échap) = fermer ---------- */
@@ -896,7 +959,7 @@
 
     /* ---------- Contenu du texte : une ligne qui ne contient QU'UN lien d'image devient une image centrée ---------- */
     const RE_LIGNE_IMAGE = /^\s*(https?:\/\/\S+?\.(?:png|jpe?g|gif|webp|svg|avif|bmp)(?:[?#]\S*?)?)(?:\s*:\s*(\d+(?:[.,]\d+)?))?\s*$/i;   // lien  [ : échelle ]
-    function ecrireContenu(parent, brut) {
+    function ecrireContenu(parent, brut, opts = {}) {   // opts.liens : liens cliquables | opts.maj : mise à jour de la barre de défilement
       let morceau = [];
       const viderTexte = () => {
         const t = morceau.join("\n").replace(/^\n+|\n+$/g, "");
@@ -904,7 +967,7 @@
         if (!t) return;
         const seg = document.createElement("div");
         seg.className = "pj-seg";
-        ecrireTexte(seg, t);
+        ecrireTexte(seg, t, opts.liens);
         parent.appendChild(seg);
       };
       brut.split("\n").forEach(ligne => {
@@ -924,7 +987,7 @@
             im.style.setProperty("--s", echelle);
             im.classList.add("echelle");
           }
-          majBarre();
+          (opts.maj || majBarre)();
         });           // la hauteur de la page change : on remet la barre de défilement à jour
         im.addEventListener("error", () => bloc.remove());       // lien cassé : on n'affiche rien
         im.addEventListener("click", () => ouvrirZoom(im));
@@ -989,6 +1052,14 @@
         cadreLiens.appendChild(a);
       });
       cadreLiens.hidden = !cadreLiens.children.length;
+
+      // commentaire du jeu (champ "commentaire" dans projets.js) : dit par l'avatar tout en bas de la page
+      const commentaire = (p.commentaire || "").trim();
+      pjCommentaire.classList.remove("visible");
+      pjCommentaire.dataset.actif = commentaire ? "1" : "0";
+      document.getElementById("pjCommentaireBulle").textContent = commentaire;
+      const imgCom = document.getElementById("pjCommentaireImg");
+      if (commentaire && PROFIL.avatarShow) imgCom.src = PROFIL.avatarShow; else imgCom.removeAttribute("src");
 
       const liste = memeCategorie(p);
       document.getElementById("pjCompteur").textContent = (liste.indexOf(p) + 1) + " / " + liste.length;
@@ -1056,7 +1127,20 @@
     const pjBarre = document.getElementById("pjBarre");
     const pjPouce = document.getElementById("pjPouce");
     const MARGE_BARRE = 2;                                  // espace entre la barre et le pouce
+    /* commentaire : visible seulement quand le jeu en a un ET qu'on est tout en bas de la page */
+    const pjCommentaire = document.getElementById("pjCommentaire");
+    function majCommentaire() {
+      const aTexte = pjCommentaire.dataset.actif === "1";
+      const enBas = pjDefile.scrollHeight - pjDefile.clientHeight - pjDefile.scrollTop <= 40;
+      pjCommentaire.classList.toggle("visible", aTexte && enBas);
+      if (aTexte && enBas) mesurerSprite();
+    }
+    const pjCommentaireImg = document.getElementById("pjCommentaireImg");
+    function mesurerSprite() { if (pjCommentaireImg.clientWidth) pjCommentaire.style.setProperty("--sw", pjCommentaireImg.clientWidth + "px"); }   // largeur du sprite : la queue de la bulle va jusqu'à son centre
+    pjCommentaireImg.addEventListener("load", mesurerSprite);
+    window.addEventListener("resize", mesurerSprite);
     function majBarre() {
+      majCommentaire();
       const defile = pjDefile.scrollHeight - pjDefile.clientHeight;
       pjBarre.classList.toggle("cache", defile <= 1);       // rien à défiler : on cache la barre
       if (defile <= 1) return;
@@ -1175,6 +1259,171 @@
     new ResizeObserver(majBarreHof).observe(hofGrille);
 
 
+    /* ---------- Actualités (actus.js) ---------- */
+    const dateActuValide = a => !Number.isNaN(lireDate(a.date).getTime());
+    const ACTUS_LISTE = (() => {
+      const liste = (typeof ACTUS !== "undefined" && Array.isArray(ACTUS)) ? ACTUS : [];
+      const t = a => dateActuValide(a) ? lireDate(a.date).getTime() : -Infinity;
+      return liste.filter(a => a && (a.titre || a.texte)).sort((a, b) => (t(b) > t(a)) - (t(b) < t(a)));   // la plus récente d'abord
+    })();
+    const pad2 = n => String(n).padStart(2, "0");
+    function dateActuTexte(a) { const d = lireDate(a.date); return pad2(d.getDate()) + "/" + pad2(d.getMonth() + 1) + "/" + d.getFullYear(); }
+    function ilYaActu(a) {                                   // bulle au survol de la date
+      const n = Math.round((new Date().setHours(0, 0, 0, 0) - lireDate(a.date)) / MS_JOUR);
+      if (n === 0) return "Aujourd'hui";
+      if (n > 0) return "Il y a " + n + (n > 1 ? " jours" : " jour");
+      return "Dans " + (-n) + (n < -1 ? " jours" : " jour");
+    }
+
+    const actDefile = document.getElementById("actusDefile");
+    const actListe = document.getElementById("actusListe");
+
+    /* barre de défilement cartoon (même principe que celle de la page d'un jeu) */
+    function brancherBarre(defile, barre, pouce) {
+      const maj = () => {
+        const reste = defile.scrollHeight - defile.clientHeight;
+        barre.classList.toggle("cache", reste <= 1);
+        if (reste <= 1) return;
+        const h = barre.clientHeight - MARGE_BARRE * 2;
+        const th = Math.max(44, Math.min(h, h * defile.clientHeight / defile.scrollHeight));
+        pouce.style.height = th + "px";
+        pouce.style.top = (MARGE_BARRE + defile.scrollTop / reste * (h - th)) + "px";
+      };
+      let g = null;
+      pouce.addEventListener("pointerdown", e => { g = { y: e.clientY, st: defile.scrollTop }; pouce.setPointerCapture(e.pointerId); pouce.classList.add("saisi"); e.preventDefault(); });
+      pouce.addEventListener("pointermove", e => {
+        if (!g) return;
+        const libre = barre.clientHeight - MARGE_BARRE * 2 - pouce.offsetHeight;
+        if (libre > 0) defile.scrollTop = g.st + (e.clientY - g.y) * (defile.scrollHeight - defile.clientHeight) / libre;
+      });
+      const fin = () => { g = null; pouce.classList.remove("saisi"); };
+      pouce.addEventListener("pointerup", fin);
+      pouce.addEventListener("pointercancel", fin);
+      barre.addEventListener("pointerdown", e => {
+        if (e.target !== barre) return;
+        defile.scrollBy({ top: (e.clientY < pouce.getBoundingClientRect().top ? -1 : 1) * defile.clientHeight * 0.85, behavior: "smooth" });
+      });
+      defile.addEventListener("scroll", maj, { passive: true });
+      new ResizeObserver(maj).observe(defile);
+      return maj;
+    }
+    const majBarreActus = brancherBarre(actDefile, document.getElementById("actusBarre"), document.getElementById("actusPouce"));
+    new ResizeObserver(majBarreActus).observe(document.getElementById("actusContenu"));
+    addEventListener("resize", majBarreActus);
+    pageActus.addEventListener("wheel", e => { if (!actDefile.contains(e.target)) actDefile.scrollTop += e.deltaY; }, { passive: true });
+    document.addEventListener("keydown", e => {
+      if (!pageActus.classList.contains("ouverte")) return;
+      if (zoomOuvert()) { if (e.key === "Escape") fermerZoom(); return; }
+      if (e.key === "ArrowDown") actDefile.scrollBy({ top: 90, behavior: "smooth" });
+      else if (e.key === "ArrowUp") actDefile.scrollBy({ top: -90, behavior: "smooth" });
+      else if (e.key === "PageDown") actDefile.scrollBy({ top: actDefile.clientHeight * 0.85, behavior: "smooth" });
+      else if (e.key === "PageUp") actDefile.scrollBy({ top: -actDefile.clientHeight * 0.85, behavior: "smooth" });
+    });
+
+    function remplirActus() {
+      actListe.textContent = "";
+      ACTUS_LISTE.forEach(a => {
+        const carte = document.createElement("article");
+        carte.className = "act";
+
+        // 1) date | titre
+        const tete = document.createElement("div");
+        tete.className = "act-entete";
+        const date = document.createElement("div");
+        date.className = "pj-boite act-date";
+        if (dateActuValide(a)) { date.textContent = dateActuTexte(a); date.dataset.tip = ilYaActu(a); }   // bulle : "Il y a X jours"
+        else date.textContent = "—";
+        const titre = document.createElement("div");
+        titre.className = "pj-boite act-titre";
+        titre.textContent = a.titre || "";
+        tete.append(date, titre);
+        carte.appendChild(tete);
+
+        // 2) texte, puis la vidéo tout en bas du texte (même cadre)
+        const brut = String(a.texte || "").replace(/\r\n?/g, "\n").trim();
+        const src = urlEmbedYoutube(a.video);
+        if (brut || src) {
+          const boite = document.createElement("div");
+          boite.className = "pj-boite pj-texte act-texte";
+          if (brut) ecrireContenu(boite, brut, { liens: true, maj: majBarreActus });
+          if (src) {
+            const cadre = document.createElement("div");
+            cadre.className = "pj-video";
+            const f = document.createElement("iframe");
+            f.title = "Vidéo de l'actualité";
+            f.loading = "lazy";
+            f.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen";
+            f.allowFullscreen = true;
+            f.referrerPolicy = "strict-origin-when-cross-origin";
+            f.src = src;
+            cadre.appendChild(f);
+            boite.appendChild(cadre);
+          }
+          carte.appendChild(boite);
+        }
+
+        // 3) boutons de liens
+        const boutons = Array.isArray(a.liens) ? a.liens : [];
+        const zoneLiens = document.createElement("div");
+        zoneLiens.className = "act-liens";
+        boutons.forEach(l => {
+          if (!l || !l.url || /^\s*javascript:/i.test(l.url)) return;
+          const b = document.createElement("a");
+          b.className = "pj-lien";
+          b.href = l.url; b.target = "_blank"; b.rel = "noopener noreferrer";
+          b.textContent = l.nom || l.url;
+          if (l.survol) b.dataset.tip = l.survol;
+          if (/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test((l.couleur || "").trim())) b.style.setProperty("--b", l.couleur.trim());
+          zoneLiens.appendChild(b);
+        });
+        if (zoneLiens.children.length) carte.appendChild(zoneLiens);
+
+        actListe.appendChild(carte);
+      });
+    }
+    function viderActus() { actListe.textContent = ""; }     // coupe aussi les vidéos
+    function ouvrirActus() {                                 // appelée quand la page apparaît (transition)
+      remplirActus();
+      marquerActusVues();
+      actDefile.scrollTop = 0;
+      requestAnimationFrame(() => majBarreActus());
+      pageActus.querySelectorAll(".pj-categorie, .btn-fermer, .act").forEach((el, i) => {
+        el.style.setProperty("--i", Math.min(i, 6) + 6);
+        el.classList.remove("entree"); void el.offsetWidth; el.classList.add("entree");
+      });
+    }
+
+    /* bouton mégaphone : pastille rouge + secousse tant que les actus (leur contenu) n'ont pas été ouvertes */
+    const btnActus = document.getElementById("btnActus");
+    const CLE_ACTUS_VUES = "portfolio-actus-vues";
+    const signatureActus = () => ACTUS_LISTE.map(a => (a.date || "") + "~" + (a.titre || "")).join("|");
+    let actusVuesSession = false;                            // secours si le navigateur refuse localStorage
+    function actusNonLues() {
+      if (!ACTUS_LISTE.length || actusVuesSession) return false;
+      try { return localStorage.getItem(CLE_ACTUS_VUES) !== signatureActus(); } catch (_) { return true; }
+    }
+    function majBoutonActus() {
+      btnActus.hidden = !ACTUS_LISTE.length;
+      const nonLu = actusNonLues();
+      btnActus.classList.toggle("non-lu", nonLu);
+      btnActus.setAttribute("aria-label", nonLu ? "Actualités (nouveautés)" : "Actualités");
+    }
+    function marquerActusVues() {
+      actusVuesSession = true;
+      try { localStorage.setItem(CLE_ACTUS_VUES, signatureActus()); } catch (_) {}
+      majBoutonActus();
+    }
+    function secouerBoutonActus() {
+      if (!btnActus.classList.contains("non-lu") || btnActus.hidden || enTransition) return;
+      if (pageCourante() !== "accueil" || pageProjet.classList.contains("ouverte")) return;
+      if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      btnActus.classList.remove("secoue"); void btnActus.offsetWidth; btnActus.classList.add("secoue");
+    }
+    btnActus.addEventListener("animationend", e => { if (e.animationName === "secoue") btnActus.classList.remove("secoue"); });
+    btnActus.addEventListener("click", () => { btnActus.classList.remove("secoue"); bulle.classList.remove("visible"); changerPage("actus"); });
+    setTimeout(secouerBoutonActus, 1800);
+    setInterval(secouerBoutonActus, 6000);                   // de temps en temps
+
     /* ---------- Liens de l'accueil (liens_accueil.js) ---------- */
     function copierTexte(texte) {
       const secours = () => {                                                // secours (ex. page ouverte en file://)
@@ -1255,6 +1504,7 @@
     afficherProfil();
     remplirPageProfil();
     afficherLiensAccueil();
+    majBoutonActus();
     afficherOnglets();
     afficherCartouches();
   </script>
