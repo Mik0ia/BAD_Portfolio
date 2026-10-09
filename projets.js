@@ -68,7 +68,7 @@ const PROFIL = {
 */
 const PROJETS = [
   { id: 1, type: "Jeu Vidéo", statut: "Terminé", image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/KC-5125_LOGO.png?raw=true", nom: "KC-5125",
-    video: "https://youtu.be/ufGmag99ZkA",   // ← colle ici le lien YouTube de la vidéo du jeu
+    video: "https://youtu.be/ufGmag99ZkA", commentaire : "Dans ce projet j'ai réalisé tout les Assets 3d et le Level Design.",   // ← colle ici le lien YouTube de la vidéo du jeu
     medailles: [   // ⚠ exemples : remplace-les par tes vraies médailles
       { type: "or", description: "4eme sur 104 de la Mini Jame Gam #39" }
     ],
@@ -77,17 +77,17 @@ const PROJETS = [
     description: "Un FPS multijoueur asymétrique ou les joueur doivent réparé un générateur diriger par l'Opérateur qui peut activer les différents modes de vue de leurs masques.",     
     medailles: [   // ⚠ exemples : remplace-les par tes vraies médailles
       { type: "or", description: "prix du jury pour 'Meilleur développement'."}
-    ], },
+    ], commentaire : "Nous avons réalisé ce jeu pour la 'Global Game Jam 2026' à Toulon (Var), et nous avons remporté le prix du Jury 'Meilleur Développement'." },
   { id: 3, type: "Jeu Vidéo", statut: "En cours", image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/Hearts_of_Auraliz_LOGO.png?raw=true", nom: "Hearts of Auraliz",
     description: "Un JRPG inspiré des années 2000, ou on incarne Onde qui doit apprendre à accepter sa partie refoulé pour retrouver son frère.", video : "https://youtu.be/3OmQrtZMm8o?si=rF9JlL9NaghHNBkm",
     medailles: [   // ⚠ exemples : remplace-les par tes vraies médailles
       { type: "argent", description: "Jury de Projet Personnel de Fin d'Études : 14.75/20."}
-    ], },
+    ], commentaire : "Pour ce projet j'ai fait l'intégralité du code et du Rig ainsi que les Animations des ennemis. Pour les modélisations des personnages et les textures j'ai eu l'aide de Maélys Puertas et Lisa Gasquy." },
   { id: 4, type: "Jeu Vidéo", statut: "Terminé",  image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/Bienvenue_dans_la_boite_LOGO.png?raw=true", nom: "Bienvenue dans la boite",
     description: "Une expérience de jeux d'horreur psychologique sous pression réalisé pour la Jam Academy 2026 en 48h avec une équipe d'étudiants.", video : "https://youtu.be/sQyV0iS2uXI?si=krelrUgQiagsbtet",
     medailles: [   // ⚠ exemples : remplace-les par tes vraies médailles
       { type: "or", description: "4eme sur 41 à la Jam Academy 2026"}
-    ], },
+    ], commentaire : "Ce projet à été réalisé pour la Jam Academy 2026 une Game Jam organisé par mon École 'Brassart Aix-en-provence' et des écoles partenaires."},
   { id: 5, type: "Jeu Vidéo", statut: "Terminé", image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/Project_Humanize_LOGO.png?raw=true", nom: "Project : HUMANIZE",
     description: "Une expérience VR qui prend place dans l'esprit d'une intelligence qui vous emmène dans sa représentation des émotions : Sérénité et Liberté.", video : "https://youtu.be/skhaoye5Evs?si=Ew0DuPUe3VwuA8Zh" },
   { id: 6, type: "Jeu Vidéo", statut: "Terminé",  image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/Strokes_of_Madness_LOGO.png?raw=true", nom: "Strokes of Madness",
@@ -103,7 +103,7 @@ const PROJETS = [
   { id: 9, type: "Jeu de Société", statut: "Indisponible", image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/TERRA_LOGO.png?raw=true", nom: "Terra Card Game",
     description: "Un jeu de carte à collectionner simple et stratégique ou chaque joueur incarne un chef d'armée qui doivent triompher des autres pour être le dernier sur le champs de bataille." },
   { id: 11, type: "Jeu de Société", statut: "En cours", image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/Contes_de_louest_LOGO.png?raw=true", nom: "Les Contes de l'Ouest",
-    description: "Un jeu de rôle initiatique, qui prend place au Far West destiné à des joueurs de 10 ans et plus." },
+    description: "Un jeu de rôle initiatique, qui prend place au Far West destiné à des joueurs de 10 ans et plus.", commentaire : "Cela fait mantenant plus de 3ans que nous travaillons sur le jeu et nous cherchons activement une Mmaison d'édition ou un imprimeur pour s'auto-éditer." },
 
   { id: 10, type: "Jeu Mobile", statut: "En pause", image: "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/CARTOUCHES/Untouchable_Meal_LOGO.png?raw=true", nom: "Untouchable Meal",
     description: "Un jeu d'ambiance RP multijoueur inspiré de l'Undercover et du Loup Garou ou les joueurs doivent aider Al Capone à récupérer la marchandise sans se faire démasquer par leurs ennemis" }
