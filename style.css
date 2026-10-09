@@ -1834,8 +1834,10 @@ html, body, *, *::before, *::after {
   .haut-accueil {
     flex: none;
     display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);   /* le profil est un peu plus étroit */
-    gap: 10px;
+    grid-template-columns: min(38vw, 150px) min(42vw, 170px);   /* liens étroits (le texte passe à la ligne) | profil */
+    justify-content: space-between;                             /* l'espace restant sépare les deux colonnes : les boutons ne touchent jamais le profil */
+    column-gap: 14px;
+    row-gap: 10px;
     align-items: start;
     padding: 8px 10px 0;
   }
