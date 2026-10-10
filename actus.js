@@ -69,9 +69,8 @@ const ACTUS = [
     ]
   },
     {
-    date: "2026-05-07",
-    titre: "Des sardines en boîte ou des Sardines dans une boîte ?",
-    texte : `**Bienvenue dans la boîte** est un jeu d'horreur psychologique où le joueur doit suivre la chaîne de production de soupe de sardines en boîte, sauf que plus les jours passent, plus les effectifs se réduisent. Une fois qu'il est seul, il pense être le prochain à disparaître. Va-t-il alors trouver un moyen de s'enfuir avant son "licenciement", ou satisfaire Jorjor Well, le patron de cette entreprise lugubre ?
-    `,
+    date: "2026-10-11",
+    titre: "Mon portfolio :",
+    texte : ` **Aujourd'hui je partage enfin mon nouveau portfolio profitez bien de votre visite !**`,
   }
 ];
