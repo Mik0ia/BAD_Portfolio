@@ -220,6 +220,19 @@
   <script src="liens_accueil.js"></script>
   <script src="actus.js"></script>
   <script>
+    /* ---------- Images GitHub : lien direct ----------
+       Les liens "github.com/.../blob/main/...?raw=true" passent par une redirection de GitHub qui échoue parfois
+       (erreur 503 / trop de requêtes) : l'image ne s'affiche alors pas. On les remplace, AVANT l'affichage, par le lien
+       direct du même fichier (raw.githubusercontent.com). Ça concerne les champs "image" de PROJETS, SKILLS et
+       LIENS_ACCUEIL, ainsi que photo / avatar / avatarHit / avatarShow de PROFIL. Rien à changer dans tes fichiers de données. */
+    (function () {
+      const direct = u => (typeof u === "string" && typeof urlImageDirecte === "function") ? urlImageDirecte(u) : u;
+      if (typeof PROJETS !== "undefined") PROJETS.forEach(p => { if (p.image) p.image = direct(p.image); });
+      if (typeof SKILLS !== "undefined") SKILLS.forEach(k => { if (k.image) k.image = direct(k.image); });
+      if (typeof LIENS_ACCUEIL !== "undefined") LIENS_ACCUEIL.forEach(l => { if (l.image) l.image = direct(l.image); });
+      if (typeof PROFIL !== "undefined") ["photo", "avatar", "avatarHit", "avatarShow"].forEach(k => { if (PROFIL[k]) PROFIL[k] = direct(PROFIL[k]); });
+    })();
+
     /* ---------- Placeholders (SVG intégré, aucun fichier requis) ---------- */
     const PLACEHOLDER = "data:image/svg+xml;utf8," + encodeURIComponent(
       '<svg xmlns="http://www.w3.org/2000/svg" width="500" height="500">' +
@@ -978,6 +991,12 @@
 
     /* ---------- Contenu du texte : une ligne qui ne contient QU'UN lien d'image devient une image centrée ---------- */
     const RE_LIGNE_IMAGE = /^\s*(https?:\/\/\S+?\.(?:png|jpe?g|gif|webp|svg|avif|bmp)(?:[?#]\S*?)?)(?:\s*:\s*(\d+(?:[.,]\d+)?))?\s*$/i;   // lien  [ : échelle ]
+    /* Les liens GitHub "github.com/.../blob/main/...?raw=true" passent par une redirection qui échoue parfois (erreur 503 / trop de requêtes).
+       On charge donc l'image directement depuis raw.githubusercontent.com (même fichier, sans redirection). */
+    function urlImageDirecte(u) {
+      const m = u.match(/^https:\/\/github\.com\/([^/]+)\/([^/]+)\/(?:blob|raw)\/([^/]+)\/(.+?)(?:\?raw=true)?$/i);
+      return m ? "https://raw.githubusercontent.com/" + m[1] + "/" + m[2] + "/" + m[3] + "/" + m[4] : u;
+    }
     function ecrireContenu(parent, brut, opts = {}) {   // opts.liens : liens cliquables | opts.maj : mise à jour de la barre de défilement
       let morceau = [];
       const viderTexte = () => {
@@ -996,7 +1015,9 @@
         const bloc = document.createElement("div");
         bloc.className = "pj-img";
         const im = document.createElement("img");
-        im.src = m[1];
+        const urlOrigine = m[1], urlDirecte = urlImageDirecte(urlOrigine);
+        let essaiOrigine = urlDirecte === urlOrigine;     // vrai = plus de lien de secours à essayer
+        im.src = urlDirecte;
         im.alt = "";
         im.loading = "lazy";
         const echelle = m[2] ? parseFloat(m[2].replace(",", ".")) : 1;
@@ -1008,7 +1029,11 @@
           }
           (opts.maj || majBarre)();
         });           // la hauteur de la page change : on remet la barre de défilement à jour
-        im.addEventListener("error", () => bloc.remove());       // lien cassé : on n'affiche rien
+        im.addEventListener("error", () => {
+          if (!essaiOrigine) { essaiOrigine = true; im.src = urlOrigine; return; }   // le lien direct a échoué : on essaie le lien d'origine
+          console.warn("Image introuvable (masquée) :", urlOrigine);                  // lien cassé : on n'affiche rien (F12 > Console pour voir lequel)
+          bloc.remove();
+        });
         im.addEventListener("click", () => ouvrirZoom(im));
         bloc.appendChild(im);
         parent.appendChild(bloc);

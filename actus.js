@@ -37,8 +37,8 @@ const ACTUS = [
   // ⚠ exemple : remplace-le par ta vraie première actu
   {
     date: "2026-01-08",
-    titre: "Notre Jeu pour la Global Game Jam 2026",
-    texte: `**Mask Operator** est le jeu que nous avons réalisé pour la Global Game Jam 2026. Dans ce jeu de tir d'horreur asymétrique les joueurs incarnent des "Diver" qui doivent réparer le générateur dans le souterrain, pour les aider "l'Opérateur" peut mettre des modes d'affichages sur leurs masques pour leurs permettre de voir mieux dans l'obscurité.
+    titre: "Notre jeu pour la Global Game Jam 2026",
+    texte: `**Mask Operator** est le jeu que nous avons réalisé pour la Global Game Jam 2026. Dans ce jeu de tir d'horreur asymétrique, les joueurs incarnent des "Diver" qui doivent réparer le générateur dans le souterrain. Pour les aider, "l'Opérateur" peut mettre des modes d'affichage sur leurs masques pour leur permettre de mieux voir dans l'obscurité.
     
     https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/MO/h0GIZo.png?raw=true
     `, 
@@ -49,13 +49,29 @@ const ACTUS = [
   {
     date: "2025-10-22",
     titre: "Tout se ressemble dans ce labyrinthe ?",
-    texte : `**Strokes of Madness** est un jeu que nous avons réalisé pour la Mini Jame Gam #48, dans ce jeu tout se ressemble et le seul moyen de se repérer dans ce dédale est le stylo rouge à disposition pour marquer votre chemin en espérant ne pas devenir fou.
+    texte : `**Strokes of Madness** est un jeu que nous avons réalisé pour la Mini Jame Gam #48. Dans ce jeu, tout se ressemble et le seul moyen de se repérer dans ce dédale est le stylo rouge à disposition pour marquer votre chemin, en espérant ne pas devenir fou.
     
     https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/SOM/mlQE5A.png?raw=true
     `,
     liens : [
       { nom : "Post LINKEDIN", url : "https://lnkd.in/p/eFqs3hSD", survol : "", couleur: "#0c36ee"}
     ]
+  },
+  {
+    date: "2026-05-07",
+    titre: "Des sardines en boîte ou des Sardines dans une boîte ?",
+    texte : `**Bienvenue dans la boîte** est un jeu d'horreur psychologique où le joueur doit suivre la chaîne de production de soupe de sardines en boîte, sauf que plus les jours passent, plus les effectifs se réduisent. Une fois qu'il est seul, il pense être le prochain à disparaître. Va-t-il alors trouver un moyen de s'enfuir avant son "licenciement", ou satisfaire Jorjor Well, le patron de cette entreprise lugubre ?
+    
+    https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/BDLB/BEY8n1%20(1).png?raw=true
+    `,
+    liens : [
+      { nom : "Post LINKEDIN", url : "https://lnkd.in/p/ebFRaFxN", survol : "", couleur: "#0c36ee"}
+    ]
+  },
+    {
+    date: "2026-05-07",
+    titre: "Des sardines en boîte ou des Sardines dans une boîte ?",
+    texte : `**Bienvenue dans la boîte** est un jeu d'horreur psychologique où le joueur doit suivre la chaîne de production de soupe de sardines en boîte, sauf que plus les jours passent, plus les effectifs se réduisent. Une fois qu'il est seul, il pense être le prochain à disparaître. Va-t-il alors trouver un moyen de s'enfuir avant son "licenciement", ou satisfaire Jorjor Well, le patron de cette entreprise lugubre ?
+    `,
   }
-
 ];

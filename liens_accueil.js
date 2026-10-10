@@ -29,7 +29,7 @@ const LIENS_ACCUEIL = [
     couleur: "#ffe203" },
 
   { image:   "https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/LOGO/LINKEDIN_LOGO.png?raw=true",
-    texte:   "Linkedin",
+    texte:   "LinkedIn",
     page:    "https://www.linkedin.com/in/benjamin-akehal-da-ponte ",
     copie:   "",
     couleur: "#3b41f6" },

@@ -49,7 +49,7 @@ Ce casque alterne entre différents filtres tactiques activés à distance par l
 
 - **Filtre rouge** : met en évidence les entités hostiles et les munitions. 
 - **Filtre vert** : affiche l'état de santé et les ressources à récupérer. 
-- **Filtre bleu** : suit les mécaniciens alliés et affiche la mini-carte. Marqueurs violets : indiquent les objectifs de la mission.  
+- **Filtre bleu** : suit les mécaniciens alliés et affiche la mini-carte. Les marqueurs violets indiquent les objectifs de la mission.  
 
 https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/MO/h0GIZo.png?raw=true
 https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/MO/GGOctM.png?raw=true
@@ -70,7 +70,7 @@ https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/MO/SC7Shq.png?r
 Raphaël BARRIÈRE
 Noé INGLEBERT 
 Diego LLAURY
-Benjamin AKEHA--DA PONTE`,
+Benjamin AKEHAL--DA PONTE`,
 
   // Hearts of Auraliz
   3: `***IL EST RECOMMANDÉ DE JOUER À LA MANETTE, LE JEU EST DÉVELOPPÉ POUR.***
@@ -90,7 +90,7 @@ https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/HOA/iRBTYA.png?
 *Benjamin AKEHAL--DA PONTE* :
 
 -Game Designer
--Developper
+-Developer
 -UI / UX Designer
 -Level Designer
 -3d Modeling
@@ -133,13 +133,13 @@ Vous incarnez une sardine qui travaille dans une usine de mise en conserve de so
 
 https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/BDLB/BEY8n1%20(1).png?raw=true
 
-**Controles:** ZQSD et clic gauche pour toute les interactions.
+**Contrôles :** ZQSD et clic gauche pour toutes les interactions.
 
 **Aides :**
 
-*- Vous pouvez mettre les poissons par terre et vous en occupez plus tard.
+*- Vous pouvez mettre les poissons par terre et vous en occuper plus tard.
 - Vous pouvez déplacer les poissons qui tomberaient par terre pour les mettre directement dans le broyeur.
-- La plaque à deviser a une collision capricieuse, éloignez-vous pour déviser correctement.*
+- La plaque à dévisser a une collision capricieuse, éloignez-vous pour dévisser correctement.*
 
 https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/BDLB/kt+d36%20(1).png?raw=true
 
@@ -212,7 +212,7 @@ Raphaël BARRIÈRE
   
   https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/KN/yZCnHG.png?raw=true
 
-  Ce projet était un projet d'algorithme de 1 mois en seconde année de Game Design pour tester nos compétences. Pour ce rendu un simple prototype Unreal nous était demandé, cependant j'ai profiter de l'exercice pour me tester personnellement en faisant un jeu complet notamment les assets de personnages que j'ai modélisé seul.
+  Ce projet était un projet d'algorithme de 1 mois en seconde année de Game Design pour tester nos compétences. Pour ce rendu, un simple prototype Unreal nous était demandé ; cependant, j'ai profité de l'exercice pour me tester personnellement en faisant un jeu complet, notamment les assets de personnages que j'ai modélisés seul.
 
   https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/KN/5WUEtZ.png?raw=true
   https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/KN/J4ljsQ.png?raw=true
@@ -257,7 +257,7 @@ https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/ZTS/Capture.PNG
 - *Pioche une carte.*
 - *Révèle un sanctuaire.*
 
-Les sanctuaires proviennent d’un deck séparé, placé face cachée. Ils peuvent être épuisés pour générer de l’essence de leur couleur.Cette mécanique symbolise l’exploration du monde : plus les joueurs découvrent de sanctuaires, plus ils accèdent à de nouvelles possibilités — invoquer des guerriers, activer des capacités ou jouer des cartes de soutien — à l’image de la progression dans BOTW et TOTK.
+Les sanctuaires proviennent d’un deck séparé, placé face cachée. Ils peuvent être épuisés pour générer de l’essence de leur couleur. Cette mécanique symbolise l’exploration du monde : plus les joueurs découvrent de sanctuaires, plus ils accèdent à de nouvelles possibilités — invoquer des guerriers, activer des capacités ou jouer des cartes de soutien — à l’image de la progression dans BOTW et TOTK.
 
 **Les essences et les peuples :**
 
@@ -281,7 +281,7 @@ https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/ZTS/Capture5.PN
 `,
 
   // Terra Card Game
-  9: `***Terra Card Game*** est un jeu de carte simple ou on incarne un chef d'armée et avec un deck de 50 cartes on part affronté jsuqu'à 6 adversaires pour être le dernier à survivre sur le champs de bataille, avec des mécaniques inspiré des grands jeux de cartes comme Yu-Gi-Oh, Pokémon et Magic, Terra Card Game est un jeu qui veut familiariser les nouveaux joueurs avec le jeu de carte compétitif. En développement depuis bientôt 3 ans le jeu à connu beaucoup de changement et de rework et aujourd'hui il n'a jamais été aussi jouable, mais il lui reste encore beaucoup d'ajustements pour pouvoir être le jeune fun, simple et stratégique que je souhaite créer..
+  9: `***Terra Card Game*** est un jeu de cartes simple où on incarne un chef d'armée et, avec un deck de 50 cartes, on part affronter jusqu'à 6 adversaires pour être le dernier à survivre sur le champ de bataille. Avec des mécaniques inspirées des grands jeux de cartes comme Yu-Gi-Oh, Pokémon et Magic, Terra Card Game est un jeu qui veut familiariser les nouveaux joueurs avec le jeu de cartes compétitif. En développement depuis bientôt 3 ans, le jeu a connu beaucoup de changements et de reworks, et aujourd'hui il n'a jamais été aussi jouable, mais il lui reste encore beaucoup d'ajustements à faire pour pouvoir être le jeu fun, simple et stratégique que je souhaite créer.
   
   https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/TCG/img_20250926_224854-Yg249QM2qzIQGoKn-_1_.jpg?raw=true
 
@@ -303,7 +303,7 @@ https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/ZTS/Capture5.PN
   
   **Présentation :**
 
-  ***Les Contes de l’Ouest*** est un jeu de rôle initiatique, qui prend place au Far West destiné à des joueurs de 10 ans et plus. Il constitue une porte d’entrée idéale vers les jeux de rôle classiques et encourage la créativité de tous les participants.
+  ***Les Contes de l’Ouest*** est un jeu de rôle initiatique qui prend place au Far West, destiné à des joueurs de 10 ans et plus. Il constitue une porte d’entrée idéale vers les jeux de rôle classiques et encourage la créativité de tous les participants.
 
 https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/LCDO/dsc00494-avl78rboz5s7om9e-mxB4wDoPNBcop7JL.png?raw=true
 
@@ -311,7 +311,7 @@ Avec des règles simples à comprendre, de nombreuses aides, et des personnages 
 
 https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/LCDO/dsc00498-amq1eyvnm9cqk0mn-1-Yyv9lMVa3Li4MrM0.png?raw=true
 
-**Les règles résumé :**
+**Les règles résumées :**
 
 Le maître du jeu place des planches les unes à la suite des autres pour former un plateau. Il pioche ensuite une carte par case, qu’il associe à chacune d’entre elles pour les modifier. Le maître du jeu doit inventer une quête dans laquelle les joueurs progresseront. Ces derniers choisissent un personnage doté d’un passif et de compétences qu’ils débloqueront au fur et à mesure de la partie.
 
@@ -321,13 +321,13 @@ Le maître du jeu crée des événements pour les joueurs à l’aide des cartes
 
 https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/LCDO/dsc00464-mxb4od5em5t6bked-m7V3G11nZziDokly.png?raw=true
 
-**Pourquoi vous allez aimer ? :**
+**Pourquoi vous allez l'aimer ?**
 
-Les contes de L'ouest est un jeu idéal pour jeunes comme adultes, il permet de découvrir et redécouvrir le jeu de rôle pour tous, avec des mécaniques simples et originales. 
+Les Contes de l'Ouest est un jeu idéal pour les jeunes comme pour les adultes ; il permet de découvrir et de redécouvrir le jeu de rôle pour tous, avec des mécaniques simples et originales. 
 
 https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/LCDO/dsc00500-a85ezbjzboso9nbk-AR0LaRk9VksZbJ7P.png?raw=true
 
-Si vous cherchez à vivre une expérience créative à partager avec vos proches, dont vous parlerez encore après, les contes de l'ouest est le jeu pour vous.
+Si vous cherchez à vivre une expérience créative à partager avec vos proches, dont vous parlerez encore après, Les Contes de l'Ouest est le jeu pour vous.
 
 https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/LCDO/dsc00491-dwxv2rprjwcxlevx-AVL7jrg2DKIxXXNx.png?raw=true
 
