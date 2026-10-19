@@ -295,7 +295,34 @@ https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/ZTS/Capture5.PN
   `,
 
   // Untouchable Meal
-  10: ``,
+  10: `
+***Untouchable Meal*** est un jeu d’ambiance pour 3 à 10 joueurs, à jouer autour d’une vraie table avec un téléphone chacun. Le repas se joue en trois plats : entrée, plat et dessert. À chaque plat, Al Capone doit deviner un mot secret grâce aux indices de ses acolytes. Mais un policier infiltré écoute la conversation, et des traîtres tentent de semer le trouble.
+
+Les rôles
+
+Al Capone ne connaît aucun mot. Il écoute ses acolytes et doit deviner le mot de chaque plat. C’est lui qui sonne pour passer au plat suivant.
+Les acolytes connaissent le mot. Ils doivent le faire deviner à Al Capone, sans le rendre trop évident, car le policier écoute.
+Le policier ne connaît que la catégorie du mot (une arme, un lieu, un objet…). Il doit découvrir les mots sans se faire repérer.
+Le serveur fait équipe avec le policier. À chaque plat, il jette discrètement un œil au mot d’un convive de son choix, puis aide le policier à trouver les bons mots.
+Les traîtres ont leur propre mot, de la même catégorie. Ils essaient de le glisser dans la conversation pour piéger Al Capone et le policier.
+
+Comment se déroule une partie
+
+Chacun découvre son rôle en retournant sa carte, puis confirme qu’il est prêt.
+À chaque plat, on soulève la cloche sur son téléphone pour découvrir son mot, puis on discute autour de la table pendant 2 minutes au maximum.
+À la fin du repas, Al Capone peut éliminer un convive. S’il démasque le policier, il gagne immédiatement.
+Sinon, Al Capone et le policier écrivent chacun les trois mots qu’ils pensent avoir trouvés.
+
+Qui gagne ?
+
+Les traîtres gagnent s’ils marquent plus de points que les deux autres : un point chaque fois qu’Al Capone ou le policier a écrit un de leurs mots. Un traître éliminé ne peut pas gagner.
+Sinon, le policier et le serveur gagnent si le policier a trouvé autant de mots qu’Al Capone, ou plus.
+Dans tous les autres cas, Al Capone et ses acolytes l’emportent.
+
+Pour jouer
+Connectez-vous avec Google, dressez une table et partagez son code, ou rejoignez une table ouverte. Le jeu s’installe aussi comme une application sur votre téléphone.
+  
+  `,
 
   // Les Contes de l Ouest
   11: `
