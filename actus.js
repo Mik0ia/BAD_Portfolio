@@ -51,7 +51,7 @@ const ACTUS = [
     titre: "Tout se ressemble dans ce labyrinthe ?",
     texte : `**Strokes of Madness** est un jeu que nous avons réalisé pour la Mini Jame Gam #48. Dans ce jeu, tout se ressemble et le seul moyen de se repérer dans ce dédale est le stylo rouge à disposition pour marquer votre chemin, en espérant ne pas devenir fou.
     
-    https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/SOM/mlQE5A.png?raw=true
+    https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/SOM/mlQE5A.png?raw=true : 0.5
     `,
     liens : [
       { nom : "Post LINKEDIN", url : "https://lnkd.in/p/eFqs3hSD", survol : "", couleur: "#0c36ee"}
@@ -60,9 +60,9 @@ const ACTUS = [
     {
     date: "2026-10-19",
     titre: "Monsieur Capone vous convie à sa table.",
-    texte : `Il y a de cela deux ans, à ÉCOLE BRASSART, nous avons travaillé sur un workshop de jeu mobile autour du film Les Incorruptibles.
+    texte : `Il y a de cela deux ans, à **ÉCOLE BRASSART**, nous avons travaillé sur un workshop de jeu mobile autour du film Les Incorruptibles.
 
-    Dans ce jeu, chaque joueur incarne un rôle directement inspiré du film. Al Capone est le maître du jeu : son objectif est d'obtenir le mot détenu par les « Acolytes » à chaque manche. Le Policier, quant à lui, cherche lui aussi à découvrir leurs mots sans se faire repérer. Mais attention : il ne connaît que la catégorie du mot et doit improviser pour éviter de se faire exécuter à la fin de la partie !
+    Dans **The Untouchable Meal**, chaque joueur incarne un rôle directement inspiré du film. Al Capone est le maître du jeu : son objectif est d'obtenir le mot détenu par les « Acolytes » à chaque manche. Le Policier, quant à lui, cherche lui aussi à découvrir leurs mots sans se faire repérer. Mais attention : il ne connaît que la catégorie du mot et doit improviser pour éviter de se faire exécuter à la fin de la partie !
 
     https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/UM/Screenshot_2026-10-19-01-54-29-971_com.android.chrome-edit.jpg?raw=true : 0.5
     `,
