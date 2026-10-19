@@ -329,7 +329,7 @@ Dans tous les autres cas, Al Capone et ses acolytes l’emportent.
 
 https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/UM/Screenshot_2026-10-19-01-55-58-895_com.android.chrome-edit.jpg?raw=true : 0.5
 
-*Pour jouer*
+**Pour jouer**
 Connectez-vous avec Google, dressez une table et partagez son code, ou rejoignez une table ouverte. Le jeu s’installe aussi comme une application sur votre téléphone.
   
   `,
