@@ -300,7 +300,7 @@ https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/ZTS/Capture5.PN
 
 https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/UM/Screenshot_2026-10-19-01-54-29-971_com.android.chrome-edit.jpg?raw=true : 0.5
 
-*Les rôles*
+**Les rôles**
 
 https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/UM/Screenshot_2026-10-19-01-56-46-156_com.android.chrome-edit.jpg?raw=true : 0.5
 
@@ -312,18 +312,18 @@ Les traîtres ont leur propre mot, de la même catégorie. Ils essaient de le gl
 
 https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/UM/Screenshot_2026-10-19-01-56-55-933_com.android.chrome-edit.jpg?raw=true : 0.5
 
-*Comment se déroule une partie*
+**Comment se déroule une partie**
 
 Chacun découvre son rôle en retournant sa carte, puis confirme qu’il est prêt.
 À chaque plat, on soulève la cloche sur son téléphone pour découvrir son mot, puis on discute autour de la table pendant 2 minutes au maximum.
-À la fin du repas, Al Capone peut éliminer un convive. S’il démasque le policier, il gagne immédiatement.
+À la fin du repas, Al Capone peut éliminer un convive. S’il démasque le policier, il ne peut quasiment plus perdre.
 Sinon, Al Capone et le policier écrivent chacun les trois mots qu’ils pensent avoir trouvés.
 
 https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/UM/Screenshot_2026-10-19-01-55-13-197_com.android.chrome-edit.jpg?raw=true : 0.5
 
-*Qui gagne ?*
+**Qui gagne ?**
 
-Les traîtres gagnent s’ils marquent plus de points que les deux autres : un point chaque fois qu’Al Capone ou le policier a écrit un de leurs mots. Un traître éliminé ne peut pas gagner.
+Les traîtres gagnent s’ils marquent plus de points que les deux autres : un point chaque fois qu’Al Capone ou le policier a écrit un de leurs mots.
 Sinon, le policier et le serveur gagnent si le policier a trouvé autant de mots qu’Al Capone, ou plus.
 Dans tous les autres cas, Al Capone et ses acolytes l’emportent.
 
