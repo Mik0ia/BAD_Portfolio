@@ -331,6 +331,14 @@ https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/UM/Screenshot_2
 
 **Pour jouer**
 Connectez-vous avec Google, dressez une table et partagez son code, ou rejoignez une table ouverte. Le jeu s’installe aussi comme une application sur votre téléphone.
+
+**Crédits :**
+
+Benjamin AKEHAL--DA PONTE
+Ilian HO-VAN
+Ludovic DEROMME
+Louka VERGÈS
+
   
   `,
 
