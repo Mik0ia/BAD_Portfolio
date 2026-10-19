@@ -57,6 +57,20 @@ const ACTUS = [
       { nom : "Post LINKEDIN", url : "https://lnkd.in/p/eFqs3hSD", survol : "", couleur: "#0c36ee"}
     ]
   },
+    {
+    date: "2026-10-19",
+    titre: "Monsieur Capone vous convie à sa table.",
+    texte : `Il y a de cela deux ans, à ÉCOLE BRASSART, nous avons travaillé sur un workshop de jeu mobile autour du film Les Incorruptibles.
+
+    Dans ce jeu, chaque joueur incarne un rôle directement inspiré du film. Al Capone est le maître du jeu : son objectif est d'obtenir le mot détenu par les « Acolytes » à chaque manche. Le Policier, quant à lui, cherche lui aussi à découvrir leurs mots sans se faire repérer. Mais attention : il ne connaît que la catégorie du mot et doit improviser pour éviter de se faire exécuter à la fin de la partie !
+
+    https://github.com/Mik0ia/BAD_Portfolio/blob/main/ASSETS/SCREENS/UM/Screenshot_2026-10-19-01-54-29-971_com.android.chrome-edit.jpg?raw=true : 0.5
+    `,
+    liens : [
+      { nom : "Site", url : "https://mik0ia.github.io/Untouchable-Meal/", survol : "Lien du Jeu", couleur : "#960025"},
+      { nom : "Post LINKEDIN", url : "https://lnkd.in/p/e9kHFFuE", survol : "Linkedin", couleur: "#0c36ee"}
+    ]
+  },
   {
     date: "2026-05-07",
     titre: "Des sardines en boîte ou des Sardines dans une boîte ?",
